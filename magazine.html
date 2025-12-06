@@ -479,16 +479,16 @@
       🌐 <i class="fa fa-caret-down"></i>
     </button>
     <div class="lang-menu">
-      <a href="https://translate.google.com/translate?hl=en&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">English</a>
-    <a href="https://translate.google.com/translate?hl=hi&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">हिन्दी (Hindi)</a>
-    <a href="https://translate.google.com/translate?hl=ml&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">മലയാളം (Malayalam)</a>
-    <a href="https://translate.google.com/translate?hl=ta&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">தமிழ் (Tamil)</a>
-    <a href="https://translate.google.com/translate?hl=te&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">తెలుగు (Telugu)</a>
-    <a href="https://translate.google.com/translate?hl=bn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">বাংলা (Bengali)</a>
-    <a href="https://translate.google.com/translate?hl=kn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">ಕನ್ನಡ (Kannada)</a>
-    <a href="https://translate.google.com/translate?hl=mr&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">मराठी (Marathi)</a>
-  
-    </div>
+  <a href="#" data-lang="en">English</a>
+  <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
+  <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
+  <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
+  <a href="#" data-lang="te">తెలుగు (Telugu)</a>
+  <a href="#" data-lang="bn">বাংলা (Bengali)</a>
+  <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
+  <a href="#" data-lang="mr">मराठी (Marathi)</a>
+</div>
+
   </div>
 
   <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
@@ -669,16 +669,19 @@ margin-top:5px;"> August 2025</p>
   });
 </script>
 
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      includedLanguages: 'en,hi,ml,ta,te,bn,kn,mr',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
+<script>
+document.querySelectorAll(".lang-menu a").forEach(item => {
+  item.addEventListener("click", function (e) {
+    e.preventDefault();
+    let lang = this.dataset.lang;
+    let currentURL = encodeURIComponent(window.location.href);
+
+    let newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
+    window.open(newURL, "_blank");
+  });
+});
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 
 
@@ -796,4 +799,5 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
