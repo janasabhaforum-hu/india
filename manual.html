@@ -565,30 +565,7 @@
   });
 </script>
 
-<script>
-  const langBtn = document.querySelector('.lang-btn');
-  const langDropdown = document.querySelector('.language-dropdown');
 
-  langBtn.addEventListener('click', () => {
-    langDropdown.classList.toggle('active');
-  });
-
-  // Close if clicking outside
-  document.addEventListener('click', (e) => {
-    if (!langDropdown.contains(e.target)) {
-      langDropdown.classList.remove('active');
-    }
-  });
-</script>
-
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'en',
-      includedLanguages: 'en,hi,ml,ta,te,bn,kn,mr',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  }
 
 <script>
 document.querySelectorAll(".lang-menu a").forEach(item => {
@@ -687,6 +664,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
