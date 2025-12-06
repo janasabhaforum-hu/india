@@ -548,7 +548,7 @@ margin-top:5px;"> August 2025</p>
 
   <!-- Main Page Display with Scroll -->
   <div class="main-page-wrapper scroll-container">
-    <img id="mainPage" src="images/emagazine1.JPG" class="main-page" alt="Magazine Page">
+    <img id="mainPage" src="emagazine1.jpg" class="main-page" alt="Magazine Page">
   </div>
 
   <div class="thumb-slider-container">
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
     wrap.classList.add("thumb-wrapper");
 
     let img = document.createElement("img");
-    img.src = `images/emagazine${i}.JPG`;
+    img.src = `emagazine${i}.jpg`;
     img.classList.add("thumbnail");
     img.setAttribute("data-page", i);
     if (i === 1) img.classList.add("active");
@@ -719,7 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
       this.classList.add("active");
 
       const pageNum = this.getAttribute("data-page");
-      mainPage.src = `images/emagazine${pageNum}.JPG`;
+      mainPage.src = `emagazine${pageNum}.jpg`;
 
       slideToIndex(pageNum - 1);
     });
@@ -794,4 +794,5 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 
 
 </body>
+
 </html>
