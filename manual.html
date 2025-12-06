@@ -408,16 +408,15 @@
       🌐 <i class="fa fa-caret-down"></i>
     </button>
     <div class="lang-menu">
-      <a href="https://translate.google.com/translate?hl=en&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">English</a>
-    <a href="https://translate.google.com/translate?hl=hi&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">हिन्दी (Hindi)</a>
-    <a href="https://translate.google.com/translate?hl=ml&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">മലയാളം (Malayalam)</a>
-    <a href="https://translate.google.com/translate?hl=ta&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">தமிழ் (Tamil)</a>
-    <a href="https://translate.google.com/translate?hl=te&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">తెలుగు (Telugu)</a>
-    <a href="https://translate.google.com/translate?hl=bn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">বাংলা (Bengali)</a>
-    <a href="https://translate.google.com/translate?hl=kn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">ಕನ್ನಡ (Kannada)</a>
-    <a href="https://translate.google.com/translate?hl=mr&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">मराठी (Marathi)</a>
-  
-    </div>
+  <a href="#" onclick="translateTo('en')">English</a>
+  <a href="#" onclick="translateTo('hi')">हिन्दी (Hindi)</a>
+  <a href="#" onclick="translateTo('ml')">മലയാളം (Malayalam)</a>
+  <a href="#" onclick="translateTo('ta')">தமிழ் (Tamil)</a>
+  <a href="#" onclick="translateTo('te')">తెలుగు (Telugu)</a>
+  <a href="#" onclick="translateTo('bn')">বাংলা (Bengali)</a>
+  <a href="#" onclick="translateTo('kn')">ಕನ್ನಡ (Kannada)</a>
+  <a href="#" onclick="translateTo('mr')">मराठी (Marathi)</a>
+</div>
   </div>
 
   <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
@@ -590,6 +589,15 @@
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
   }
+
+<script>
+function translateTo(lang) {
+  const url = encodeURIComponent(window.location.href);
+  const translateURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${url}`;
+  window.open(translateURL, "_blank");
+}
+</script>
+
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -676,6 +684,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
