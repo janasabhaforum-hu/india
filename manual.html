@@ -591,15 +591,18 @@
   }
 
 <script>
-function translateTo(lang) {
-  const url = encodeURIComponent(window.location.href);
-  const translateURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${url}`;
-  window.open(translateURL, "_blank");
-}
+document.querySelectorAll(".lang-menu a").forEach(item => {
+  item.addEventListener("click", function (e) {
+    e.preventDefault();
+    let lang = this.dataset.lang;
+    let currentURL = encodeURIComponent(window.location.href);
+
+    let newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
+    window.open(newURL, "_blank");
+  });
+});
 </script>
 
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 
@@ -684,6 +687,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
