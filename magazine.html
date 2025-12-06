@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Janasabha</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+
+  <style>
+    /* ===== BASIC RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      background: #1b1b1b;
+      height: 70px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      color: white;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: yellow;
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    /* ===== LANGUAGE DROPDOWN MENU ===== */
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-btn {
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #f1c40f;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-btn:hover {
+  background: #f1c40f;
+  color: #1b1b1b;
+}
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: #fff;
+  min-width: 160px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  z-index: 1500;
+}
+
+.lang-menu a {
+  color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s;
+  font-size: 14px;
+}
+
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  Right: 0;
+  background: white;
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.language-dropdown:hover .lang-menu {
+  display: block;
+}
+
+
+.lang-menu a:hover {
+  background: #f1c40f;
+  color: #1b1b1b;
+  border-radius: 10px;
+}
+
+/* Show menu on hover */
+.language-dropdown:hover .lang-menu {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .language-dropdown {
+    display: inline-block;
+    position: absolute;
+    right:60px;  /* moves it to the left of the menu button */
+    top: 10px;
+    z-index: 1200;
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+    /* ===== MOBILE OVERLAY ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: stretch;
+      justify-content: flex-start;
+      z-index: 1200;
+      transition: opacity .25s ease;
+    }
+
+    .menu-overlay.show {
+      display: flex;
+    }
+
+    .menu-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: transperant;
+    }
+
+
+    .side-menu {
+      position: relative;
+      width:180px;
+      height: 100%;
+      background: rgb(101, 96, 96);
+      color: rgb(6, 5, 5);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 30px 25px;
+    }
+
+    .menu-overlay.show .side-menu {
+      transform: translateX(0);
+    }
+    .side-menu h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .side-menu ul {
+      list-style: none;
+    }
+
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+
+    .side-menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+
+/* ===== SUBTITLE STYLING ===== */
+.subtitle-emagazine {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ef2105; /* soft green */
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .subtitle-emagazine {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+}
+
+
+/* ------- A4 PAGE VIEWER STYLING ------- */
+.page-viewer-container {
+  max-width: 1060px;
+  margin: 20px auto;
+  padding: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+
+
+.main-page-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.main-page {
+  width: 100%;
+  max-width: 720px; /* A4 width */
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+
+.thumb-slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.thumb-nav-btn {
+  background: #2b7a2c;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+
+.thumb-slider-window {
+  width: 1030px; /* Show 4 thumbnails */
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+
+.thumbnail-strip {
+  display: flex;
+  gap: 10px;
+  transition: transform 0.4s ease;
+  justify-content: flex-start; /* important */
+  overflow: visible; /* important */
+}
+
+
+
+.thumbnail {
+  width: 14%;
+  min-width: 80px;
+  max-width: 120px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.thumbnail:hover {
+  border-color: #2b7a2c;
+}
+
+.thumbnail.active {
+  border-color: #2b7a2c;
+}
+
+
+
+/* ------- RESPONSIVE ------- */
+@media (max-width: 1030px) {
+  .thumbnail {
+    width: 18%; /* 5 per row on tablets */
+  }
+}
+
+@media (max-width: 700px) {
+  .thumbnail {
+    width: 22%; /* 4 visible */
+  }
+}
+
+@media (max-width: 500px) {
+  .thumbnail {
+    width: 29%; /* 3 visible */
+  }
+}
+
+
+
+
+    
+
+.footer {
+  background: #2c3e50;
+  color: white;
+  padding: 60px 0 20px 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.footer-section h3 {
+  color: #f1c40f;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #f1c40f;
+}
+
+/* Social Icons */
+.social-icons a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 5px;
+  background: #f1c40f;
+  color: #2c3e50;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+.social-icons a:hover {
+  background: #d4ac0d;
+  color: #fff;
+}
+
+/* Motto */
+.motto p {
+  font-style: italic;
+  font-size: 1rem;
+  color: #f8f8f8;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+  padding-top: 15px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+  </style>
+</head>
+
+<body>
+
+  
+  
+  <!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
+
+  <ul>
+  <li><a href="index.html#home-section" >Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="index.html#modelunit-section" class="active" >Model Unit</a></li>
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+</ul>
+
+   <!-- Language Dropdown -->
+  <div class="language-dropdown">
+    <button class="lang-btn">
+      🌐 <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="lang-menu">
+      <a href="https://translate.google.com/translate?hl=en&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">English</a>
+    <a href="https://translate.google.com/translate?hl=hi&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">हिन्दी (Hindi)</a>
+    <a href="https://translate.google.com/translate?hl=ml&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">മലയാളം (Malayalam)</a>
+    <a href="https://translate.google.com/translate?hl=ta&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">தமிழ் (Tamil)</a>
+    <a href="https://translate.google.com/translate?hl=te&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">తెలుగు (Telugu)</a>
+    <a href="https://translate.google.com/translate?hl=bn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">বাংলা (Bengali)</a>
+    <a href="https://translate.google.com/translate?hl=kn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">ಕನ್ನಡ (Kannada)</a>
+    <a href="https://translate.google.com/translate?hl=mr&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">मराठी (Marathi)</a>
+  
+    </div>
+  </div>
+
+  <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
+    <i class="fa fa-bars"></i>
+  </button>
+</nav>
+
+
+  <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="side-menu">
+      <button class="close-btn" id="closeMenuBtn">&times;</button>
+      <h2></h2>
+      <ul class="menu-list">
+        <li><a href="index.html#home-section" >Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+ <!-- SPACER BELOW FIXED NAVBAR -->
+<div style="height:100px;"></div>
+
+<!-- ======= E-MAGAZINE TITLE ======= -->
+<h1 style="
+  text-align:center;
+  margin-bottom:5px;
+  font-size:2rem;
+  font-weight:700;
+  color:#2b7a2c;
+  font-family:'Poppins', sans-serif;
+">
+  Mannanam Voice
+</h1>
+<h2 style="
+  text-align:center;
+  margin-bottom:5px;
+  font-size:1.1rem;
+  font-weight:700;
+  color:#ea4606;
+  ">Mannanam Community e-Magazine</h2>
+
+<p style=" text-align:center;
+margin-top:5px;"> August 2025</p>
+
+
+<!-- ===================== E-MAGAZINE VIEWER ===================== -->
+<div class="page-viewer-container">
+
+ 
+
+  <!-- Main Page Display with Scroll -->
+  <div class="main-page-wrapper scroll-container">
+    <img id="mainPage" src="images/emagazine1.JPG" class="main-page" alt="Magazine Page">
+  </div>
+
+  <div class="thumb-slider-container">
+
+  <button id="thumbPrev" class="thumb-nav-btn">‹</button>
+
+  <div class="thumb-slider-window">
+    <div class="thumbnail-strip" id="thumbnailStrip">
+      <!-- your 1–33 thumbnails here -->
+    </div>
+  </div>
+
+  <button id="thumbNext" class="thumb-nav-btn">›</button>
+
+</div>
+
+
+    
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===== SECTION 12: FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <!-- QUICK LINKS -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html#home-section" class="active">Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="page-mannjan.html">Model Unit</a></li> 
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- SOCIAL MEDIA -->
+    <div class="footer-section">
+      <h3>Connect With Us</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- MOTTO -->
+    <div class="footer-section motto">
+      <h3>Our Motto</h3>
+      <p>“Unity, Peace, and Development”</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Mannanam Janasabha. All Rights Reserved.</p>
+  </div>
+</footer>
+
+
+
+
+
+
+<script>
+  
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", function () {
+    const openMenuBtn = document.getElementById("openMenuBtn");
+    const closeMenuBtn = document.getElementById("closeMenuBtn");
+    const menuOverlay = document.getElementById("menuOverlay");
+
+    // Open side menu
+    openMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.add("show");
+    });
+
+    // Close side menu
+    closeMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.remove("show");
+    });
+
+    // Close menu if user clicks outside the side menu
+    menuOverlay.addEventListener("click", function (e) {
+      if (e.target === menuOverlay) {
+        menuOverlay.classList.remove("show");
+      }
+    });
+  });
+</script>
+
+<script>
+  const langBtn = document.querySelector('.lang-btn');
+  const langDropdown = document.querySelector('.language-dropdown');
+
+  langBtn.addEventListener('click', () => {
+    langDropdown.classList.toggle('active');
+  });
+
+  // Close if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('active');
+    }
+  });
+</script>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,hi,ml,ta,te,bn,kn,mr',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const thumbnailStrip = document.getElementById("thumbnailStrip");
+  const mainPage = document.getElementById("mainPage");
+
+  // =========================================================
+  //      AUTO-GENERATE 33 THUMBNAILS WITH NUMBERS
+  // =========================================================
+  for (let i = 1; i <= 34; i++) {
+    const wrap = document.createElement("div");
+    wrap.classList.add("thumb-wrapper");
+
+    let img = document.createElement("img");
+    img.src = `images/emagazine${i}.JPG`;
+    img.classList.add("thumbnail");
+    img.setAttribute("data-page", i);
+    if (i === 1) img.classList.add("active");
+
+    let number = document.createElement("div");
+    number.classList.add("thumb-number");
+    number.innerText = i;
+
+    wrap.appendChild(img);
+    wrap.appendChild(number);
+    thumbnailStrip.appendChild(wrap);
+  }
+
+  const thumbnails = document.querySelectorAll(".thumbnail");
+
+  // CLICK THUMBNAIL → CHANGE MAIN PAGE
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener("click", function () {
+      thumbnails.forEach(t => t.classList.remove("active"));
+      this.classList.add("active");
+
+      const pageNum = this.getAttribute("data-page");
+      mainPage.src = `images/emagazine${pageNum}.JPG`;
+
+      slideToIndex(pageNum - 1);
+    });
+  });
+
+
+let position = 0;
+const strip = document.getElementById("thumbnailStrip");
+const thumbWidth = 100; // avg width + gap
+const visibleCount = 6;
+const totalThumbs = strip.children.length;
+
+document.getElementById("thumbNext").onclick = () => {
+  const maxMove = (totalThumbs - visibleCount) * thumbWidth;
+  if (position > -maxMove) {
+    position -= thumbWidth;
+    strip.style.transform = `translateX(${position}px)`;
+  }
+};
+
+document.getElementById("thumbPrev").onclick = () => {
+  if (position < 0) {
+    position += thumbWidth;
+    strip.style.transform = `translateX(${position}px)`;
+  }
+};
+
+
+
+  
+});
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
+  button.addEventListener('click', function (e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+
+    const x = e.clientX - e.target.getBoundingClientRect().left;
+    const y = e.clientY - e.target.getBoundingClientRect().top;
+
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+
+    this.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+</script>
+
+
+
+
+
+<style>
+  .lang-menu.show {
+    display: block;
+  }
+</style>
+
+
+
+
+</body>
+</html>

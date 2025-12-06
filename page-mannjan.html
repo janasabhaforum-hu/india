@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Janasabha</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+
+  <style>
+    /* ===== BASIC RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      background: #1b1b1b;
+      height: 70px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      color: white;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: yellow;
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    /* ===== LANGUAGE DROPDOWN MENU ===== */
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-btn {
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #f1c40f;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-btn:hover {
+  background: #f1c40f;
+  color: #1b1b1b;
+}
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: #fff;
+  min-width: 160px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  z-index: 1500;
+}
+
+.lang-menu a {
+  color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s;
+  font-size: 14px;
+}
+
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  Right: 0;
+  background: white;
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.language-dropdown:hover .lang-menu {
+  display: block;
+}
+
+
+.lang-menu a:hover {
+  background: #f1c40f;
+  color: #1b1b1b;
+  border-radius: 10px;
+}
+
+/* Show menu on hover */
+.language-dropdown:hover .lang-menu {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .language-dropdown {
+    display: inline-block;
+    position: absolute;
+    right:60px;  /* moves it to the left of the menu button */
+    top: 10px;
+    z-index: 1200;
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+    /* ===== MOBILE OVERLAY ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: stretch;
+      justify-content: flex-start;
+      z-index: 1200;
+      transition: opacity .25s ease;
+    }
+
+    .menu-overlay.show {
+      display: flex;
+    }
+
+    .menu-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: transperant;
+    }
+
+
+    .side-menu {
+      position: relative;
+      width:180px;
+      height: 100%;
+      background: rgb(101, 96, 96);
+      color: rgb(6, 5, 5);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 30px 25px;
+    }
+
+    .menu-overlay.show .side-menu {
+      transform: translateX(0);
+    }
+    .side-menu h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .side-menu ul {
+      list-style: none;
+    }
+
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+
+    .side-menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+
+
+/* mannjana titles and para =============== */
+
+.mannjana-section {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;   /* ✅ Added top = 60px, bottom = 40px */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+
+/* Headings spacing */
+
+.mannjana-section h3 {
+  font-size: 25px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #011006;
+  font-weight: 700;
+  text-align: center;
+}
+
+.mannjana-section h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #04852d;
+  font-weight: 700;
+  text-align: center;
+}
+
+.mannjana-section h1 {
+  font-size: 36px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #e90692;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Paragraph spacing & feel */
+.mannjana-section p.subtitle {
+  font-size: 17px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+
+/* ===== BUTTONS (MANNJANA) ===== */
+.mannjana-buttons {
+  display: flex;
+  justify-content: center;   /* Center the buttons horizontally */
+  align-items: center;
+  flex-wrap: wrap;           /* Allows wrapping on smaller screens */
+  gap: 15px;                 /* Even spacing between buttons */
+  margin-top: 40px;
+}
+
+/* Standard Button */
+.mannjana-section .btn {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  background-color: #f1c40f;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.mannjana-section .btn:hover {
+  background-color: #d4ac0d;
+  transform: translateY(-2px);
+}
+
+/* Outline Button */
+.mannjana-section .btn.btn-outline {
+  background: transparent;
+  border: 2px solid #f1c40f;
+  color: #2c3e50;
+}
+
+.mannjana-section .btn.btn-outline:hover {
+  background-color: #f1c40f;
+  color: white;
+}
+
+/* ===== RIPPLES ON BUTTON CLICK ===== */
+.mannjana-buttons .btn {
+  position: relative;
+  overflow: hidden; /* Required for ripple clipping */
+}
+
+.mannjana-buttons .btn .ripple {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(25);
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mannjana-section h2 { font-size: 1.6rem; }
+  .mannjana-section .subtitle { font-size: 0.95rem; }
+}
+
+
+/* modelunit titles and para =============== */
+/* ===== MODEL UNIT SECTION TYPOGRAPHY & SPACING ===== */
+
+.modelunit-section {
+  max-width: 1050px;
+  margin: 0 auto;              /* ✅ Perfectly centers the container */
+  padding: 0 20px;             /* ✅ Even spacing inside */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;            /* ✅ Better readability */
+  text-align: justify;         /* ✅ Justifies text cleanly */
+}
+
+/* Headings spacing */
+
+.modelunit-section h3 {
+  font-size: 25px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #011006;
+  font-weight: 700;
+  text-align: center;
+}
+.modelunit-section h2 {
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #04852d;
+  font-weight: 700;
+  text-align: center;
+}
+
+.modelunit-section h1 {
+  font-size: 36px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #e90692;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Paragraph spacing & feel */
+.modelunit-section p.subtitle {
+  font-size: 17px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+
+
+/* MODELUNIT SLIDER CONTAINER SIZE (Fixed 1050 x 250 area) */
+.modelunit-slider-container {
+  position: relative;
+  max-width: 1050px;
+  height: 250px; /* ✅ SET HEIGHT */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Cards must stretch to match height */
+.modelunit-slide {
+  flex: 0 0 300px;
+  height: 250px; /* ✅ MATCH HEIGHT */
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* IMAGE SHOULD FILL AREA WITHOUT DISTORTION */
+.modelunit-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ✅ Perfect cropping */
+}
+
+/* Caption text sits at bottom neatly */
+.modelunit-slide .caption-grid {
+  padding: 10px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(2px);
+  margin-top: auto; /* ✅ push caption to bottom */
+}
+
+
+.modelunit-slider-container {
+  position: relative;
+  max-width: 1050px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.modelunit-slider-wrapper {
+  overflow: hidden;
+}
+
+.modelunit-slider-track {
+  display: flex;
+  width: max-content;     /* ← ADD THIS */
+  gap: 20px;
+  transition: transform 0.6s ease;
+}
+
+
+
+
+.modelunit-slide {
+  flex: 0 0 300px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Buttons same style as Activities */
+button.mu-prev,
+button.mu-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(69, 70, 70, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+button.mu-prev:hover,
+button.mu-next:hover {
+  background-color: #f37628;
+}
+
+button.mu-prev { left: 15px; }
+button.mu-next { right: 15px; }
+
+
+
+
+
+
+
+/* ===== ACTIVITIES SECTION ======================================================== */
+/* ===== ACTIVITIES SLIDER SECTION ===== */
+
+.activities {
+  
+  background-color: #eef9ee;
+  padding: 20px 20px;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.activities h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ef0f99;
+}
+
+.activities .subtitle {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 5px 15px;   /* ✅ Added top = 60px, bottom = 40px */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  text-align: justify;
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+/* Slider Container */
+.activities-slider-container {
+  position: relative;
+  max-width: 1050px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Track Wrapper */
+.activities-slider-wrapper {
+  overflow: hidden;
+}
+
+/* Slide Track */
+.activities-slider-track {
+  display: flex;
+  transition: transform 0.6s ease;
+  gap: 20px;
+}
+
+/* Individual Slide */
+.activities-item {
+  flex: 0 0 300px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+}
+
+.activities-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.activities-item .caption {
+  padding: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.activities-item {
+  flex: 0 0 300px;
+}
+
+
+/* ===== Previous & Next Buttons (Same as Volunteers) ===== */
+button.act-prev,
+button.act-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(69, 70, 70, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+button.act-prev:hover,
+button.act-next:hover {
+  background-color: #f37628;
+}
+
+button.act-prev {
+  left: 15px;
+}
+
+button.act-next {
+  right: 15px;
+}
+
+
+
+
+/* ===== RESPONSIVE SETTINGS ===== */
+@media (max-width: 1024px) {
+  .activities-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .activities h2 {
+    font-size: 1.8rem;
+  }
+  .activities .subtitle {
+    font-size: 1rem;
+  }
+  .activities-item img {
+    height: 180px;
+  }
+}
+
+
+
+
+/* ===== MP3 file ===== */
+
+/* Container styling */
+    .audio-container {
+      max-width: 560px;
+      margin: 20px auto;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff, #f7f7f9);
+      box-shadow: 0 6px 18px rgba(20,20,40,0.06);
+      border: 1px solid rgba(20,20,40,0.05);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    .audio-container {
+  max-width: 600px;
+  margin: 40px auto !important;
+  display: block;
+}
+
+.audio-container h3 {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #0b2e13;
+}
+
+
+
+    .audio-heading {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #03070f;
+    }
+
+    /* Make native controls fill the width of the container */
+    .audio-container audio {
+      width: 100%;
+      outline: none;
+      border-radius: 8px;
+      background: transparent;
+    }
+
+    /* Fallback link style */
+    .audio-fallback {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #0b66ff;
+      text-decoration: none;
+    }
+
+/* ====== COMMUNITY MAGAZINE SECTION ====== */
+.magazine-section {
+  padding: 60px 20px;
+  background: #f9fafb;
+  text-align: center;
+}
+
+.magazine-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 35px;
+}
+
+
+
+
+.magazine-section .subtitle {
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Grid layout */
+.magazine-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+/* Magazine Card */
+.magazine-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  max-width: 360px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.magazine-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* Magazine Image */
+.magazine-image {
+  width: 100%;
+  height: auto;
+  border-bottom: 3px solid #f1c40f;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+/* Text Content */
+.magazine-content {
+  padding: 10px;
+ 
+}
+
+.magazine-content h3 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.magazine-content p {
+  font-size: 0.95em;
+  color: #666;
+}
+
+/* ====== Open Button ====== */
+.magazine-btn-wrapper {
+  background: #f1c40f;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.btn-open {
+  display: inline-block;
+  width: 100%;
+  padding: 12px 0;
+  background-color: #2c3e50;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+
+ body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+.btn-open:hover {
+  background-color: #f1c40f;
+  color: #2c3e50;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Optional hover ripple */
+.btn-open::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.btn-open:hover::after {
+  width: 300%;
+  height: 300%;
+}
+
+
+
+
+
+
+/* ===== GALLERY SECTION ============================================================= */
+.gallery {
+  background: hwb(192 95% 4%);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.gallery h2 {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2rem;
+  color: #da05ac;
+  margin-bottom: 10px;
+}
+
+.gallery .subtitle {
+  color: #555;
+  font-size: 1.05rem;
+  margin-bottom: 50px;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  justify-content: center;
+  align-items: start;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Caption Overlay */
+.gallery-item .caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(44, 62, 80, 0.8);
+  color: #f1c40f;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+/* ===== BUTTONS ===== */
+.gallery-buttons {
+  display: flex;
+  justify-content: center;   /* Center the buttons horizontally */
+  align-items: center;
+  flex-wrap: wrap;           /* Allows wrapping on smaller screens */
+  gap: 15px;                 /* Even spacing between buttons */
+  margin-top: 40px;
+}
+
+.gallery .btn {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  background-color: #f1c40f;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.gallery .btn:hover {
+  background-color: #d4ac0d;
+  transform: translateY(-2px);
+}
+
+.gallery .btn-outline {
+  background: transparent;
+  border: 2px solid #f1c40f;
+  color: #2c3e50;
+}
+
+.gallery .btn-outline:hover {
+  background-color: #f1c40f;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gallery h2 { font-size: 1.6rem; }
+  .gallery .subtitle { font-size: 0.95rem; }
+}
+
+
+
+
+
+
+/* ===== CARD SLIDER STYLING ===== */
+.card-slider-section {
+  background-color: #eef9ee;
+  padding: 60px 20px;
+  text-align: center;
+  
+}
+
+/* Title styling — only first letter capitalized */
+.slider-title {
+  font-size: 2.2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  color: #c506a8;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+
+.slider-subtitle {
+  color: #0c0c0e81;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+
+/* Container setup */
+.slider-container {
+  position: relative;
+  height: 480px; 
+  max-width: 1010px; /* fits 3 portrait cards */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  gap: 20px;
+}
+
+/* ===== Portrait Card Styling ===== */
+.slide-card {
+   
+  flex: 0 0 280px; /* narrower for portrait */
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.slide-card img {
+  width: 100%;
+  height: 300px; /* taller for portrait ratio */
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.slide-thumb {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
+
+/* Zoom on hover */
+.slide-card:hover img {
+  transform: scale(1.1);
+}
+
+/* ===== Volunteer Caption Grid (below each card) ===== */
+.caption-grid {
+  background: #2c3e50;
+  padding: 15px 10px;
+  text-align: center;
+  color: #f1c40f;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.caption-grid .vol-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 4px 0 2px;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.caption-grid .vol-role {
+  font-size: 0.95rem;
+  color: #ecf0f1;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* ===== Buttons ===== */
+button.prev,
+button.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(69, 70, 70, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+button.prev:hover,
+button.next:hover {
+  background-color: #f37628;
+}
+
+button.prev {
+  left: 15px;
+}
+
+button.next {
+  right: 15px;
+}
+
+/* ===== Responsive adjustments ===== */
+@media (max-width: 850px) {
+  .slide-card {
+    flex: 0 0 240px;
+  }
+  .slide-card img {
+    height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-card {
+    flex: 0 0 220px;
+  }
+  .slide-card img {
+    height: 300px;
+  }
+  .slider-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .slide-card {
+    flex: 0 0 200px;
+  }
+  .slide-card img {
+    height: 280px;
+  }
+  button.prev,
+  button.next {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+}
+
+
+.more-btn-box {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.more-btn {
+  display: inline-block;
+  background-color: #2c3e50; /* match your title color */
+  color: #ffffff;
+  padding: 9px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.more-btn:hover {
+  background-color: #f37628;  /* same hover color as slider arrows */
+  color: #fff;
+}
+
+/* Play Icon Overlay */
+.video-thumb-box {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  color: white;
+  opacity: 0.85;
+  pointer-events: none;
+  text-shadow: 0 0 12px rgba(0,0,0,0.7);
+}
+
+.video-thumb-box:hover .play-icon {
+  opacity: 1;
+}
+
+.video-thumb-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ======= VIDEO POPUP MODAL ======= */
+/* ======= VIDEO POPUP MODAL ======= */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+.video-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#video-frame {
+  width: 100%;
+  height: 450px;
+}
+
+/* FIXED CLOSE BUTTON */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 34px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100000;   /* critical fix */
+}
+
+@media (max-width: 768px){
+  .slider-container {
+    height: auto;
+  }
+  .more-btn-box {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+
+
+/* ===== CONTACT & MAP SECTION ===== */
+.contact {
+  background: #f9f9f9;
+  padding: 50px;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.contact .subtitle {
+  color: #555;
+  font-size: 1.05rem;
+  margin-bottom: 50px;
+}
+
+/* Grid */
+.contact-grid {
+  display: grid;
+  
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 10px;
+  text-align: left;
+}
+
+/* Contact Form Card */
+.contact-form-card, .contact-info-card {
+  background: white;
+  border-radius: 15px;
+  padding:  80px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form-card h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Form Fields */
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+  border-color: #f1c40f;
+  outline: none;
+  box-shadow: 0 0 5px rgba(241,196,15,0.4);
+}
+
+/* Buttons */
+.contact .btn {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: #2c3e50;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.contact .btn:hover {
+  background-color: #d4ac0d;
+}
+
+/* Contact Info */
+.contact-info-card h3 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.contact-info-card p {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.social-links a {
+  color: #f1c40f;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+.social-links a:hover {
+  color: #d4ac0d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact h2 { font-size: 1.6rem; }
+  .contact .subtitle { font-size: 0.95rem; }
+}
+
+
+  .home-link {
+  text-decoration: none;   /* ❌ Removes underline */
+  font-weight: bold;       /* 🔥 Makes text bold */
+  font-size: 1.2rem;       /* Optional: size similar to <h4> */
+  color: #000;             /* Change color if needed */
+}
+    
+
+.footer {
+  background: #2c3e50;
+  color: white;
+  padding: 60px 0 20px 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.footer-section h3 {
+  color: #f1c40f;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #f1c40f;
+}
+
+/* Social Icons */
+.social-icons a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin: 5px;
+  background: #f1c40f;
+  color: #2c3e50;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+.social-icons a:hover {
+  background: #d4ac0d;
+  color: #fff;
+}
+
+/* Motto */
+.motto p {
+  font-style: italic;
+  font-size: 1rem;
+  color: #f8f8f8;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+  padding-top: 15px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+  </style>
+</head>
+
+<body>
+
+  
+  
+  <!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
+
+  <ul>
+  <li><a href="index.html#home-section" >Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="index.html#modelunit-section" class="active" >Model Unit</a></li>
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+</ul>
+
+   <!-- Language Dropdown -->
+  <div class="language-dropdown">
+    <button class="lang-btn">
+      🌐 <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="lang-menu">
+      <a href="https://translate.google.com/translate?hl=en&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">English</a>
+    <a href="https://translate.google.com/translate?hl=hi&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">हिन्दी (Hindi)</a>
+    <a href="https://translate.google.com/translate?hl=ml&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">മലയാളം (Malayalam)</a>
+    <a href="https://translate.google.com/translate?hl=ta&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">தமிழ் (Tamil)</a>
+    <a href="https://translate.google.com/translate?hl=te&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">తెలుగు (Telugu)</a>
+    <a href="https://translate.google.com/translate?hl=bn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">বাংলা (Bengali)</a>
+    <a href="https://translate.google.com/translate?hl=kn&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">ಕನ್ನಡ (Kannada)</a>
+    <a href="https://translate.google.com/translate?hl=mr&sl=auto&u=https://www.janasabha.org/index.html" target="_blank">मराठी (Marathi)</a>
+  
+    </div>
+  </div>
+
+  <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
+    <i class="fa fa-bars"></i>
+  </button>
+</nav>
+
+
+  <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="side-menu">
+      <button class="close-btn" id="closeMenuBtn">&times;</button>
+      <h2></h2>
+      <ul class="menu-list">
+        <li><a href="index.html#home-section" >Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  
+<!-- ===== Mannjana SECTION ===== -->
+
+
+  <section class="mannjana-section" id="mannjana-section">
+
+  <h3></h3>
+  <h1>Mannanam Janasabha</h1>
+      <h3>Community Background </h3>
+ 
+
+  <p class="subtitle">
+    Mannanam is a historic and well-known village in the Kottayam district. It is the karmic land of    Saint Kuriakose Elias Chavara,
+     one of the foremost leaders of the Kerala Renaissance. This sacred place is where    Kerala’s model for 
+     public education training began, where Deepika—the oldest Malayalam daily—was founded,    and where the first 
+     Indian Christian monastic community was established. 
+Sree Narayana Guru, the great Renaissance leader and saint who fought against social evils in Kerala, also visited this land. 
+ Mannanam has also produced many eminent personalities in politics, bureaucracy, arts, and other fields.<br><br> For the artistic 
+and cultural growth of the village, we have institutions such as Tagore Kala Kendra, S.N.D.P. Karayogam, N.S.S. Karayogam, and 
+the Catholic Samajam. Mannanam is also stands as Courtyard of Letters with five educational institutions  supporting the overall 
+development of our community from primary to higher educations. <br><br> For our spiritual life, the village has St. Joseph’s Ashram
+Church, Kottaram Devi Temple, Guru Mandiram, St. Stephen’s Church, and the Twelve Apostles’ Church. In addition, Mannanam is located 
+close to major pilgrimage centers such as the Athirampuzha Church, Kumaranallur Temple, and Kudamaloor Church.
+Yes, Mannanam is a model for Kerala and India with  its community brotherhood, tolerance and human resource capacity. 
+
+  </p>
+
+
+<h3>Formation  </h3>
+    <h4>Orientation Meetings </h4>
+ <p class="subtitle">
+There were two orientation meetings held on 17-07-2016 and on 09–10–2016 , with representatives of all sections of Mannanam community.
+ A team community social workers  gave orientation on community development and about project of Janasabha Commune. 
+ Accordingly the meeting decide to form Mannanam Janasabha and Janasabha Residents Association to  include all the residents 
+ of the community. An ad hoc committee also was formed for the futher development. 
+</p>
+<br>
+<h4>Formation  </h4>
+<p class="subtitle">
+As a result of continuous work, in exactly one year, 10 Jana Sabha Resident Associations/Ayal Janasabha were formed. 
+The first full Jana Sabha Council meeting was held on 8th October 2017 and the Mannanam Jana Sabha bylaws were passed and 
+the Governing Body was formed.
+<br>
+Patron: Fr. Dr. James Mullassery C.M.I. (Principal, K.E. English Medium School) <br>
+Co-Patron: Mr. John White Churakkulam<br>
+Chairman: Dr. Anil Raghavan Kalambukatt<br>
+Vice Chairman: Adv. Vincent Alex<br>
+Convenor: Mr. Reji C. J., Social Worker<br>
+Joint Convenor: Mrs. Suma Shibumon<br>
+Treasurer: Mr. Joshi K. V. </p>
+
+
+<h3> Inauguration</h3>
+<p class="subtitle"></p>
+As part of the festive inauguration program held on January 14, 2018, Janasabha Chairman Dr. Anil Raghavan the Kalambukattu hoisted  
+flag at the Mannanam town. This was followed by a procession and mega Thiruvathira at the K.E. English Medium School auditorium. 
+At a public meeting held under the chairmanship of Ettumanoor M.L. A. Adv. K. Suresh Kurup, Dr. C.V. Ananda Bose I.A.S., 
+also a native of Mannanam,  performed the inauguration. Along with this, distinguished personalities from Mannanam were honored. 
+This was followed by a cultural evening performed by the residents of Mannanam.
+</p>
+
+ 
+  <h2>Ayal Janasabhas (Janasabha Residents Associations)</h2>
+
+  <div class="modelunit-slider-container">
+
+  <button class="mu-prev">&#10094;</button>
+
+  <div class="modelunit-slider-wrapper">
+    <div class="modelunit-slider-track">
+
+      <!-- Ayaljana 1 -->
+      <div class="modelunit-slide">
+        <img src="images/ayal-1.jpg" alt="Ayaljana 1" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Adhithya</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+      <!-- Ayaljana 2 -->
+      <div class="modelunit-slide">
+        <img src="images/ayal-2.jpg" alt="Ayaljana 2" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Vikas</h3>
+          <p class="vol-role">---------</p>
+        </div>
+      </div>
+
+      <!-- Ayaljana 3 -->
+      <div class="modelunit-slide">
+        <img src="images/ayal-3.jpg" alt="Ayaljana 3" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Maithri</h3>
+          <p class="vol-role">--------</p>
+        </div>
+      </div>
+
+      <!-- Ayaljana 4 -->
+      <div class="modelunit-slide">
+        <img src="images/ayal-4.jpg" alt="Ayaljana 4" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Adharsh</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+      <!-- Ayaljana 5 -->
+      <div class="modelunit-slide">
+        <img src="images/ayal-5.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Mathruka</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-6.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Nanma</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-7.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Aishwarya</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-8.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Prathibha</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-9.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Soubhagya</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-10.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Sneha</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+       <div class="modelunit-slide">
+        <img src="images/ayal-11.jpg" alt="Ayaljana 5" />
+        <div class="caption-grid">
+          <h3 class="vol-name">Chathunnippara</h3>
+          <p class="vol-role">-------</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="mu-next">&#10095;</button>
+</div>
+
+
+    
+
+    
+  </div>
+</section>
+
+
+
+
+
+
+<section class="activities" id="activities-section">
+  <h2> Activities</h2>
+ 
+<p class="subtitle">
+Mannanam Janasabha is a symbol of care and togetherness. The small and big activities we have done together prove it. 
+
+Snehasparsham charity activities, housing for poor, flood & corona relief activities, Balajanasabha, commemoration of Days, 
+cultural fest, seminars, medical camps, competitions, entrepreneurship training, formation of enterprises, exhibition fairs,
+ honouring, establishment of bus time boards, meets of candidates and winners in Panchayat election, active presence in 
+ Gram Sabhas, public cleaning, social interventions, updating news in Social Media, Community e-Magazine, etc. are some of them.
+  </p>
+
+  <div>
+  
+  <div class="activities-slider-container">
+    
+     <button class="act-next">&#10095;</button>
+    <button class="act-prev">&#10094;</button>
+
+    <div class="activities-slider-wrapper">
+      <div class="activities-slider-track">
+
+        <!-- Repeat this block for each slide -->
+        <div class="activities-item">
+          <img src="images/activities1.jpg" alt="">
+          <div class="caption">Housing for Poor</div>
+        </div>
+
+        <div class="activities-item">
+          <img src="images/activities2.jpg" alt="">
+          <div class="caption">Cleaning Public Place</div>
+        </div>
+
+        <div class="activities-item">
+          <img src="images/activities3.jpg" alt="">
+          <div class="caption">Medical Camp</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities4.jpg" alt="">
+          <div class="caption">Flood Relief</div>
+        </div>
+       <div class="activities-item">
+          <img src="images/activities10.jpg" alt="">
+          <div class="caption">Children's Day</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities5.jpg" alt="">
+          <div class="caption">Cultural Fest</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities6.jpg" alt="">
+          <div class="caption">Social Action</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities7.jpg" alt="">
+          <div class="caption">LSG Cantidates Meet</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities8.jpg" alt="">
+          <div class="caption">Balajanasabha</div>
+        </div>
+        <div class="activities-item">
+          <img src="images/activities9.jpg" alt="">
+          <div class="caption">Sports</div>
+        </div>
+         
+
+
+
+        <!-- Add more slides here -->
+
+       
+
+      </div>
+    </div>
+
+  
+  </div>
+
+<div>
+
+    <div class="audio-container"> <h3>Janasabha Anthem</h3> 
+    <p class="audio-heading">Lyrics & Music by Stanson Mathew, Volunteer<br>Mannanam</p>
+     <audio controls preload="metadata"> <source src="audio/Anthem.MP3" type="audio/mpeg"> Your browser
+       does not support the audio element. <a class="audio-fallback" href="audio/Anthem.MP3" download>Download MP3</a> </audio> 
+      </div> <div class="magazine-grid"> <!-- Magazine Card --> <div class="magazine-card"> 
+        <div class="magazine-content"> <h3>Mannanam Voice</h3> <p>Community e-Magazine</p> 
+        </div> <img src="images/MagazineVijayamma.jpg" alt="Community Magazine" class="magazine-image" /> 
+        <!-- Open Button --> <div class="magazine-btn-wrapper"> 
+          <a href="magazine.html" target="_blank" class="btn-open">Open</a> </div> </div> </div>
+  
+    </div>
+
+
+
+</section>
+
+
+
+
+<!-- ===== PHOTO GALLERY & MEDIA HIGHLIGHTS SECTION ===== -->
+<section class="gallery" id="gallery-section">
+  <div class="container">
+    <h2>Galleries</h2>
+    <p class="subtitle">Moments that reflect the spirit of Mannanam Janasabha — together we grow!</p>
+
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="images/image1.jpg" alt="Clean-up Drive">
+        <div class="caption">Independence Day</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/image2.jpg" alt="Health Camp">
+        <div class="caption">Cultural Fest</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/image3.jpg" alt="Tree Plantation">
+        <div class="caption">Flood Relief</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/image4.jpg" alt="Cultural Event">
+        <div class="caption">Onam</div>
+      </div>
+    </div>
+
+    <div class="gallery-buttons">
+      <a href="https://mannanamjanasabha.blogspot.com/p/activi.html" class="btn">View All Photos</a>
+      <a href="https://www.youtube.com/@mannanamjanasabha8641/videos" class="btn btn-outline">Watch Videos</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ====== TESTIMONY SECTION ====== -->
+<section class="card-slider-section" id="testimony-section">
+  <h2 class="slider-title"> Testimonies </h2>
+  <p class="slider-subtitle">Hear the highlights of speeches in the inaugural session </p>
+
+  <div class="slider-container">
+    <button class="prev">&#10094;</button>
+
+    <div class="slider-wrapper">
+      <div class="slider-track">
+
+        <!-- Slide 1 -->
+<div class="slide-card" data-video="esSyx6b0QDI">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/esSyx6b0QDI/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Dr. CV Ananthabose IAS</h3>
+    <p class="vol-role">Mannanam</p>
+  </div>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide-card" data-video="RQ1XHFizEvo">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/RQ1XHFizEvo/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Rev. Dr. James MullasseryCMI</h3>
+    <p class="vol-role">Principal KEEMS</p>
+  </div>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide-card" data-video="13_ntPo7ZI0">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/13_ntPo7ZI0/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Sri. Salim Gopal</h3>
+    <p class="vol-role">Panchayat Dy. Director, Kottayam</p>
+  </div>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide-card" data-video="cKbit952tUY">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/cKbit952tUY/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Adv. K Sureshkurup, MLA</h3>
+    <p class="vol-role">Ettumanoor</p>
+  </div>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide-card" data-video="oy9EhFcsQY4">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/oy9EhFcsQY4/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Dr. Thomas Abraham</h3>
+    <p class="vol-role">Former Director, MG Uni.</p>
+  </div>
+</div>
+
+
+
+<!-- Slide 6 --> 
+<div class="slide-card" data-video="geW5qNBmeL0">
+  <div class="video-thumb-box">
+    <img src="https://img.youtube.com/vi/geW5qNBmeL0/hqdefault.jpg" class="slide-thumb" />
+    <div class="play-icon">▶</div>
+  </div>
+  <div class="caption-grid">
+    <h3 class="vol-name">Smti. Elsamma Mathew</h3>
+    <p class="vol-role">President, Athirampuzha Panchyath</p>
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <button class="next">&#10095;</button>
+
+
+    <div class="more-btn-box">
+  <a 
+    href=" " 
+    target="_blank" 
+    class="more-btn"
+  >
+    More
+  </a>
+</div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- ===== CONTACT & MAP SECTION ===== -->
+<section class="contact" id="contact-section">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p class="subtitle">We’d like to hear from you! Reach out with queries, suggestions, or join our initiatives.</p>
+
+    <div class="contact-grid">
+
+       <!-- Address & Map -->
+      <div class="contact-info-card">
+        <h3>Contact Details</h3>
+        <p>Co-ordinator, Janasabha, Mannanam P.O., Kottayam Dt., Kerala, PIN:686561</p>
+        <p> </p>
+        <p></p>
+        <h3></h3>
+        
+        <h3>Location Map</h3>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.678593927126!2d76.5443173747093!3d9.612112492773536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b07a7b5bdbf8fef%3A0x4f12a0b6a2b2e40!2sMannanam!5e0!3m2!1sen!2sin!4v1696974740000!5m2!1sen!2sin" 
+          width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <!-- Contact Form -->
+      <div class="contact-form-card">
+  <form id="contactForm" class="contact-form">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder=" Email" required>
+    <input type="tel" name="phone" placeholder="Whatsapp Number">
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn" id="submitBtn">Send Message</button>
+  </form>
+</div>
+
+     
+    </div>
+  </div>
+</section>
+
+     
+    </div>
+
+
+
+    
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- ===== SECTION 12: FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <!-- QUICK LINKS -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html#home-section" class="active">Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="page-mannjan.html">Model Unit</a></li> 
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- SOCIAL MEDIA -->
+    <div class="footer-section">
+      <h3>Connect With Us</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- MOTTO -->
+    <div class="footer-section motto">
+      <h3>Our Motto</h3>
+      <p>“Unity, Peace, and Development”</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Mannanam Janasabha. All Rights Reserved.</p>
+  </div>
+</footer>
+
+
+
+
+
+
+<script>
+  
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", function () {
+    const openMenuBtn = document.getElementById("openMenuBtn");
+    const closeMenuBtn = document.getElementById("closeMenuBtn");
+    const menuOverlay = document.getElementById("menuOverlay");
+
+    // Open side menu
+    openMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.add("show");
+    });
+
+    // Close side menu
+    closeMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.remove("show");
+    });
+
+    // Close menu if user clicks outside the side menu
+    menuOverlay.addEventListener("click", function (e) {
+      if (e.target === menuOverlay) {
+        menuOverlay.classList.remove("show");
+      }
+    });
+  });
+</script>
+
+<script>
+  const langBtn = document.querySelector('.lang-btn');
+  const langDropdown = document.querySelector('.language-dropdown');
+
+  langBtn.addEventListener('click', () => {
+    langDropdown.classList.toggle('active');
+  });
+
+  // Close if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('active');
+    }
+  });
+</script>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,hi,ml,ta,te,bn,kn,mr',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<script>
+document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
+  button.addEventListener('click', function (e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+
+    const x = e.clientX - e.target.getBoundingClientRect().left;
+    const y = e.clientY - e.target.getBoundingClientRect().top;
+
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+
+    this.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+</script>
+
+
+
+<script>
+const muTrack = document.querySelector('.modelunit-slider-track');
+const muSlides = document.querySelectorAll('.modelunit-slide');
+const muPrev = document.querySelector('.mu-prev');
+const muNext = document.querySelector('.mu-next');
+
+let muIndex = 0;
+const muVisibleSlides = 3;
+
+function updateModelunitSlider() {
+  const slideWidth = muSlides[0].offsetWidth + 20;
+  muTrack.style.transform = `translateX(-${muIndex * slideWidth}px)`;
+}
+
+muNext.addEventListener('click', () => {
+  const maxIndex = muSlides.length - muVisibleSlides;
+  if (muIndex < maxIndex) {
+    muIndex++;
+    updateModelunitSlider();
+  }
+});
+
+muPrev.addEventListener('click', () => {
+  if (muIndex > 0) {
+    muIndex--;
+    updateModelunitSlider();
+  }
+});
+</script>
+
+
+
+
+
+<script>
+const actTrack = document.querySelector('.activities-slider-track');
+const actSlides = document.querySelectorAll('.activities-item');
+const actPrev = document.querySelector('.act-prev');
+const actNext = document.querySelector('.act-next');
+
+let actIndex = 0;
+
+// Detect how many slides are visible based on screen width
+function getVisibleSlides() {
+  if (window.innerWidth <= 576) return 1;   // Mobile
+  if (window.innerWidth <= 992) return 2;   // Tablet
+  return 3;                                  // Desktop
+}
+
+function updateActivitiesSlider() {
+  const slideWidth = actSlides[0].offsetWidth + 20; // width + gap
+  actTrack.style.transform = `translateX(-${actIndex * slideWidth}px)`;
+}
+
+function handleNext() {
+  const visible = getVisibleSlides();
+  const maxIndex = actSlides.length - visible;
+  if (actIndex < maxIndex) {
+    actIndex++;
+    updateActivitiesSlider();
+  }
+}
+
+function handlePrev() {
+  if (actIndex > 0) {
+    actIndex--;
+    updateActivitiesSlider();
+  }
+}
+
+actNext.addEventListener('click', handleNext);
+actPrev.addEventListener('click', handlePrev);
+
+// Recalculate positions when screen resizes
+window.addEventListener('resize', () => {
+  actIndex = 0; 
+  updateActivitiesSlider();
+});
+</script>
+
+
+
+
+
+
+
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Scope to the specific slider section to avoid picking up other .prev/.next buttons
+  const container = document.querySelector(".card-slider-section");
+  if (!container) return; // nothing to do if slider not present
+
+  const prevBtn = container.querySelector(".prev");
+  const nextBtn = container.querySelector(".next");
+  const track = container.querySelector(".slider-track");
+  const slides = Array.from(container.querySelectorAll(".slide-card"));
+
+  if (!prevBtn || !nextBtn || !track || slides.length === 0) {
+    console.error("Slider: missing required elements.");
+    return;
+  }
+
+  let index = 0;
+  const visibleSlides = 3;
+  const gap = (() => {
+    // read gap from computed style if available (fallback to 20)
+    const cs = getComputedStyle(track);
+    const g = cs && cs.gap ? parseFloat(cs.gap) : NaN;
+    return Number.isFinite(g) ? g : 20;
+  })();
+
+  function getSlideWidth() {
+    // use bounding rect so we get the actual rendered width
+    const rect = slides[0].getBoundingClientRect();
+    return rect.width + gap;
+  }
+
+  let slideWidth = getSlideWidth();
+  const maxIndex = Math.max(0, slides.length - visibleSlides);
+
+  function updateSlider() {
+    // ensure we don't move past bounds
+    if (index < 0) index = 0;
+    if (index > maxIndex) index = maxIndex;
+    track.style.transform = `translateX(${-index * slideWidth}px)`;
+  }
+
+  function updateButtons() {
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === maxIndex;
+    prevBtn.style.opacity = prevBtn.disabled ? "0.5" : "1";
+    nextBtn.style.opacity = nextBtn.disabled ? "0.5" : "1";
+    // optionally toggle pointer events when disabled
+  }
+
+  // Click handlers
+  prevBtn.addEventListener("click", () => {
+    if (index > 0) {
+      index--;
+      updateSlider();
+      updateButtons();
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (index < maxIndex) {
+      index++;
+      updateSlider();
+      updateButtons();
+    }
+  });
+
+  // Recalculate slideWidth on resize (important for responsiveness)
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      slideWidth = getSlideWidth();
+      updateSlider();
+      updateButtons();
+    }, 80);
+  });
+
+  // Images may change layout after load; ensure measurements are accurate after images load
+  const imagePromises = slides
+    .map(s => s.querySelector("img"))
+    .filter(Boolean)
+    .map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => img.addEventListener("load", resolve));
+    });
+
+  Promise.all(imagePromises).then(() => {
+    // recalc sizes after images loaded
+    slideWidth = getSlideWidth();
+    updateSlider();
+    updateButtons();
+  });
+
+  // initialize state
+  updateButtons();
+});
+</script>
+
+
+
+
+<script>
+// ===== VIDEO POPUP =====
+document.querySelectorAll(".slide-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const videoId = card.getAttribute("data-video");
+    document.getElementById("video-frame").src =
+      "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+    document.getElementById("video-modal").style.display = "flex";
+  });
+});
+
+// Close modal
+document.querySelector(".close-modal").addEventListener("click", () => {
+  document.getElementById("video-modal").style.display = "none";
+  document.getElementById("video-frame").src = "";
+});
+
+// Close modal by clicking outside the video
+document.getElementById("video-modal").addEventListener("click", (e) => {
+  if (e.target.id === "video-modal") {
+    document.getElementById("video-modal").style.display = "none";
+    document.getElementById("video-frame").src = "";
+  }
+});
+</script>
+
+
+
+<!-- ===== VIDEO POPUP MODAL ===== -->
+<div id="video-modal" class="video-modal">
+  <div class="video-modal-content">
+    <span class="close-modal">&times;</span>
+    <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
+
+
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;                 /* HIGH PRIORITY */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+}
+
+/* Modal inner box */
+.modal-content {
+  position: relative;
+  width: 85%;
+  max-width: 800px;
+  margin: 7% auto;
+  background: #000;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Responsive video */
+#videoFrame {
+  width: 100%;
+  height: 450px;
+}
+
+/* CLOSE BUTTON FIX */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 32px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10000;            /* Important fix */
+}
+</style>
+<script>
+// Open modal when card is clicked
+document.querySelectorAll(".slide-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const videoId = card.getAttribute("data-video");
+
+    document.getElementById("video-frame").src =
+      "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+
+    document.getElementById("video-modal").style.display = "flex";
+  });
+});
+
+// Close when pressing X
+document.querySelector(".close-modal").addEventListener("click", () => {
+  closeVideoModal();
+});
+
+// Close when clicking outside video box
+document.getElementById("video-modal").addEventListener("click", (e) => {
+  if (e.target.id === "video-modal") {
+    closeVideoModal();
+  }
+});
+
+// Function to close modal
+function closeVideoModal() {
+  document.getElementById("video-modal").style.display = "none";
+  document.getElementById("video-frame").src = "";
+}
+</script>
+
+
+<script>
+  const googleScriptURL = "https://script.google.com/macros/s/AKfycbx7WXQkWHuuu4U0cQyfg7eYOEMj3ddimIuQtmMqMbPJnhxxjjUa36xI1Azt2VIvvoIIhw/exec"; // <-- replace
+
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById("submitBtn");
+    btn.textContent = "Submitting...";
+    btn.disabled = true;
+
+    const formData = {
+      name: this.name.value,
+      email: this.email.value,
+      phone: this.phone.value,
+      message: this.message.value
+    };
+
+    fetch(googleScriptURL, {
+      method: "POST",
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === "success") {
+        btn.textContent = "Submitted Successfully ✓";
+        btn.style.background = "#22c55e"; 
+      } else {
+        btn.textContent = "Error! Try Again";
+        btn.style.background = "#ef4444";
+      }
+    })
+    .catch(err => {
+      btn.textContent = "Error! Try Again";
+      btn.style.background = "#ef4444";
+    });
+  });
+</script>
+
+
+
+<style>
+  .lang-menu.show {
+    display: block;
+  }
+</style>
+
+
+
+
+</body>
+</html>
