@@ -58,3 +58,26 @@ db.collection("news")
     document.getElementById("news").innerHTML = html;
   });
 
+
+
+/* ✏️ Edit News */
+function editNews(id) {
+  const contentP = document.getElementById(`content-${id}`);
+  const oldText = contentP.innerText;
+
+  const newText = prompt("Edit news content:", oldText);
+  if (!newText) return;
+
+  db.collection("news").doc(id).update({
+    content: newText
+  });
+}
+
+/* 🗑 Delete News */
+function deleteNews(id) {
+  if (!confirm("Are you sure you want to delete this news?")) return;
+
+  db.collection("news").doc(id).delete();
+}
+
+
