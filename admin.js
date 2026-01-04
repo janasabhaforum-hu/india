@@ -19,3 +19,16 @@ function login() {
     .catch(err => alert(err.message));
 }
 </script>
+
+const db = firebase.firestore();
+
+function addNews() {
+  db.collection("news").add({
+    title: title.value,
+    content: content.value,
+    date: new Date()
+  }).then(() => {
+    alert("News Published");
+  });
+}
+
