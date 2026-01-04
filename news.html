@@ -1,11 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Janasabha News</title>
+</head>
+<body>
+
 <h2>Latest News</h2>
 <div id="news"></div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script>
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+<script src="admin.js"></script>
 
+<script>
 db.collection("news")
   .orderBy("date", "desc")
   .onSnapshot(snapshot => {
@@ -17,3 +24,6 @@ db.collection("news")
     document.getElementById("news").innerHTML = html;
   });
 </script>
+
+</body>
+</html>
