@@ -1,8 +1,20 @@
-<h2>Add News</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body>
 
-<input id="title" placeholder="Title"><br>
-<textarea id="content" placeholder="News content"></textarea><br>
+<h2>Publish News</h2>
+
+<input id="title" placeholder="News Title"><br><br>
+<textarea id="content" placeholder="News Content"></textarea><br><br>
 <button onclick="addNews()">Publish</button>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="admin.js"></script>
+
+</body>
+</html>
