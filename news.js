@@ -9,54 +9,53 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
+const auth = firebase.auth();
 
-// 🔹 Load News
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
-    let html = "";
-
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      html += `
-        <article>
-          <h3>${data.title}</h3>
-          <p>${data.content}</p>
-          <hr>
-        </article>
-      `;
-    });
-
-    document.getElementById("news").innerHTML =
-      html || "<p>No news published yet.</p>";
-  });
-
-
+/* 🔗 Convert links to clickable */
 function linkify(text) {
-  const urlPattern = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+  return text.replace(
+    /(https?:\/\/[^\s]+)/g,
+    '<a href="$1" target="_blank">$1</a>'
+  );
 }
 
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
-    let html = "";
+/* 📰 Load News */
+auth.onAuthStateChanged(user => {
+  const isAdmin = !!user;
 
-    snapshot.forEach(doc => {
-      const data = doc.data();
+  db.collection("news")
+    .orderBy("date", "desc")
+    .onSnapshot(snapshot => {
+      let html = "";
 
-      html += `
-        <article>
-          <h3>${data.title}</h3>
-          <p>${linkify(data.content)}</p>
-          <hr>
-        </article>
-      `;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+
+        html += `
+          <article style="margin-bottom:20px">
+            <h3>${data.title}</h3>
+            <p id="content-${doc.id}">
+              ${linkify(data.content)}
+            </p>
+
+            ${
+              isAdmin
+                ? `<button onclick="editNews('${doc.id}')">Edit</button>
+                   <button onclick="deleteNews('${doc.id}')">Delete</button>`
+                : ""
+            }
+
+            <hr>
+          </article>
+        `;
+      });
+
+      document.getElementById("news").innerHTML =
+        html || "<p>No news available</p>";
     });
-
-    document.getElementById("news").innerHTML = html;
-  });
+});
 
 
 
