@@ -10,20 +10,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="admin.js"></script>
-
-<script>
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
-    let html = "";
-    snapshot.forEach(doc => {
-      html += `<h3>${doc.data().title}</h3>
-               <p>${doc.data().content}</p>`;
-    });
-    document.getElementById("news").innerHTML = html;
-  });
-</script>
+<script src="news.js"></script>
 
 </body>
 </html>
