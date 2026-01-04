@@ -1,10 +1,13 @@
 // 🔹 Firebase Config (paste your own)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID"
+  apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
+  authDomain: "janasabha-app.firebaseapp.com",
+  databaseURL: "https://janasabha-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "janasabha-app",
+  storageBucket: "janasabha-app.firebasestorage.app",
+  messagingSenderId: "596563440786",
+  appId: "1:596563440786:web:4b8264e45afecc411aa24b"
 };
-
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
