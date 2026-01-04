@@ -1,0 +1,19 @@
+<h2>Latest News</h2>
+<div id="news"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+db.collection("news")
+  .orderBy("date", "desc")
+  .onSnapshot(snapshot => {
+    let html = "";
+    snapshot.forEach(doc => {
+      html += `<h3>${doc.data().title}</h3>
+               <p>${doc.data().content}</p>`;
+    });
+    document.getElementById("news").innerHTML = html;
+  });
+</script>
