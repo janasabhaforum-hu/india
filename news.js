@@ -31,3 +31,30 @@ db.collection("news")
     document.getElementById("news").innerHTML =
       html || "<p>No news published yet.</p>";
   });
+
+
+function linkify(text) {
+  const urlPattern = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+}
+
+db.collection("news")
+  .orderBy("date", "desc")
+  .onSnapshot(snapshot => {
+    let html = "";
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+
+      html += `
+        <article>
+          <h3>${data.title}</h3>
+          <p>${linkify(data.content)}</p>
+          <hr>
+        </article>
+      `;
+    });
+
+    document.getElementById("news").innerHTML = html;
+  });
+
