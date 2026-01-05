@@ -45,3 +45,19 @@ function publishNews() {
       document.getElementById("content").value = "";
     });
 }
+
+
+
+
+auth.onAuthStateChanged(user => {
+  if (!user) return window.location.href = "login.html";
+
+  db.collection("users").doc(user.uid).get()
+    .then(doc => {
+      if (doc.data().role !== "volunteer") {
+        alert("Access denied");
+        window.location.href = "login.html";
+      }
+    });
+});
+
