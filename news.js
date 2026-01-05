@@ -1,46 +1,65 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
-  authDomain: "janasabha-app.firebaseapp.com",
-  projectId: "janasabha-app",
-  storageBucket: "janasabha-app.firebasestorage.app",
-  messagingSenderId: "596563440786",
-  appId: "1:596563440786:web:4b8264e45afecc411aa24b"
-};
+// news.js
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const newsList = document.getElementById("newsList");
+const categoryFilter = document.getElementById("categoryFilter");
 
-/* 🔗 Linkify */
-function linkify(text) {
-  return text.replace(
-    /(https?:\/\/[^\s]+)/g,
-    '<a href="$1" target="_blank">$1</a>'
-  );
+function formatDate(ts) {
+  if (!ts) return "";
+  const d = ts.toDate(); // Firestore Timestamp -> JS Date
+  return d.toLocaleString(); // shows date+time in local format
 }
 
-/* 📰 Load News */
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
+async function loadNews() {
+  newsList.innerHTML = "Loading...";
 
-    let html = "";
+  try {
+    // Always get latest first
+    const snap = await db.collection("news")
+      .orderBy("date", "desc")
+      .limit(50)
+      .get();
 
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const date = d.date?.toDate().toLocaleDateString("en-IN");
+    const selected = categoryFilter.value;
 
-      html += `
-        <article>
-          <h3>${d.title}</h3>
-          <small>
-            Reporter: <b>${d.reporter}</b> | ${date}
-          </small>
-          <p>${linkify(d.content)}</p>
-          <hr>
-        </article>
-      `;
-    });
+    const items = [];
+    snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
 
-    document.getElementById("news").innerHTML =
-      html || "<p>No news available</p>";
-  });
+    const filtered = (selected === "ALL")
+      ? items
+      : items.filter(n => n.category === selected);
+
+    if (filtered.length === 0) {
+      newsList.innerHTML = "<p>No news found.</p>";
+      return;
+    }
+
+    newsList.innerHTML = filtered.map(n => `
+      <div style="border:1px solid #ddd; padding:12px; margin-bottom:10px;">
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(n.title || "")}</h3>
+        <div style="font-size:13px; color:#555; margin-bottom:8px;">
+          <b>Category:</b> ${escapeHtml(n.category || "General")} |
+          <b>Date:</b> ${escapeHtml(formatDate(n.date))} |
+          <b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}
+        </div>
+        <div>${escapeHtml(n.content || "").replace(/\n/g, "<br>")}</div>
+      </div>
+    `).join("");
+
+  } catch (e) {
+    newsList.innerHTML = "<p style='color:red;'>Error: " + escapeHtml(e.message) + "</p>";
+  }
+}
+
+// Basic HTML escaping for safety
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+categoryFilter.addEventListener("change", loadNews);
+
+loadNews();
