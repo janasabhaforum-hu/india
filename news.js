@@ -21,24 +21,24 @@ function linkify(text) {
   );
 }
 
-/* 📰 Load News */
 auth.onAuthStateChanged(user => {
-  const isAdmin = !!user;
+
+  const isAdmin =
+    !!user && window.location.pathname.includes("admin.html");
 
   db.collection("news")
     .orderBy("date", "desc")
     .onSnapshot(snapshot => {
+
       let html = "";
 
       snapshot.forEach(doc => {
         const data = doc.data();
 
         html += `
-          <article style="margin-bottom:20px">
+          <article>
             <h3>${data.title}</h3>
-            <p id="content-${doc.id}">
-              ${linkify(data.content)}
-            </p>
+            <p>${linkify(data.content)}</p>
 
             ${
               isAdmin
@@ -51,6 +51,12 @@ auth.onAuthStateChanged(user => {
           </article>
         `;
       });
+
+      document.getElementById("news").innerHTML =
+        html || "<p>No news available</p>";
+    });
+});
+
 
       document.getElementById("news").innerHTML =
         html || "<p>No news available</p>";
