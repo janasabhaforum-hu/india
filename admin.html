@@ -7,13 +7,27 @@
 
 <h2>Publish News</h2>
 
+<p><b>Reporter:</b> <span id="reporterName">Loading...</span></p>
+
+<label>Category:</label><br>
+<select id="category">
+  <option value="Community News">Community News</option>
+  <option value="Events">Events</option>
+  <option value="Education">Education</option>
+  <option value="Health">Health</option>
+  <option value="Announcements">Announcements</option>
+</select>
+<br><br>
+
 <input id="title" placeholder="News Title"><br><br>
 <textarea id="content" placeholder="News Content"></textarea><br><br>
-<button onclick="addNews()">Publish</button>
+<button id="publishBtn" onclick="addNews()" disabled>Publish</button>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script src="firebase.js"></script>
 <script src="admin.js"></script>
 
 </body>
