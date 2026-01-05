@@ -1,4 +1,4 @@
-// 🔹 Firebase Config
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
-/* 🔗 Convert links to clickable */
+/* Convert links to clickable */
 function linkify(text) {
   return text.replace(
     /(https?:\/\/[^\s]+)/g,
@@ -21,44 +21,35 @@ function linkify(text) {
   );
 }
 
-auth.onAuthStateChanged(user => {
+// 🔹 Detect admin page
+const isAdminPage = window.location.pathname.includes("admin.html");
 
-  const isAdmin =
-    !!user && window.location.pathname.includes("admin.html");
+// 🔹 Load news for PUBLIC + ADMIN
+db.collection("news")
+  .orderBy("date", "desc")
+  .onSnapshot(snapshot => {
 
-  db.collection("news")
-    .orderBy("date", "desc")
-    .onSnapshot(snapshot => {
+    let html = "";
 
-      let html = "";
+    snapshot.forEach(doc => {
+      const data = doc.data();
 
-      snapshot.forEach(doc => {
-        const data = doc.data();
+      html += `
+        <article>
+          <h3>${data.title}</h3>
+          <p>${linkify(data.content)}</p>
+      `;
 
+      if (isAdminPage) {
         html += `
-          <article>
-            <h3>${data.title}</h3>
-            <p>${linkify(data.content)}</p>
-
-            ${
-              isAdmin
-                ? `<button onclick="editNews('${doc.id}')">Edit</button>
-                   <button onclick="deleteNews('${doc.id}')">Delete</button>`
-                : ""
-            }
-
-            <hr>
-          </article>
+          <button onclick="editNews('${doc.id}')">Edit</button>
+          <button onclick="deleteNews('${doc.id}')">Delete</button>
         `;
-      });
+      }
 
-      document.getElementById("news").innerHTML =
-        html || "<p>No news available</p>";
+      html += `<hr></article>`;
     });
-});
 
-
-      document.getElementById("news").innerHTML =
-        html || "<p>No news available</p>";
-    });
-});
+    document.getElementById("news").innerHTML =
+      html || "<p>No news available</p>";
+  });
