@@ -1,5 +1,4 @@
 // firebase.js
-
 var firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -9,9 +8,9 @@ var firebaseConfig = {
   appId: "1:596563440786:web:4b8264e45afecc411aa24b"
 };
 
-// IMPORTANT: use var so it becomes global in browser
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+var auth = firebase.auth();
 var db = firebase.firestore();
