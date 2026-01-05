@@ -6,36 +6,46 @@
 <body>
 
 <h2>Latest News</h2>
-<div id="news"></div>
+<div id="news">Loading news...</div>
 
+<!-- Firebase SDKs (ORDER MATTERS) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="news.js"></script>
-  <style>
-button {
-  padding: 6px 10px;
-  margin-right: 6px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
-button:first-of-type {
-  background: #1b7f3a;
-  color: white;
-}
+<!-- Your Firebase config -->
+<script src="admin.js"></script>
 
-button:last-of-type {
-  background: #c62828;
-  color: white;
-}
-</style>
+<script>
+  // 🔴 SAFETY CHECK
+  if (typeof db === "undefined") {
+    document.getElementById("news").innerHTML =
+      "❌ Firestore not initialized. Check admin.js loading.";
+  } else {
+    db.collection("news")
+      .orderBy("date", "desc")
+      .onSnapshot(
+        snapshot => {
+          let html = "";
+          snapshot.forEach(doc => {
+            const d = doc.data();
+            html += `
+              <div>
+                <h3>${d.title}</h3>
+                <p>${d.content}</p>
+                <hr>
+              </div>
+            `;
+          });
+          document.getElementById("news").innerHTML =
+            html || "No news published yet.";
+        },
+        error => {
+          document.getElementById("news").innerHTML =
+            "❌ Error: " + error.message;
+        }
+      );
+  }
+</script>
 
-
-
-
-
-
-  
 </body>
 </html>
