@@ -23,7 +23,15 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script src="firebase.js"></script>
+
+<script>
+  console.log("firebase.js loaded? firebase =", typeof firebase);
+  console.log("firebase apps =", firebase?.apps?.length);
+  console.log("db loaded? db =", typeof db);
+</script>
+
 <script src="news.js"></script>
+
 
 </body>
 </html>
