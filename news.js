@@ -26,7 +26,7 @@ async function loadNews() {
     // Always get latest first
     const snap = await db.collection("news")
       .orderBy("date", "desc")
-      .limit(50)
+      .limit(10)
       .get();
 
     const selected = categoryFilter.value;
