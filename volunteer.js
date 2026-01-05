@@ -1,3 +1,4 @@
+// 🔹 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -8,39 +9,39 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
 const db = firebase.firestore();
 
-/* 🔗 Linkify */
-function linkify(text) {
-  return text.replace(
-    /(https?:\/\/[^\s]+)/g,
-    '<a href="$1" target="_blank">$1</a>'
-  );
-}
+/* 🔐 Protect page */
+auth.onAuthStateChanged(user => {
+  if (!user) window.location.href = "login.html";
+});
 
-/* 📰 Load News */
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
+/* 📰 Publish News */
+function publishNews() {
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
+  const user = auth.currentUser;
 
-    let html = "";
+  if (!user) return alert("Not logged in");
 
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const date = d.date?.toDate().toLocaleDateString("en-IN");
+  db.collection("volunteers").doc(user.uid).get()
+    .then(doc => {
+      if (!doc.exists) return alert("Volunteer profile missing");
 
-      html += `
-        <article>
-          <h3>${d.title}</h3>
-          <small>
-            Reporter: <b>${d.reporter}</b> | ${date}
-          </small>
-          <p>${linkify(d.content)}</p>
-          <hr>
-        </article>
-      `;
+      const reporterName = doc.data().name;
+
+      return db.collection("news").add({
+        title,
+        content,
+        reporter: reporterName,
+        date: new Date()
+      });
+    })
+    .then(() => {
+      alert("News published");
+      document.getElementById("title").value = "";
+      document.getElementById("content").value = "";
     });
-
-    document.getElementById("news").innerHTML =
-      html || "<p>No news available</p>";
-  });
+}
