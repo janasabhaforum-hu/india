@@ -63,3 +63,12 @@ function escapeHtml(str) {
 categoryFilter.addEventListener("change", loadNews);
 
 loadNews();
+
+
+
+
+
+  console.log("firebase.js loaded?", typeof firebase);
+  console.log("db loaded?", typeof db);
+
+
