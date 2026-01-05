@@ -40,3 +40,18 @@ function addNews() {
     alert("News published");
   });
 }
+
+
+
+auth.onAuthStateChanged(user => {
+  if (!user) return window.location.href = "login.html";
+
+  db.collection("users").doc(user.uid).get()
+    .then(doc => {
+      if (doc.data().role !== "admin") {
+        alert("Access denied");
+        window.location.href = "login.html";
+      }
+    });
+});
+
