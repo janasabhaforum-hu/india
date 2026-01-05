@@ -1,4 +1,4 @@
-// Firebase Config
+// 🔹 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -11,9 +11,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
-const auth = firebase.auth();
 
-/* Convert links to clickable */
+/* 🔗 Convert links to clickable */
 function linkify(text) {
   return text.replace(
     /(https?:\/\/[^\s]+)/g,
@@ -21,10 +20,7 @@ function linkify(text) {
   );
 }
 
-// 🔹 Detect admin page
-const isAdminPage = window.location.pathname.includes("admin.html");
-
-// 🔹 Load news for PUBLIC + ADMIN
+/* 📰 Load News (NO AUTH REQUIRED) */
 db.collection("news")
   .orderBy("date", "desc")
   .onSnapshot(snapshot => {
@@ -38,16 +34,9 @@ db.collection("news")
         <article>
           <h3>${data.title}</h3>
           <p>${linkify(data.content)}</p>
+          <hr>
+        </article>
       `;
-
-      if (isAdminPage) {
-        html += `
-          <button onclick="editNews('${doc.id}')">Edit</button>
-          <button onclick="deleteNews('${doc.id}')">Delete</button>
-        `;
-      }
-
-      html += `<hr></article>`;
     });
 
     document.getElementById("news").innerHTML =
