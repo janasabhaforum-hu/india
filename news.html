@@ -6,46 +6,27 @@
 <body>
 
 <h2>Latest News</h2>
-<div id="news">Loading news...</div>
+<div id="news"></div>
 
-<!-- Firebase SDKs (ORDER MATTERS) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-<!-- Your Firebase config -->
 <script src="admin.js"></script>
 
 <script>
-  // 🔴 SAFETY CHECK
-  if (typeof db === "undefined") {
-    document.getElementById("news").innerHTML =
-      "❌ Firestore not initialized. Check admin.js loading.";
-  } else {
-    db.collection("news")
-      .orderBy("date", "desc")
-      .onSnapshot(
-        snapshot => {
-          let html = "";
-          snapshot.forEach(doc => {
-            const d = doc.data();
-            html += `
-              <div>
-                <h3>${d.title}</h3>
-                <p>${d.content}</p>
-                <hr>
-              </div>
-            `;
-          });
-          document.getElementById("news").innerHTML =
-            html || "No news published yet.";
-        },
-        error => {
-          document.getElementById("news").innerHTML =
-            "❌ Error: " + error.message;
-        }
-      );
-  }
+db.collection("news")
+  .orderBy("date", "desc")
+  .onSnapshot(snapshot => {
+    let html = "";
+    snapshot.forEach(doc => {
+      html += `<h3>${doc.data().title}</h3>
+               <p>${doc.data().content}</p>`;
+    });
+    document.getElementById("news").innerHTML = html;
+  });
 </script>
+
+
+
 
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
