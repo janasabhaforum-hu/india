@@ -1,5 +1,15 @@
 // news.js
 
+
+if (typeof db === "undefined") {
+  document.getElementById("newsList").innerHTML =
+    "<p style='color:red;'>Error: db is not defined. firebase.js not loaded.</p>";
+  throw new Error("db is not defined");
+}
+
+
+
+
 const newsList = document.getElementById("newsList");
 const categoryFilter = document.getElementById("categoryFilter");
 
