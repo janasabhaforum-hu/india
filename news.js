@@ -1,4 +1,3 @@
-// 🔹 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -9,10 +8,9 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
-/* 🔗 Convert links to clickable */
+/* 🔗 Linkify */
 function linkify(text) {
   return text.replace(
     /(https?:\/\/[^\s]+)/g,
@@ -20,7 +18,7 @@ function linkify(text) {
   );
 }
 
-/* 📰 Load News (NO AUTH REQUIRED) */
+/* 📰 Load News */
 db.collection("news")
   .orderBy("date", "desc")
   .onSnapshot(snapshot => {
@@ -28,12 +26,16 @@ db.collection("news")
     let html = "";
 
     snapshot.forEach(doc => {
-      const data = doc.data();
+      const d = doc.data();
+      const date = d.date?.toDate().toLocaleDateString("en-IN");
 
       html += `
         <article>
-          <h3>${data.title}</h3>
-          <p>${linkify(data.content)}</p>
+          <h3>${d.title}</h3>
+          <small>
+            Reporter: <b>${d.reporter}</b> | ${date}
+          </small>
+          <p>${linkify(d.content)}</p>
           <hr>
         </article>
       `;
