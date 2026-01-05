@@ -22,6 +22,8 @@
 <input id="title" placeholder="News Title"><br><br>
 <textarea id="content" placeholder="News Content"></textarea><br><br>
 <button id="publishBtn" onclick="addNews()" disabled>Publish</button>
+  <button onclick="auth.signOut().then(()=>location.href='login.html')">Logout</button>
+
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
