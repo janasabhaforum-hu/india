@@ -8,49 +8,13 @@
 <h2>Latest News</h2>
 <div id="news"></div>
 
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="admin.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-<script>
-db.collection("news")
-  .orderBy("date", "desc")
-  .onSnapshot(snapshot => {
-    let html = "";
-    snapshot.forEach(doc => {
-      html += `<h3>${doc.data().title}</h3>
-               <p>${doc.data().content}</p>`;
-    });
-    document.getElementById("news").innerHTML = html;
-  });
-</script>
-
-
-
-
-
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="admin.js"></script>
-
-<script>
-db.collection("news")
-  .orderBy("date", "desc")
-  .limit(3)
-  .onSnapshot(snapshot => {
-    let html = "";
-    snapshot.forEach(doc => {
-      html += `
-        <div class="news-item">
-          <h3>${doc.data().title}</h3>
-          <p>${doc.data().content.substring(0, 150)}...</p>
-        </div>
-      `;
-    });
-    document.getElementById("latest-news").innerHTML = html;
-  });
-</script>
-
+<!-- News logic ONLY -->
+<script src="news.js"></script>
 
 </body>
 </html>
