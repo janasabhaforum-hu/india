@@ -1,48 +1,406 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Janasabha News</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ===== BASIC RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: #fafafa;
+      color: #111;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      background: #1b1b1b;
+      height: 70px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    nav .logo { color: white; font-size: 30px; font-weight: 700; letter-spacing: 1px; }
+    nav ul { display: flex; list-style: none; }
+    nav ul li { margin: 0 15px; }
+    nav ul li a { color: white; text-decoration: none; font-size: 16px; font-weight: 500; transition: 0.3s; }
+    nav ul li a:hover, nav ul li a.active { color: yellow; }
+
+    /* ===== MOBILE MENU ===== */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .menu-toggle { display: block; }
+    }
+
+    /* ===== LANGUAGE DROPDOWN MENU ===== */
+    .language-dropdown { position: relative; display: inline-block; }
+    .lang-btn {
+      background: #1b1b1b;
+      color: #fff;
+      border: 1px solid #f1c40f;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .lang-btn:hover { background: #f1c40f; color: #1b1b1b; }
+
+    .lang-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1500;
+      overflow: hidden;
+    }
+    .lang-menu a {
+      color: #333;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+      font-size: 14px;
+    }
+    .lang-menu a:hover { background: #f1c40f; color: #1b1b1b; }
+    .lang-menu.show { display: block; }
+
+    @media (max-width: 900px) {
+      .language-dropdown {
+        display: inline-block;
+        position: absolute;
+        right: 60px;
+        top: 15px;
+        z-index: 1200;
+      }
+      .lang-btn { padding: 6px 10px; font-size: 13px; }
+    }
+
+    /* ===== MOBILE OVERLAY ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: stretch;
+      justify-content: flex-start;
+      z-index: 1200;
+    }
+    .menu-overlay.show { display: flex; }
+    .menu-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+    .side-menu {
+      position: relative;
+      width: 180px;
+      height: 100%;
+      background: rgb(101, 96, 96);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 30px 25px;
+      z-index: 1300;
+    }
+    .menu-overlay.show .side-menu { transform: translateX(0); }
+    .side-menu ul { list-style: none; }
+    .side-menu ul li { margin: 15px 0; }
+    .side-menu ul li a { color: white; text-decoration: none; font-size: 18px; }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    /* ===== BLOG CONTENT AREA ===== */
+    /* Push content below fixed navbar */
+    .page-pad { padding-top: 85px; }
+
+    header {
+      background:#fff;
+      border-bottom:1px solid #e6e6e6;
+      padding:18px 16px;
+      position: sticky;
+      top: 70px; /* sticky under navbar */
+      z-index: 900;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; }
+    h1 { margin:0; font-size: 28px; }
+    .sub { margin: 6px 0 0; color:#555; font-size:14px; }
+
+    .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+    select, input { padding:10px 12px; border:1px solid #ddd; border-radius:10px; background:#fff; font-size:14px; }
+    input { flex:1; min-width:220px; }
+
+    main { padding:18px 16px; }
+    .post {
+      background:#fff;
+      border:1px solid #e9e9e9;
+      border-radius:14px;
+      padding:16px 16px 14px;
+      margin-bottom:14px;
+      box-shadow:0 1px 2px rgba(0,0,0,.04);
+    }
+    .meta { display:flex; flex-wrap:wrap; gap:10px; color:#666; font-size:13px; margin:6px 0 10px; }
+    .badge { border:1px solid #ddd; border-radius:999px; padding:2px 10px; background:#fff; }
+    .title { margin:0; font-size:20px; line-height:1.25; }
+    .content { margin:10px 0 0; color:#222; line-height:1.55; white-space:pre-wrap; }
+    .error { color:#b00020; padding:10px 0; }
+    .loading { color:#555; }
+
+    /* ===== FOOTER ===== */
+    footer.footer {
+      background: #2c3e50;
+      color: white;
+      padding: 60px 0 20px 0;
+      margin-top: 24px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+    .footer-section h3 { color: #f1c40f; margin-bottom: 15px; font-size: 1.2rem; }
+    .footer-section ul { list-style: none; padding: 0; }
+    .footer-section ul li { margin-bottom: 8px; }
+    .footer-section ul li a { color: white; text-decoration: none; transition: 0.3s; }
+    .footer-section ul li a:hover { color: #f1c40f; }
+
+    .social-icons a {
+      display: inline-block;
+      width: 40px; height: 40px; line-height: 40px;
+      margin: 5px;
+      background: #f1c40f; color: #2c3e50;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .social-icons a:hover { background: #d4ac0d; color: #fff; }
+    .motto p { font-style: italic; font-size: 1rem; color: #f8f8f8; }
+
+    .footer-bottom {
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+      padding-top: 15px;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+  </style>
 </head>
+
 <body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
 
-<h2>Latest News</h2>
+    <ul>
+      <li><a href="index.html#home-section" class="active">Home</a></li>
+      <li><a href="index.html#aboutus-section">About Us</a></li>
+      <li><a href="page-mannjan.html">Model Unit</a></li>
+      <li><a href="index.html#gallery-section">Gallery</a></li>
+      <li><a href="index.html#testimony-section">Testimonies</a></li>
+      <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="index.html#contact-section">Contact Us</a></li>
+    </ul>
 
-<label>Filter by Category:</label>
-<select id="categoryFilter">
-  <option value="ALL">All</option>
-  <option value="Community News">Community News</option>
-  <option value="Events">Events</option>
-  <option value="Education">Education</option>
-  <option value="Health">Health</option>
-  <option value="Announcements">Announcements</option>
-</select>
+    <!-- Language Dropdown -->
+    <div class="language-dropdown">
+      <button class="lang-btn" id="langBtn" type="button">
+        🌐 <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="lang-menu" id="langMenu">
+        <a href="#" data-lang="en">English</a>
+        <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
+        <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
+        <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
+        <a href="#" data-lang="te">తెలుగు (Telugu)</a>
+        <a href="#" data-lang="bn">বাংলা (Bengali)</a>
+        <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
+        <a href="#" data-lang="mr">मराठी (Marathi)</a>
+      </div>
+    </div>
 
-<div id="newsList" style="margin-top:15px;"></div>
+    <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu" type="button">
+      <i class="fa fa-bars"></i>
+    </button>
+  </nav>
 
+  <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="side-menu">
+      <button class="close-btn" id="closeMenuBtn" type="button">&times;</button>
+      <ul class="menu-list">
+        <li><a href="index.html#home-section" class="active">Home</a></li>
+        <li><a href="index.html#aboutus-section">About Us</a></li>
+        <li><a href="page-mannjan.html">Model Unit</a></li>
+        <li><a href="index.html#gallery-section">Gallery</a></li>
+        <li><a href="index.html#testimony-section">Testimonies</a></li>
+        <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="index.html#contact-section">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
 
+  <div class="page-pad">
+    <header>
+      <div class="wrap">
+        <h1>Latest News</h1>
+        <div class="sub">Janasabha community updates</div>
+
+        <div class="toolbar">
+          <label for="categoryFilter" style="font-size:14px;color:#444;">Category:</label>
+          <select id="categoryFilter">
+            <option value="ALL">All</option>
+            <option value="Community News">Community News</option>
+            <option value="Events">Events</option>
+            <option value="Education">Education</option>
+            <option value="Health">Health</option>
+            <option value="Announcements">Announcements</option>
+          </select>
+
+          <input id="searchBox" type="search" placeholder="Search title/content…" />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <div id="newsList" class="loading">Loading…</div>
+      </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html#home-section" class="active">Home</a></li>
+            <li><a href="index.html#aboutus-section">About Us</a></li>
+            <li><a href="page-mannjan.html">Model Unit</a></li>
+            <li><a href="index.html#gallery-section">Gallery</a></li>
+            <li><a href="index.html#testimony-section">Testimonies</a></li>
+            <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+            <li><a href="index.html#contact-section">Contact Us</a></li>
+            <li><a href="login.html">Admin Login</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-section motto">
+          <h3>Our Motto</h3>
+          <p>“Love, Unity, and Development”</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Mannanam Janasabha. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== UI SCRIPTS (NAV + LANG) ===== -->
+  <script>
+    // Side menu
+    document.addEventListener("DOMContentLoaded", function () {
+      const openMenuBtn = document.getElementById("openMenuBtn");
+      const closeMenuBtn = document.getElementById("closeMenuBtn");
+      const menuOverlay = document.getElementById("menuOverlay");
+
+      openMenuBtn.addEventListener("click", function () {
+        menuOverlay.classList.add("show");
+      });
+
+      closeMenuBtn.addEventListener("click", function () {
+        menuOverlay.classList.remove("show");
+      });
+
+      menuOverlay.addEventListener("click", function (e) {
+        if (e.target === menuOverlay) {
+          menuOverlay.classList.remove("show");
+        }
+      });
+    });
+
+    // Language dropdown toggle (click)
+    const langBtn = document.getElementById("langBtn");
+    const langMenu = document.getElementById("langMenu");
+
+    langBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      langMenu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".language-dropdown")) {
+        langMenu.classList.remove("show");
+      }
+    });
+  </script>
+
+  <!-- Google Translate (optional) -->
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,ml,ta,te,bn,kn,mr',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- ===== FIREBASE (ONLY ONCE) ===== -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-<script src="firebase.js?v=10"></script>
-<script src="news.js?v=10"></script>
-
- 
-<script>
-  window.addEventListener("error", (e) => {
-    console.log("GLOBAL ERROR:", e.message, "at", e.filename, "line", e.lineno);
-  });
-</script>
-
-
-
-<script>
-  console.log("firebase.js loaded? firebase =", typeof firebase);
-  console.log("firebase apps =", firebase?.apps?.length);
-  console.log("db loaded? db =", typeof db);
-</script>
-
-<script src="news.js"></script>
-
-
+  <script src="firebase.js?v=10"></script>
+  <script src="news.js?v=10"></script>
 </body>
 </html>
