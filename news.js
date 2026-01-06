@@ -14,7 +14,8 @@ console.log("db loaded?", typeof db);
 
 const newsList = document.getElementById("newsList");
 const categoryFilter = document.getElementById("categoryFilter");
-const searchBox = document.getElementById("searchBox"); // exists in your blog HTML
+const communityFilter = document.getElementById("communityFilter"); // ✅ NEW
+const searchBox = document.getElementById("searchBox");
 
 let allItems = [];
 
@@ -38,20 +39,29 @@ function escapeHtml(str) {
 }
 
 function render() {
-  const selected = categoryFilter ? categoryFilter.value : "ALL";
+  const selectedCategory = categoryFilter ? categoryFilter.value : "ALL";
+  const selectedCommunity = communityFilter ? communityFilter.value : "ALL"; // ✅ NEW
   const q = searchBox ? searchBox.value.trim().toLowerCase() : "";
 
   let items = allItems;
 
-  if (selected !== "ALL") {
-    items = items.filter(n => (n.category || "General") === selected);
+  // ✅ Filter by category
+  if (selectedCategory !== "ALL") {
+    items = items.filter(n => (n.category || "General") === selectedCategory);
   }
 
+  // ✅ Filter by community
+  if (selectedCommunity !== "ALL") {
+    items = items.filter(n => (n.community || "") === selectedCommunity);
+  }
+
+  // ✅ Search
   if (q) {
     items = items.filter(n =>
       (n.title || "").toLowerCase().includes(q) ||
       (n.content || "").toLowerCase().includes(q) ||
-      (n.reporterName || "").toLowerCase().includes(q)
+      (n.reporterName || "").toLowerCase().includes(q) ||
+      (n.community || "").toLowerCase().includes(q)
     );
   }
 
@@ -60,12 +70,14 @@ function render() {
     return;
   }
 
+  // ✅ Render
   newsList.innerHTML = items.map(n => `
     <article class="post">
       <h2 class="title">${escapeHtml(n.title || "")}</h2>
 
       <div class="meta">
         <span class="badge">${escapeHtml(n.category || "General")}</span>
+        <span class="badge">${escapeHtml(n.community || "All Communities")}</span>
         <span><b>Date:</b> ${escapeHtml(formatDate(n.date))}</span>
         <span><b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}</span>
       </div>
@@ -81,7 +93,7 @@ async function loadNews() {
   try {
     const snap = await db.collection("news")
       .orderBy("date", "desc")
-      .limit(30)
+      .limit(50)
       .get();
 
     allItems = [];
@@ -95,6 +107,7 @@ async function loadNews() {
 
 // Events
 if (categoryFilter) categoryFilter.addEventListener("change", render);
+if (communityFilter) communityFilter.addEventListener("change", render); // ✅ NEW
 if (searchBox) searchBox.addEventListener("input", render);
 
 // Load on start
