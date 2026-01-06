@@ -12,5 +12,8 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-var auth = firebase.auth();
+// ✅ Always create db
 var db = firebase.firestore();
+
+// ✅ Only create auth if auth SDK is loaded
+var auth = (firebase.auth ? firebase.auth() : null);
