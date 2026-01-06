@@ -1,68 +1,35 @@
 // news.js
 
-
+// Safety check (shows a clear message if firebase.js failed)
 if (typeof db === "undefined") {
-  document.getElementById("newsList").innerHTML =
-    "<p style='color:red;'>Error: db is not defined. firebase.js not loaded.</p>";
+  const el = document.getElementById("newsList");
+  if (el) {
+    el.innerHTML = "<div class='error'>Error: db is not defined. firebase.js not loaded.</div>";
+  }
   throw new Error("db is not defined");
 }
 
-
-
+console.log("firebase loaded?", typeof firebase);
+console.log("db loaded?", typeof db);
 
 const newsList = document.getElementById("newsList");
 const categoryFilter = document.getElementById("categoryFilter");
+const searchBox = document.getElementById("searchBox"); // exists in your blog HTML
+
+let allItems = [];
 
 function formatDate(ts) {
   if (!ts) return "";
-  const d = ts.toDate(); // Firestore Timestamp -> JS Date
-  return d.toLocaleString(); // shows date+time in local format
-}
-
-async function loadNews() {
-  newsList.innerHTML = "Loading...";
-
   try {
-    // Always get latest first
-    const snap = await db.collection("news")
-      .orderBy("date", "desc")
-      .limit(10)
-      .get();
-
-    const selected = categoryFilter.value;
-
-    const items = [];
-    snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-
-    const filtered = (selected === "ALL")
-      ? items
-      : items.filter(n => n.category === selected);
-
-    if (filtered.length === 0) {
-      newsList.innerHTML = "<p>No news found.</p>";
-      return;
-    }
-
-    newsList.innerHTML = filtered.map(n => `
-      <div style="border:1px solid #ddd; padding:12px; margin-bottom:10px;">
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(n.title || "")}</h3>
-        <div style="font-size:13px; color:#555; margin-bottom:8px;">
-          <b>Category:</b> ${escapeHtml(n.category || "General")} |
-          <b>Date:</b> ${escapeHtml(formatDate(n.date))} |
-          <b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}
-        </div>
-        <div>${escapeHtml(n.content || "").replace(/\n/g, "<br>")}</div>
-      </div>
-    `).join("");
-
-  } catch (e) {
-    newsList.innerHTML = "<p style='color:red;'>Error: " + escapeHtml(e.message) + "</p>";
+    return ts.toDate().toLocaleString();
+  } catch {
+    return "";
   }
 }
 
-// Basic HTML escaping for safety
+// Basic HTML escaping
 function escapeHtml(str) {
-  return String(str)
+  return String(str ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -70,15 +37,65 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-categoryFilter.addEventListener("change", loadNews);
+function render() {
+  const selected = categoryFilter ? categoryFilter.value : "ALL";
+  const q = searchBox ? searchBox.value.trim().toLowerCase() : "";
 
+  let items = allItems;
+
+  if (selected !== "ALL") {
+    items = items.filter(n => (n.category || "General") === selected);
+  }
+
+  if (q) {
+    items = items.filter(n =>
+      (n.title || "").toLowerCase().includes(q) ||
+      (n.content || "").toLowerCase().includes(q) ||
+      (n.reporterName || "").toLowerCase().includes(q)
+    );
+  }
+
+  if (!items.length) {
+    newsList.innerHTML = "<div class='error'>No news found.</div>";
+    return;
+  }
+
+  newsList.innerHTML = items.map(n => `
+    <article class="post">
+      <h2 class="title">${escapeHtml(n.title || "")}</h2>
+
+      <div class="meta">
+        <span class="badge">${escapeHtml(n.category || "General")}</span>
+        <span><b>Date:</b> ${escapeHtml(formatDate(n.date))}</span>
+        <span><b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}</span>
+      </div>
+
+      <div class="content">${escapeHtml(n.content || "")}</div>
+    </article>
+  `).join("");
+}
+
+async function loadNews() {
+  newsList.innerHTML = "<div class='loading'>Loading…</div>";
+
+  try {
+    const snap = await db.collection("news")
+      .orderBy("date", "desc")
+      .limit(30)
+      .get();
+
+    allItems = [];
+    snap.forEach(doc => allItems.push({ id: doc.id, ...doc.data() }));
+
+    render();
+  } catch (e) {
+    newsList.innerHTML = "<div class='error'>Error: " + escapeHtml(e.message) + "</div>";
+  }
+}
+
+// Events
+if (categoryFilter) categoryFilter.addEventListener("change", render);
+if (searchBox) searchBox.addEventListener("input", render);
+
+// Load on start
 loadNews();
-
-
-
-
-
-  console.log("firebase.js loaded?", typeof firebase);
-  console.log("db loaded?", typeof db);
-
-
