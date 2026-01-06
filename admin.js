@@ -1,8 +1,5 @@
-// admin.js
-
 let currentUserData = null;
 
-// Protect page + load reporter info
 auth.onAuthStateChanged(async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -21,14 +18,13 @@ auth.onAuthStateChanged(async (user) => {
 
     currentUserData = doc.data();
 
-    if (currentUserData.role !== "admin") {
+    if ((currentUserData.role || "").toLowerCase() !== "admin") {
       alert("Access denied (admin only)");
       await auth.signOut();
       window.location.href = "login.html";
       return;
     }
 
-    // Show reporter name (fallback to email if name missing)
     document.getElementById("reporterName").innerText =
       currentUserData.name || user.email;
 
@@ -39,11 +35,14 @@ auth.onAuthStateChanged(async (user) => {
   }
 });
 
-// Publish news
 async function addNews() {
+  const btn = document.getElementById("publishBtn");
   const title = document.getElementById("title").value.trim();
   const content = document.getElementById("content").value.trim();
-  const category = document.getElementById("category").value;
+  const category = document.getElementById("category")?.value || "Community News";
+
+  const communityEl = document.getElementById("community");
+  const community = communityEl ? communityEl.value : ""; // safe
 
   if (!title || !content) {
     alert("Please enter title and content");
@@ -58,16 +57,18 @@ async function addNews() {
   }
 
   try {
-    const community = document.getElementById("community").value;
+    btn.disabled = true;
+    btn.innerText = "Publishing...";
+
     await db.collection("news").add({
-  title,
-  content,
-  category,
-  community, // ✅ add this
-  reporterName: currentUserData.name || user.email,
-  reporterUid: user.uid,
-  date: firebase.firestore.FieldValue.serverTimestamp()
-});
+      title,
+      content,
+      category,
+      community,
+      reporterName: currentUserData.name || user.email,
+      reporterUid: user.uid,
+      date: firebase.firestore.FieldValue.serverTimestamp()
+    });
 
     alert("News published!");
 
@@ -76,5 +77,8 @@ async function addNews() {
 
   } catch (e) {
     alert("Publish failed: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerText = "Publish";
   }
 }
