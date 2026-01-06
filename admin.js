@@ -58,14 +58,16 @@ async function addNews() {
   }
 
   try {
+    const community = document.getElementById("community").value;
     await db.collection("news").add({
-      title,
-      content,
-      category,
-      reporterName: currentUserData.name || user.email,
-      reporterUid: user.uid,
-      date: firebase.firestore.FieldValue.serverTimestamp()
-    });
+  title,
+  content,
+  category,
+  community, // ✅ add this
+  reporterName: currentUserData.name || user.email,
+  reporterUid: user.uid,
+  date: firebase.firestore.FieldValue.serverTimestamp()
+});
 
     alert("News published!");
 
