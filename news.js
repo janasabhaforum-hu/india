@@ -90,31 +90,42 @@ function render() {
 
 
 
+function extractYouTubeId(url) {
+  const m = String(url || "").match(/(?:v=|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return m ? m[1] : null;
+}
+
 function renderMedia(n) {
   const type = (n.mediaType || "").toLowerCase();
   const url = (n.mediaUrl || "").trim();
   if (!url) return "";
 
   if (type === "image") {
-    return `<div style="margin-top:10px;">
-              <img src="${escapeHtml(url)}" alt="news image"
-                   style="max-width:100%; border-radius:12px;">
-            </div>`;
+    return `
+      <div style="margin-top:10px;">
+        <img src="${escapeHtml(url)}"
+             alt="news image"
+             style="max-width:100%; border-radius:12px; border:1px solid #eee;">
+      </div>`;
   }
 
   if (type === "youtube") {
     const id = extractYouTubeId(url);
     if (!id) return "";
-    return `<div style="margin-top:10px; aspect-ratio:16/9;">
-              <iframe width="100%" height="100%" style="border:0;border-radius:12px;"
-                src="https://www.youtube.com/embed/${id}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-            </div>`;
+    return `
+      <div style="margin-top:10px; aspect-ratio:16/9;">
+        <iframe
+          width="100%" height="100%"
+          style="border:0;border-radius:12px;"
+          src="https://www.youtube.com/embed/${id}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>`;
   }
 
   return "";
 }
+
 
 function extractYouTubeId(url) {
   const m = url.match(/(?:v=|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
