@@ -82,7 +82,16 @@ function render() {
         <span><b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}</span>
       </div>
 
-      <div class="content">${escapeHtml(n.content || "")}</div>
+      <div class="content">${linkify(escapeHtml(n.content || ""))}</div>
+function linkify(text) {
+  // Convert URLs into clickable links (keeps your HTML escaping safe)
+  const urlRegex = /(https?:\/\/[^\s<]+)/g;
+  return text.replace(urlRegex, (url) => {
+    const safeUrl = url.replace(/"/g, "%22");
+    return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  });
+}
+
     </article>
   `).join("");
 }
