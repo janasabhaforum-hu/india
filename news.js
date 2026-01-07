@@ -72,29 +72,56 @@ function render() {
 
   // ✅ Render
   newsList.innerHTML = items.map(n => `
-    <article class="post">
-      <h2 class="title">${escapeHtml(n.title || "")}</h2>
+  <article class="post">
+    <h2 class="title">${escapeHtml(n.title || "")}</h2>
 
-      <div class="meta">
-        <span class="badge">${escapeHtml(n.category || "General")}</span>
-        <span class="badge">${escapeHtml(n.community || "All Communities")}</span>
-        <span><b>Date:</b> ${escapeHtml(formatDate(n.date))}</span>
-        <span><b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}</span>
-      </div>
+    <div class="meta">
+      <span class="badge">${escapeHtml(n.category || "General")}</span>
+      <span class="badge">${escapeHtml(n.community || "All Communities")}</span>
+      <span><b>Date:</b> ${escapeHtml(formatDate(n.date))}</span>
+      <span><b>Reporter:</b> ${escapeHtml(n.reporterName || "Admin")}</span>
+    </div>
 
-      <div class="content">${linkify(escapeHtml(n.content || ""))}</div>
-function linkify(text) {
-  // Convert URLs into clickable links (keeps your HTML escaping safe)
-  const urlRegex = /(https?:\/\/[^\s<]+)/g;
-  return text.replace(urlRegex, (url) => {
-    const safeUrl = url.replace(/"/g, "%22");
-    return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-  });
+    <div class="content">${linkify(escapeHtml(n.content || ""))}</div>
+
+    ${renderMedia(n)}   <!-- ✅ THIS LINE IS REQUIRED -->
+  </article>
+`).join("");
+
+
+
+function renderMedia(n) {
+  const type = (n.mediaType || "").toLowerCase();
+  const url = (n.mediaUrl || "").trim();
+  if (!url) return "";
+
+  if (type === "image") {
+    return `<div style="margin-top:10px;">
+              <img src="${escapeHtml(url)}" alt="news image"
+                   style="max-width:100%; border-radius:12px;">
+            </div>`;
+  }
+
+  if (type === "youtube") {
+    const id = extractYouTubeId(url);
+    if (!id) return "";
+    return `<div style="margin-top:10px; aspect-ratio:16/9;">
+              <iframe width="100%" height="100%" style="border:0;border-radius:12px;"
+                src="https://www.youtube.com/embed/${id}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>`;
+  }
+
+  return "";
 }
 
-    </article>
-  `).join("");
+function extractYouTubeId(url) {
+  const m = url.match(/(?:v=|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return m ? m[1] : null;
 }
+
+
 
 async function loadNews() {
   newsList.innerHTML = "<div class='loading'>Loading…</div>";
