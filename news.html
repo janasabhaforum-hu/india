@@ -1,262 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Janasabha News</title>
 
   <style>
     :root{
-      --bg:#d6e5f7;
-      --text:#0f172a;
-      --muted:#475569;
-      --card:#ffffff;
-      --line:#e2e8f0;
+      --bg: #dbeafe;         /* light blue background like screenshot */
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
       --soft:#f8fafc;
-      --accent:#0ea5e9;
-      --radius:16px;
-      --shadow: 0 10px 24px rgba(2,6,23,.08);
+      --pill:#eef2ff;
+      --shadow: 0 10px 22px rgba(2,6,23,.08);
+      --radius: 18px;
+
+      --accent:#7aa6b1;      /* search bar color */
+      --accent2:#bfe3f3;     /* login button soft blue */
     }
 
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background: var(--bg);
       color: var(--text);
     }
     a{color:inherit; text-decoration:none}
 
-    .wrap{max-width:1180px; margin:0 auto; padding:16px;}
+    .wrap{max-width:1200px; margin:0 auto; padding:18px;}
 
-    /* Header */
-    header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+    /* ===== HEADER (centered) ===== */
+    .headerCenter{
+      text-align:center;
       margin-bottom:14px;
     }
-    .brand h1{margin:0; font-size:1.35rem; letter-spacing:.2px;}
-    .brand p{margin:.35rem 0 0; color:var(--muted);}
-
-    .loginTop{
-      display:flex;
-      justify-content:flex-end;
-      align-items:center;
-      gap:10px;
-      width:auto;
+    .headerCenter h1{
+      margin:0;
+      font-size:1.55rem;
+      letter-spacing:.2px;
+      font-weight:800;
     }
-    .btn{
-      border:1px solid var(--line);
-      background:var(--card);
-      color:var(--text);
-      padding:10px 14px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:700;
-      box-shadow: 0 4px 10px rgba(2,6,23,.06);
-    }
-    .btn:hover{border-color:#cbd5e1}
-    .btn.primary{
-      border-color:rgba(14,165,233,.35);
-      background: rgba(14,165,233,.10);
-    }
-
-    /* Toolbar (Community dropdown on left) */
-    .toolbarRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin: 10px 0 14px;
-    }
-    .toolbarLeft{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .toolbar{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      background:var(--card);
-      border-radius:999px;
-      box-shadow: 0 4px 10px rgba(2,6,23,.05);
-    }
-    .toolbar label{
-      font-size:14px;
+    .headerCenter p{
+      margin:6px 0 0;
       color:var(--muted);
+      font-size:.95rem;
+    }
+
+    /* ===== TOP TOOLBAR ===== */
+    .topBar{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:14px;
+      align-items:center;
+      margin: 14px 0 10px;
+    }
+
+    .communityPill{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      background: var(--card);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.5);
+    }
+    .communityPill label{
+      color: var(--muted);
+      font-weight:700;
       white-space:nowrap;
     }
-    select{
-      border:1px solid var(--line);
-      background:var(--soft);
-      color:var(--text);
-      padding:9px 12px;
-      border-radius:999px;
+    .communityPill select{
+      width: 100%;
+      border:none;
       outline:none;
-      min-width: 220px;
-    }
-    select:focus{
-      border-color: rgba(14,165,233,.55);
-      box-shadow: 0 0 0 3px rgba(14,165,233,.12);
+      background:transparent;
+      font-weight:800;
+      font-size:1rem;
+      color: var(--text);
+      padding:6px 6px;
     }
 
-    /* Layout */
+    .btnPill{
+      padding:12px 18px;
+      border-radius:999px;
+      border:0;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    /* Search Bar (full width under dropdown row) */
+    .searchBar{
+      width:100%;
+      margin: 8px 0 14px;
+      display:flex;
+      justify-content:center;
+    }
+    .searchInput{
+      width: 100%;
+      max-width: 720px;
+      padding:18px 22px;
+      border-radius:999px;
+      border:0;
+      outline:none;
+      background: var(--accent);
+      color:#fff;
+      box-shadow: var(--shadow);
+      font-size:1.05rem;
+      letter-spacing:.2px;
+    }
+    .searchInput::placeholder{color: rgba(255,255,255,.85);}
+
+    /* ===== MAIN LAYOUT ===== */
     .layout{
       display:grid;
-      grid-template-columns: 1.9fr .9fr;
+      grid-template-columns: 1.9fr .95fr;
       gap:16px;
       align-items:start;
     }
-    @media(max-width: 980px){
-      .layout{grid-template-columns:1fr;}
-      .loginTop{width:100%; justify-content:flex-start;}
+
+    /* Pager centered */
+    .pager{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      margin: 10px 0 14px;
+      flex-wrap:wrap;
+    }
+    .pager .pbtn{
+      padding:10px 16px;
+      border-radius:999px;
+      border:0;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .pager .pbtn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+    .pager .pageChip{
+      padding:10px 16px;
+      border-radius:999px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:900;
+      color: #334155;
     }
 
-    /* Cards */
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+    /* Content empty card */
+    .emptyCard{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+      color: var(--muted);
+      border: 1px solid rgba(2,6,23,.06);
     }
 
-    /* Featured + grid */
-    .featured{overflow:hidden; margin-bottom:14px;}
+    /* Featured + posts */
+    .featured{
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      margin-bottom: 14px;
+    }
     .featured .media{
       aspect-ratio: 16/7;
       background: var(--soft);
-      border-bottom:1px solid var(--line);
-      display:flex; align-items:center; justify-content:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       color:var(--muted);
     }
     .featured img{width:100%; height:100%; object-fit:cover; display:block;}
-    .featured .content{padding:14px;}
-    .featured h2{margin:0; font-size:1.15rem; line-height:1.3;}
-    .meta{
-      display:flex; gap:10px; flex-wrap:wrap;
-      color:var(--muted);
-      font-size:.88rem;
-      margin-top:6px;
+    .featured .body{padding:14px 16px;}
+    .featured h2{margin:0; font-size:1.2rem;}
+    .metaLine{
+      margin-top:8px;
+      color: var(--muted);
+      font-size:.9rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
     }
     .badge{
       display:inline-flex;
       align-items:center;
-      padding:6px 10px;
+      padding:6px 12px;
       border-radius:999px;
-      border:1px solid var(--line);
-      background: var(--soft);
-      color: var(--muted);
-      font-size:.85rem;
-      font-weight:700;
+      background: var(--pill);
+      font-weight:800;
+      color:#334155;
     }
-    .excerpt{margin:.55rem 0 0; color:var(--muted); line-height:1.45}
+    .excerpt{margin:10px 0 0; color:var(--muted); line-height:1.5}
 
     .grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
       gap:14px;
     }
-    @media(max-width: 720px){
-      .grid{grid-template-columns:1fr;}
+    .post{
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      cursor:pointer;
     }
-    .post{overflow:hidden; display:flex; flex-direction:column;}
     .post .thumb{
-      aspect-ratio:16/9;
-      background:var(--soft);
-      border-bottom:1px solid var(--line);
+      aspect-ratio: 16/9;
+      background: var(--soft);
       display:flex; align-items:center; justify-content:center;
-      color:var(--muted);
+      color: var(--muted);
     }
     .post .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
-    .post .body{padding:12px 13px; display:flex; flex-direction:column; gap:6px; flex:1;}
-    .post h3{margin:0; font-size:1.0rem; line-height:1.35;}
-    .post .excerpt{margin:0; font-size:.92rem;}
-    .post .meta{margin-top:auto;}
+    .post .body{padding:12px 14px;}
+    .post h3{margin:0; font-size:1.02rem; line-height:1.35;}
+    .post .small{margin:8px 0 0; color:var(--muted); font-size:.92rem; line-height:1.45;}
 
-    /* Sidebar */
-    .side{
-      position:sticky;
-      top:14px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+    /* ===== SIDEBAR CARDS ===== */
+    .sideCard{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      margin-bottom: 14px;
     }
-    @media(max-width:980px){.side{position:static;}}
-    .box{padding:14px;}
-    .box h4{margin:0 0 10px; font-size:1rem;}
-
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:var(--soft);
-      color:var(--muted);
-      font-size:.85rem;
-      margin:6px 6px 0 0;
-      cursor:pointer;
-      user-select:none;
-      font-weight:700;
+    .sideCard h4{
+      margin:0 0 12px;
+      font-size:1.1rem;
+      font-weight:900;
     }
-    .pill.active{
-      border-color: rgba(14,165,233,.35);
-      background: rgba(14,165,233,.10);
-      color: #0369a1;
-    }
-
-    .latestItem{
-      display:flex; gap:10px; align-items:center;
-      padding:10px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: var(--soft);
-      cursor:pointer;
-    }
-    .latestItem img{
-      width:56px; height:42px; object-fit:cover;
-      border-radius:10px; border:1px solid var(--line);
-      background:#fff;
-    }
-    .latestItem b{display:block; font-size:.92rem; line-height:1.25;}
-    .latestItem span{color:var(--muted); font-size:.82rem;}
-
-    /* Pager */
-    .pager{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin:14px 0 0;
-    }
-    .pageInfo{
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background:var(--soft);
-      color:var(--muted);
-      font-weight:800;
-    }
-
-    .empty{
-      margin-top:10px;
+    .sideInner{
+      background: #f3f4f6;
+      border: 1px dashed #d1d5db;
+      border-radius: 14px;
       padding:14px;
-      border:1px dashed var(--line);
-      border-radius:14px;
-      background: var(--soft);
       color: var(--muted);
     }
 
-    /* Modal */
+    .dropRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:10px;
+    }
+    .dropRow label{color:var(--muted); font-weight:800; min-width:110px;}
+    .dropRow select{
+      flex:1;
+      padding:14px 14px;
+      border-radius:999px;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      font-weight:800;
+      outline:none;
+    }
+
+    .helperText{
+      margin-top:10px;
+      color: var(--muted);
+      font-size:.92rem;
+    }
+
+    .loginBtnBig{
+      width:100%;
+      padding:18px 18px;
+      border-radius:999px;
+      border: 1px solid rgba(2,6,23,.10);
+      background: var(--accent2);
+      box-shadow: var(--shadow);
+      font-weight:900;
+      font-size:1.25rem;
+      cursor:pointer;
+    }
+
+    /* ===== MODAL ===== */
     .modal{
       position:fixed; inset:0;
       background: rgba(2,6,23,.45);
@@ -269,122 +299,154 @@
     .modal.open{display:flex;}
     .modalCard{
       width:min(980px, 100%);
-      max-height:90vh;
+      max-height: 90vh;
       overflow:auto;
       background: var(--card);
-      border:1px solid var(--line);
       border-radius: 20px;
-      box-shadow: 0 26px 80px rgba(2,6,23,.25);
+      box-shadow: 0 28px 80px rgba(2,6,23,.25);
+      border:1px solid rgba(2,6,23,.08);
     }
     .modalTop{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(2,6,23,.08);
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:10px;
-      padding:12px 14px;
-      border-bottom:1px solid var(--line);
       position:sticky;
       top:0;
       background: var(--card);
     }
-    .modalTop b{font-size:.95rem;}
+    .modalTop b{font-size:1rem;}
+    .closeBtn{
+      padding:10px 14px;
+      border-radius:999px;
+      border:0;
+      background: var(--soft);
+      font-weight:900;
+      cursor:pointer;
+    }
     .modalBody{padding:14px;}
-    .modalBody img{max-width:100%; border-radius:14px; border:1px solid var(--line); background:#fff;}
-    .contentText{line-height:1.65; white-space:pre-wrap;}
-    .shareRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .modalBody img{
+      max-width:100%;
+      border-radius:16px;
+      border:1px solid rgba(2,6,23,.10);
+      background:#fff;
+    }
+    .contentText{margin-top:10px; white-space:pre-wrap; line-height:1.65; color:#111827;}
+    .shareRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+    .shareRow a, .shareRow button{
+      border:0;
+      border-radius:999px;
+      padding:10px 14px;
+      background: var(--soft);
+      cursor:pointer;
+      font-weight:900;
+    }
 
-    /* Community Magazine dropdown card */
-    .magRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr;}
+      .grid{grid-template-columns:1fr;}
+      .searchInput{max-width: 100%;}
     }
-    .magRow .toolbar{
-      box-shadow:none;
-      padding:0;
-      border:none;
-      background:transparent;
-    }
-    .magRow select{
-      min-width: 240px;
+
+    @media (max-width: 620px){
+      .topBar{grid-template-columns: 1fr; }
+      .btnPill{justify-self:end;}
+      .communityPill{padding:12px 14px;}
+      .searchInput{padding:16px 18px;}
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header>
-      <div class="brand">
-        <h1>Janasabha News</h1>
-        <p>Latest updates from our district and neighbourhood Janasabhas.</p>
-      </div>
+    <!-- Center title -->
+    <div class="headerCenter">
+      <h1>Janasabha News</h1>
+      <p>Latest updates from our district and neighbourhood Janasabhas.</p>
+    </div>
 
-      <!-- Login button RIGHT TOP -->
-      <div class="loginTop">
-        <a class="btn primary" href="login.html">Volunteer/Admin Login</a>
+    <!-- Community dropdown + Refresh -->
+    <div class="topBar">
+      <div class="communityPill">
+        <label for="communityFilter">Community/ies:</label>
+        <select id="communityFilter">
+          <option value="ALL">All</option>
+          <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
+          <!-- Add more communities -->
+        </select>
       </div>
-    </header>
+      <button class="btnPill" id="btnRefresh">Refresh</button>
+    </div>
 
-    <!-- Community dropdown LEFT + Refresh -->
-    <div class="toolbarRow">
-      <div class="toolbarLeft">
-        <div class="toolbar">
-          <label for="communityFilter">Community/ies:</label>
-          <select id="communityFilter">
-            <option value="ALL">All</option>
-            <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
-            <!-- Add more communities here -->
-          </select>
-        </div>
-        <button class="btn" id="btnRefresh">Refresh</button>
-      </div>
+    <!-- Search bar -->
+    <div class="searchBar">
+      <input id="searchBox" class="searchInput" placeholder="Search news..." />
     </div>
 
     <div class="layout">
+      <!-- LEFT MAIN -->
       <main>
+        <div class="pager">
+          <button class="pbtn" id="btnPrev" disabled>← Prev</button>
+          <div class="pageChip" id="pageInfo">Page 1 / 1</div>
+          <button class="pbtn" id="btnNext" disabled>Next →</button>
+        </div>
+
         <div id="featuredWrap"></div>
         <div id="postsGrid" class="grid"></div>
 
-        <div class="pager">
-          <button class="btn" id="btnPrev" disabled>← Prev</button>
-          <span class="pageInfo" id="pageInfo">Page 1 / 1</span>
-          <button class="btn" id="btnNext" disabled>Next →</button>
-        </div>
-
-        <div id="emptyState" class="empty" style="display:none;">No news found.</div>
+        <div id="emptyState" class="emptyCard" style="display:none;">No news found.</div>
       </main>
 
-      <aside class="side">
-        <div class="card box">
-          <h4>Categories</h4>
-          <div id="catWrap"></div>
-          <div style="color:var(--muted); margin-top:10px; font-size:.86rem;">Click a category to filter.</div>
-        </div>
-
-        <div class="card box">
+      <!-- RIGHT SIDEBAR -->
+      <aside>
+        <div class="sideCard">
           <h4>Latest Posts</h4>
-          <div id="latestWrap"></div>
+          <div id="latestWrap" class="sideInner">No posts yet.</div>
         </div>
 
-        <!-- 3rd card = Community Magazine with dropdown -->
-        <div class="card box">
+        <div class="sideCard">
+          <h4>Categories</h4>
+          <div class="dropRow">
+            <label for="categoryFilter"> </label>
+            <select id="categoryFilter">
+              <option value="ALL">All</option>
+            </select>
+          </div>
+          <div class="helperText">Click a category to filter.</div>
+        </div>
+
+        <div class="sideCard">
+          <h4>Notice Board</h4>
+          <div class="dropRow">
+            <label for="noticeFilter"> </label>
+            <select id="noticeFilter">
+              <option value="ALL">All</option>
+              <option value="General">General</option>
+              <option value="Meetings">Meetings</option>
+              <option value="Training">Training</option>
+            </select>
+          </div>
+          <div class="helperText">Select a type (optional).</div>
+        </div>
+
+        <div class="sideCard">
           <h4>Community Magazine</h4>
-          <div class="magRow">
-            <div class="toolbar" style="width:100%;">
-              <label for="magCommunity" style="min-width:110px;">Community:</label>
-              <select id="magCommunity">
-                <option value="ALL">All</option>
-                <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
-                <!-- Add more communities here -->
-              </select>
-            </div>
-            <button class="btn primary" id="openMagazine">Open</button>
+          <div class="dropRow">
+            <label for="magCommunity">Community:</label>
+            <select id="magCommunity">
+              <option value="ALL">All</option>
+              <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
+              <!-- Add more communities -->
+            </select>
           </div>
-          <div class="empty" style="margin-top:12px;">
-            Tip: Select a community and click <b>Open</b> to go to that community magazine page/link.
-          </div>
+        </div>
+
+        <div class="sideCard" style="padding:0; background:transparent; border:0; box-shadow:none;">
+          <button class="loginBtnBig" id="loginBtn">Volunteer/Admin Login</button>
         </div>
       </aside>
     </div>
@@ -395,48 +457,21 @@
     <div class="modalCard">
       <div class="modalTop">
         <b id="modalTitle">News</b>
-        <button class="btn" id="btnClose">Close</button>
+        <button class="closeBtn" id="btnClose">Close</button>
       </div>
       <div class="modalBody">
-        <div class="meta" id="modalMeta"></div>
+        <div class="metaLine" id="modalMeta"></div>
         <div id="modalMedia" style="margin-top:10px;"></div>
-        <h2 id="modalH2" style="margin:10px 0 6px;"></h2>
+        <h2 id="modalH2" style="margin:12px 0 6px;"></h2>
         <div class="contentText" id="modalContent"></div>
 
         <div class="shareRow" id="shareRow"></div>
-
-        <div id="commentsBlock" style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line);">
-          <h3 style="margin:0 0 6px; font-size:1.05rem;">Comments</h3>
-          <div id="commentsList" class="empty">Loading comments…</div>
-
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;" id="commentForm">
-            <div>
-              <label style="display:block; color:var(--muted); margin:0 0 6px;">Your Name</label>
-              <input id="cName" style="width:100%; padding:11px 12px; border-radius:12px; border:1px solid var(--line); background:var(--soft);" placeholder="Name" />
-              <div style="color:var(--muted); font-size:.82rem; margin-top:6px;">
-                Note: commenting requires login.
-              </div>
-            </div>
-            <div>
-              <label style="display:block; color:var(--muted); margin:0 0 6px;">Comment</label>
-              <textarea id="cText" style="width:100%; padding:11px 12px; border-radius:12px; border:1px solid var(--line); background:var(--soft); min-height:70px;" placeholder="Write your comment…"></textarea>
-            </div>
-          </div>
-
-          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px; flex-wrap:wrap;">
-            <button class="btn" id="btnReloadComments">Reload Comments</button>
-            <button class="btn primary" id="btnAddComment">Post Comment</button>
-          </div>
-
-          <div id="commentStatus" class="empty" style="display:none; margin-top:10px;"></div>
-        </div>
       </div>
     </div>
   </div>
 
   <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
@@ -451,54 +486,43 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
     const db = firebase.firestore();
 
     // DOM
-    const featuredWrap = document.getElementById("featuredWrap");
-    const postsGrid = document.getElementById("postsGrid");
-    const emptyState = document.getElementById("emptyState");
-    const catWrap = document.getElementById("catWrap");
-    const latestWrap = document.getElementById("latestWrap");
-
     const communityFilter = document.getElementById("communityFilter");
-    const btnRefresh = document.getElementById("btnRefresh");
+    const categoryFilter  = document.getElementById("categoryFilter");
+    const noticeFilter    = document.getElementById("noticeFilter");
+    const magCommunity    = document.getElementById("magCommunity");
+    const btnRefresh      = document.getElementById("btnRefresh");
+    const searchBox       = document.getElementById("searchBox");
 
-    const btnPrev = document.getElementById("btnPrev");
-    const btnNext = document.getElementById("btnNext");
-    const pageInfo = document.getElementById("pageInfo");
+    const featuredWrap = document.getElementById("featuredWrap");
+    const postsGrid    = document.getElementById("postsGrid");
+    const emptyState   = document.getElementById("emptyState");
+    const latestWrap   = document.getElementById("latestWrap");
 
-    // Magazine
-    const magCommunity = document.getElementById("magCommunity");
-    const openMagazine = document.getElementById("openMagazine");
+    const btnPrev   = document.getElementById("btnPrev");
+    const btnNext   = document.getElementById("btnNext");
+    const pageInfo  = document.getElementById("pageInfo");
+
+    const loginBtn  = document.getElementById("loginBtn");
 
     // Modal
     const modal = document.getElementById("modal");
     const btnClose = document.getElementById("btnClose");
     const modalTitle = document.getElementById("modalTitle");
-    const modalMeta = document.getElementById("modalMeta");
+    const modalMeta  = document.getElementById("modalMeta");
     const modalMedia = document.getElementById("modalMedia");
-    const modalH2 = document.getElementById("modalH2");
+    const modalH2    = document.getElementById("modalH2");
     const modalContent = document.getElementById("modalContent");
     const shareRow = document.getElementById("shareRow");
 
-    const commentsList = document.getElementById("commentsList");
-    const cName = document.getElementById("cName");
-    const cText = document.getElementById("cText");
-    const btnAddComment = document.getElementById("btnAddComment");
-    const btnReloadComments = document.getElementById("btnReloadComments");
-    const commentStatus = document.getElementById("commentStatus");
-
     btnClose.onclick = () => modal.classList.remove("open");
-    modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
+    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
 
     // State
     let allNews = [];
-    let activeCategory = "All";
-    let activeCommunity = "ALL";
-
-    // Pagination
-    const PAGE_SIZE = 10; // cards per page (featured separate)
+    const PAGE_SIZE = 10;  // cards per page (featured is 1st)
     let currentPage = 1;
 
     function safeText(v){ return (v || "").toString(); }
@@ -511,7 +535,7 @@
       }catch(e){ return ""; }
     }
 
-    // Google Drive direct image (Facebook photo links won't embed reliably)
+    // Drive link -> direct image
     function normalizeImageUrl(url){
       const u = safeText(url).trim();
       if(!u) return "";
@@ -526,40 +550,51 @@
       return u;
     }
 
-    function buildCategories(items){
+    function buildCategoryDropdown(items){
       const set = new Set(items.map(x => safeText(x.category).trim()).filter(Boolean));
-      const cats = ["All", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+      const cats = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
 
-      catWrap.innerHTML = "";
-      cats.forEach(cat => {
-        const el = document.createElement("span");
-        el.className = "pill" + (cat === activeCategory ? " active" : "");
-        el.textContent = cat;
-        el.onclick = () => {
-          activeCategory = cat;
-          currentPage = 1;
-          buildCategories(allNews);
-          render();
-        };
-        catWrap.appendChild(el);
+      const current = categoryFilter.value || "ALL";
+      categoryFilter.innerHTML = "";
+      cats.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c === "ALL" ? "All" : c;
+        categoryFilter.appendChild(opt);
       });
+      categoryFilter.value = cats.includes(current) ? current : "ALL";
     }
 
     function getFiltered(){
+      const comm = communityFilter.value || "ALL";
+      const cat  = categoryFilter.value || "ALL";
+      const q    = (searchBox.value || "").trim().toLowerCase();
+
       return allNews.filter(n => {
-        const catOK = (activeCategory === "All") || (safeText(n.category).trim() === activeCategory);
-        if(!catOK) return false;
+        const nComm = safeText(n.community).trim();
+        const nCat  = safeText(n.category).trim();
 
-        const comm = safeText(n.community).trim();
-        const commOK = (activeCommunity === "ALL") || (comm === activeCommunity);
-        if(!commOK) return false;
+        if (comm !== "ALL" && nComm !== comm) return false;
+        if (cat  !== "ALL" && nCat  !== cat)  return false;
 
-        return true;
+        // Notice filter is optional UI (you can connect to notices later)
+        // Currently it does NOT filter news items.
+
+        if (!q) return true;
+        const hay = (
+          safeText(n.title) + " " +
+          safeText(n.summary) + " " +
+          safeText(n.content) + " " +
+          safeText(n.reporterName) + " " +
+          safeText(n.community) + " " +
+          safeText(n.category)
+        ).toLowerCase();
+        return hay.includes(q);
       });
     }
 
     function updatePager(totalFiltered){
-      const totalCards = Math.max(0, totalFiltered - 1); // featured separate
+      const totalCards = Math.max(0, totalFiltered - 1);
       const totalPages = Math.max(1, Math.ceil(totalCards / PAGE_SIZE));
       currentPage = Math.min(currentPage, totalPages);
 
@@ -573,50 +608,50 @@
 
     function renderFeatured(item){
       const img = normalizeImageUrl(item.mediaUrl);
-      const reporter = safeText(item.reporterName);
-      const dt = formatDate(item.createdAt || item.date);
-      const meta = [reporter ? `Reporter: ${reporter}` : "", dt].filter(Boolean).join(" • ");
+      const title = safeText(item.title) || "Untitled";
+      const excerpt = safeText(item.summary) || safeText(item.content).slice(0,160);
 
       featuredWrap.innerHTML = `
-        <article class="card featured">
+        <div class="featured">
           <div class="media">
             ${img ? `<img src="${img}" alt="">` : `No image`}
           </div>
-          <div class="content">
-            <h2>${safeText(item.title) || "Untitled"}</h2>
-            <div class="meta">
-              <span class="badge">${safeText(item.category) || "General"}</span>
+          <div class="body">
+            <h2>${title}</h2>
+            <div class="metaLine">
               <span class="badge">${safeText(item.community) || "All"}</span>
-              <span>${meta}</span>
+              <span class="badge">${safeText(item.category) || "General"}</span>
+              <span>${formatDate(item.createdAt || item.date)}</span>
+              <span>${item.reporterName ? "Reporter: " + safeText(item.reporterName) : ""}</span>
             </div>
-            <p class="excerpt">${safeText(item.summary) || safeText(item.content).slice(0,160) || ""}</p>
-            <div style="margin-top:10px;">
-              <button class="btn primary" id="readFeatured">Read more</button>
-            </div>
+            <div class="excerpt">${excerpt || ""}</div>
           </div>
-        </article>
+        </div>
       `;
-      document.getElementById("readFeatured").onclick = () => openPost(item);
+
+      // click featured to open
+      featuredWrap.querySelector(".featured").onclick = () => openPost(item);
     }
 
     function renderCards(items){
       postsGrid.innerHTML = "";
       items.forEach(item => {
         const img = normalizeImageUrl(item.mediaUrl);
-        const reporter = safeText(item.reporterName);
-        const dt = formatDate(item.createdAt || item.date);
-        const meta = [item.category ? item.category : "General", item.community ? item.community : "All", reporter ? `Reporter: ${reporter}` : "", dt].filter(Boolean).join(" • ");
+        const title = safeText(item.title) || "Untitled";
+        const small = safeText(item.summary) || safeText(item.content).slice(0,100);
 
-        const el = document.createElement("article");
-        el.className = "card post";
+        const el = document.createElement("div");
+        el.className = "post";
         el.innerHTML = `
-          <div class="thumb">
-            ${img ? `<img src="${img}" alt="">` : `No image`}
-          </div>
+          <div class="thumb">${img ? `<img src="${img}" alt="">` : `No image`}</div>
           <div class="body">
-            <h3>${safeText(item.title) || "Untitled"}</h3>
-            <p class="excerpt">${safeText(item.summary) || safeText(item.content).slice(0,110) || ""}</p>
-            <div class="meta">${meta}</div>
+            <h3>${title}</h3>
+            <div class="small">${small || ""}</div>
+            <div class="metaLine" style="margin-top:10px;">
+              <span class="badge">${safeText(item.community) || "All"}</span>
+              <span class="badge">${safeText(item.category) || "General"}</span>
+              <span>${formatDate(item.createdAt || item.date)}</span>
+            </div>
           </div>
         `;
         el.onclick = () => openPost(item);
@@ -625,41 +660,39 @@
     }
 
     function renderLatest(items){
-      latestWrap.innerHTML = "";
       const latest = items.slice(0, 6);
-      if(!latest.length){
-        latestWrap.innerHTML = `<div class="empty">No posts yet.</div>`;
+      if (!latest.length){
+        latestWrap.textContent = "No posts yet.";
         return;
       }
 
+      latestWrap.innerHTML = "";
       latest.forEach(item => {
-        const img = normalizeImageUrl(item.mediaUrl);
-        const el = document.createElement("div");
-        el.className = "latestItem";
-        el.innerHTML = `
-          ${img ? `<img src="${img}" alt="">` : `<div style="width:56px;height:42px;border-radius:10px;border:1px solid var(--line);background:#fff;"></div>`}
-          <div>
-            <b>${safeText(item.title) || "Untitled"}</b>
-            <span>${formatDate(item.createdAt || item.date)}</span>
-          </div>
+        const row = document.createElement("div");
+        row.style.padding = "10px 0";
+        row.style.borderBottom = "1px dashed #d1d5db";
+        row.style.cursor = "pointer";
+        row.innerHTML = `
+          <div style="font-weight:900; color:#0f172a;">${safeText(item.title) || "Untitled"}</div>
+          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.createdAt || item.date)}</div>
         `;
-        el.onclick = () => openPost(item);
-        latestWrap.appendChild(el);
+        row.onclick = () => openPost(item);
+        latestWrap.appendChild(row);
       });
+      latestWrap.lastChild.style.borderBottom = "0";
     }
 
-    // Share buttons
     function buildShareButtons(item){
       const url = location.origin + location.pathname + `?id=${encodeURIComponent(item.id)}`;
       const text = `${safeText(item.title)} - Janasabha News`;
 
       shareRow.innerHTML = `
-        <button class="btn" id="shareCopy">Copy Link</button>
-        <a class="btn primary" id="shareWA" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="btn" id="shareFB" target="_blank" rel="noopener">Facebook</a>
+        <button id="copyLinkBtn">Copy Link</button>
+        <a target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text + " " + url)}">WhatsApp</a>
+        <a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
       `;
 
-      document.getElementById("shareCopy").onclick = async () => {
+      document.getElementById("copyLinkBtn").onclick = async () => {
         try{
           await navigator.clipboard.writeText(url);
           alert("Link copied!");
@@ -667,111 +700,33 @@
           prompt("Copy this link:", url);
         }
       };
-
-      document.getElementById("shareWA").href =
-        `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`;
-
-      document.getElementById("shareFB").href =
-        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
     }
-
-    // Comments
-    let currentOpenPost = null;
-
-    async function loadComments(postId){
-      commentsList.textContent = "Loading comments…";
-      commentStatus.style.display = "none";
-
-      const snap = await db.collection("news").doc(postId)
-        .collection("comments")
-        .orderBy("createdAt", "desc")
-        .limit(50)
-        .get();
-
-      const items = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-
-      if(!items.length){
-        commentsList.innerHTML = `<div class="empty">No comments yet.</div>`;
-        return;
-      }
-
-      commentsList.innerHTML = items.map(c => {
-        const dt = formatDate(c.createdAt);
-        return `
-          <div class="empty" style="border-style:solid;">
-            <div style="color:var(--muted); font-weight:800; margin-bottom:6px;">
-              ${safeText(c.name) || "Anonymous"} • ${dt}
-            </div>
-            <div style="white-space:pre-wrap; line-height:1.55;">${safeText(c.text)}</div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    async function addComment(){
-      if(!currentOpenPost) return;
-
-      const user = auth.currentUser;
-      if(!user){
-        commentStatus.style.display = "block";
-        commentStatus.textContent = "Please login to post a comment.";
-        return;
-      }
-
-      const name = cName.value.trim();
-      const text = cText.value.trim();
-      if(!name || !text){
-        commentStatus.style.display = "block";
-        commentStatus.textContent = "Please enter your name and comment.";
-        return;
-      }
-
-      commentStatus.style.display = "none";
-
-      await db.collection("news").doc(currentOpenPost.id)
-        .collection("comments")
-        .add({
-          name,
-          text,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          uid: user.uid
-        });
-
-      cText.value = "";
-      await loadComments(currentOpenPost.id);
-    }
-
-    btnAddComment.onclick = () => addComment();
-    btnReloadComments.onclick = () => currentOpenPost ? loadComments(currentOpenPost.id) : null;
 
     function openPost(item){
-      currentOpenPost = item;
       modal.classList.add("open");
+      modalTitle.textContent = safeText(item.title) || "News";
 
-      modalTitle.textContent = item.category ? `News • ${item.category}` : "News";
-
-      const metaBits = [];
-      if(item.community) metaBits.push(item.community);
-      if(item.reporterName) metaBits.push(`Reporter: ${item.reporterName}`);
+      const bits = [];
+      if(item.community) bits.push(item.community);
+      if(item.category) bits.push(item.category);
       const dt = formatDate(item.createdAt || item.date);
-      if(dt) metaBits.push(dt);
-      modalMeta.textContent = metaBits.join(" • ");
+      if(dt) bits.push(dt);
+      if(item.reporterName) bits.push("Reporter: " + item.reporterName);
+      modalMeta.textContent = bits.join(" • ");
 
       const img = normalizeImageUrl(item.mediaUrl);
       modalMedia.innerHTML = img ? `<img src="${img}" alt="">` : "";
 
-      modalH2.textContent = item.title || "Untitled";
-      modalContent.textContent = item.content || item.summary || "";
+      modalH2.textContent = safeText(item.title) || "Untitled";
+      modalContent.textContent = safeText(item.content) || safeText(item.summary) || "";
 
       buildShareButtons(item);
-      loadComments(item.id).catch(console.error);
     }
 
     function render(){
       const filtered = getFiltered();
 
       emptyState.style.display = filtered.length ? "none" : "block";
-
       if(!filtered.length){
         featuredWrap.innerHTML = "";
         postsGrid.innerHTML = "";
@@ -780,10 +735,10 @@
         return;
       }
 
-      // featured = first
+      // Featured = first
       renderFeatured(filtered[0]);
 
-      // paged cards
+      // Cards = rest (paged)
       const rest = filtered.slice(1);
       updatePager(filtered.length);
 
@@ -791,7 +746,7 @@
       const pageItems = rest.slice(start, start + PAGE_SIZE);
       renderCards(pageItems);
 
-      // sidebar latest
+      // Sidebar latest based on filtered
       renderLatest(filtered);
     }
 
@@ -800,7 +755,6 @@
       emptyState.textContent = "No news found.";
 
       try{
-        // Prefer createdAt; fallback to date if old schema
         let snap;
         try{
           snap = await db.collection("news").orderBy("createdAt","desc").limit(100).get();
@@ -810,11 +764,11 @@
 
         allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
 
-        buildCategories(allNews);
+        buildCategoryDropdown(allNews);
         currentPage = 1;
         render();
 
-        // open by id if present
+        // Open by URL ?id=
         const params = new URLSearchParams(location.search);
         const id = params.get("id");
         if(id){
@@ -829,28 +783,28 @@
     }
 
     // Events
-    communityFilter.addEventListener("change", () => {
-      activeCommunity = communityFilter.value;
-      currentPage = 1;
-      render();
-    });
+    communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
+    categoryFilter.addEventListener("change", () => { currentPage = 1; render(); });
+    searchBox.addEventListener("input", () => { currentPage = 1; render(); });
 
     btnRefresh.addEventListener("click", () => loadNews());
 
-    // Magazine "Open" mapping (edit links here)
-    const MAGAZINE_LINKS = {
-      "ALL": "magazine.html", // default magazine page
-      "Mannanam (Kottayam)": "magazine-mannanam.html"
-    };
-
-    openMagazine.addEventListener("click", () => {
-      const c = magCommunity.value || "ALL";
-      const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
-      window.location.href = link;
+    // Login button (change to your login page)
+    loginBtn.addEventListener("click", () => {
+      window.location.href = "login.html";
     });
 
-    // Initial values
-    activeCommunity = communityFilter.value || "ALL";
+    // Magazine dropdown (optional: map community to magazine page)
+    const MAGAZINE_LINKS = {
+      "ALL": "magazine.html",
+      "Mannanam (Kottayam)": "magazine-mannanam.html"
+    };
+    magCommunity.addEventListener("change", () => {
+      // auto-open when community selected (optional)
+      // window.location.href = MAGAZINE_LINKS[magCommunity.value] || MAGAZINE_LINKS["ALL"];
+    });
+
+    // Start
     loadNews();
   </script>
 </body>
