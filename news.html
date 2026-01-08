@@ -5,27 +5,353 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Janasabha News</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="news.css">
+  <style>
+    :root{
+      --bg: #dbeafe;         /* light background like your screenshots */
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --soft:#f8fafc;
+      --pill:#eef2ff;
+      --shadow: 0 10px 22px rgba(2,6,23,.08);
+      --radius: 18px;
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+      --accent:#7aa6b1;      /* search bar color */
+      --accent2:#bfe3f3;     /* login button soft blue */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+
+    .wrap{max-width:1200px; margin:0 auto; padding:18px;}
+
+    /* ===== HEADER (centered) ===== */
+    .headerCenter{ text-align:center; margin-bottom:14px; }
+    .headerCenter h1{ margin:0; font-size:1.55rem; font-weight:800; }
+    .headerCenter p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
+
+    /* ===== TOP TOOLBAR ===== */
+    .topBar{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:14px;
+      align-items:center;
+      margin: 14px 0 10px;
+    }
+
+    .communityPill{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      background: var(--card);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.5);
+    }
+    .communityPill label{
+      color: var(--muted);
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .communityPill select{
+      width: 100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      font-weight:800;
+      font-size:1rem;
+      color: var(--text);
+      padding:6px 6px;
+    }
+
+    .btnPill{
+      padding:12px 18px;
+      border-radius:999px;
+      border:0;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    /* Search Bar */
+    .searchBar{ width:100%; margin: 8px 0 14px; display:flex; justify-content:center; }
+    .searchInput{
+      width: 100%;
+      max-width: 720px;
+      padding:18px 22px;
+      border-radius:999px;
+      border:0;
+      outline:none;
+      background: var(--accent);
+      color:#fff;
+      box-shadow: var(--shadow);
+      font-size:1.05rem;
+      letter-spacing:.2px;
+    }
+    .searchInput::placeholder{color: rgba(255,255,255,.85);}
+
+    /* ===== MAIN LAYOUT ===== */
+    .layout{
+      display:grid;
+      grid-template-columns: 1.9fr .95fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    /* Pager centered */
+    .pager{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      margin: 10px 0 14px;
+      flex-wrap:wrap;
+    }
+    .pager .pbtn{
+      padding:10px 16px;
+      border-radius:999px;
+      border:0;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .pager .pbtn:disabled{ opacity:.55; cursor:not-allowed; }
+    .pager .pageChip{
+      padding:10px 16px;
+      border-radius:999px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      font-weight:900;
+      color: #334155;
+    }
+
+    /* Empty card */
+    .emptyCard{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+      color: var(--muted);
+      border: 1px solid rgba(2,6,23,.06);
+    }
+
+    /* Featured + posts */
+    .featured{
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      margin-bottom: 14px;
+      cursor:pointer;
+    }
+    .featured .media{
+      aspect-ratio: 16/7;
+      background: var(--soft);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--muted);
+    }
+    .featured img{width:100%; height:100%; object-fit:cover; display:block;}
+    .featured .body{padding:14px 16px;}
+    .featured h2{margin:0; font-size:1.2rem;}
+    .metaLine{
+      margin-top:8px;
+      color: var(--muted);
+      font-size:.9rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 12px;
+      border-radius:999px;
+      background: var(--pill);
+      font-weight:800;
+      color:#334155;
+    }
+    .excerpt{margin:10px 0 0; color:var(--muted); line-height:1.5}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+    .post{
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      cursor:pointer;
+    }
+    .post .thumb{
+      aspect-ratio: 16/9;
+      background: var(--soft);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--muted);
+    }
+    .post .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+    .post .body{padding:12px 14px;}
+    .post h3{margin:0; font-size:1.02rem; line-height:1.35;}
+    .post .small{margin:8px 0 0; color:var(--muted); font-size:.92rem; line-height:1.45;}
+
+    /* ===== SIDEBAR CARDS ===== */
+    .sideCard{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      margin-bottom: 14px;
+    }
+    .sideCard h4{
+      margin:0 0 12px;
+      font-size:1.1rem;
+      font-weight:900;
+    }
+    .sideInner{
+      background: #f3f4f6;
+      border: 1px dashed #d1d5db;
+      border-radius: 14px;
+      padding:14px;
+      color: var(--muted);
+    }
+
+    .dropRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:10px;
+    }
+    .dropRow label{color:var(--muted); font-weight:800; min-width:110px;}
+    .dropRow select{
+      flex:1;
+      padding:14px 14px;
+      border-radius:999px;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      font-weight:800;
+      outline:none;
+    }
+
+    .helperText{ margin-top:10px; color: var(--muted); font-size:.92rem; }
+
+    .loginBtnBig{
+      width:100%;
+      padding:18px 18px;
+      border-radius:999px;
+      border: 1px solid rgba(2,6,23,.10);
+      background: var(--accent2);
+      box-shadow: var(--shadow);
+      font-weight:900;
+      font-size:1.25rem;
+      cursor:pointer;
+    }
+
+    /* ===== MODAL ===== */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(2,6,23,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:9999;
+    }
+    .modal.open{display:flex;}
+    .modalCard{
+      width:min(980px, 100%);
+      max-height: 90vh;
+      overflow:auto;
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 28px 80px rgba(2,6,23,.25);
+      border:1px solid rgba(2,6,23,.08);
+    }
+    .modalTop{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(2,6,23,.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      position:sticky;
+      top:0;
+      background: var(--card);
+    }
+    .modalTop b{font-size:1rem;}
+    .closeBtn{
+      padding:10px 14px;
+      border-radius:999px;
+      border:0;
+      background: var(--soft);
+      font-weight:900;
+      cursor:pointer;
+    }
+    .modalBody{padding:14px;}
+    .modalBody img{
+      max-width:100%;
+      border-radius:16px;
+      border:1px solid rgba(2,6,23,.10);
+      background:#fff;
+    }
+    .contentText{margin-top:10px; white-space:pre-wrap; line-height:1.65; color:#111827;}
+    .shareRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+    .shareRow a, .shareRow button{
+      border:0;
+      border-radius:999px;
+      padding:10px 14px;
+      background: var(--soft);
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr;}
+      .grid{grid-template-columns:1fr;}
+      .searchInput{max-width: 100%;}
+    }
+    @media (max-width: 620px){
+      .topBar{grid-template-columns: 1fr; }
+      .btnPill{justify-self:end;}
+      .communityPill{padding:12px 14px;}
+      .searchInput{padding:16px 18px;}
+    }
+  </style>
 </head>
 
 <body>
   <div class="wrap">
-
     <div class="headerCenter">
       <h1>Janasabha News</h1>
       <p>Latest updates from our district and neighbourhood Janasabhas.</p>
     </div>
 
-    <!-- Community Filter -->
+    <!-- Community dropdown + Refresh -->
     <div class="topBar">
       <div class="communityPill">
-        <label>Community/ies:</label>
-        <select id="communityFilter"></select>
+        <label for="communityFilter">Community/ies:</label>
+        <select id="communityFilter">
+          <!-- Will be auto-built from Firestore (still has fallback options below) -->
+          <option value="ALL">All</option>
+          <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
+        </select>
       </div>
       <button class="btnPill" id="btnRefresh">Refresh</button>
     </div>
@@ -36,20 +362,21 @@
     </div>
 
     <div class="layout">
-      <!-- MAIN -->
+      <!-- LEFT MAIN -->
       <main>
         <div class="pager">
-          <button id="btnPrev">← Prev</button>
-          <div id="pageInfo">Page 1 / 1</div>
-          <button id="btnNext">Next →</button>
+          <button class="pbtn" id="btnPrev" disabled>← Prev</button>
+          <div class="pageChip" id="pageInfo">Page 1 / 1</div>
+          <button class="pbtn" id="btnNext" disabled>Next →</button>
         </div>
 
         <div id="featuredWrap"></div>
         <div id="postsGrid" class="grid"></div>
-        <div id="emptyState" class="emptyCard">No news found.</div>
+
+        <div id="emptyState" class="emptyCard" style="display:none;">No news found.</div>
       </main>
 
-      <!-- SIDEBAR -->
+      <!-- RIGHT SIDEBAR -->
       <aside>
         <div class="sideCard">
           <h4>Latest Posts</h4>
@@ -58,17 +385,45 @@
 
         <div class="sideCard">
           <h4>Categories</h4>
-          <select id="categoryFilter"></select>
+          <div class="dropRow">
+            <label for="categoryFilter"> </label>
+            <select id="categoryFilter">
+              <option value="ALL">All</option>
+            </select>
+          </div>
+          <div class="helperText">Click a category to filter.</div>
+        </div>
+
+        <div class="sideCard">
+          <h4>Notice Board</h4>
+          <div class="dropRow">
+            <label for="noticeFilter"> </label>
+            <select id="noticeFilter">
+              <option value="ALL">All</option>
+              <option value="General">General</option>
+              <option value="Meetings">Meetings</option>
+              <option value="Training">Training</option>
+            </select>
+          </div>
+          <div class="helperText">Select a type (optional).</div>
         </div>
 
         <div class="sideCard">
           <h4>Community Magazine</h4>
-          <select id="magCommunity"></select>
+          <div class="dropRow">
+            <label for="magCommunity">Community:</label>
+            <select id="magCommunity">
+              <!-- Will be auto-built from Firestore (still has fallback options below) -->
+              <option value="ALL">All</option>
+              <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
+            </select>
+          </div>
+          <div class="helperText">Select community to open magazine.</div>
         </div>
 
-        <button class="loginBtnBig" onclick="location.href='login.html'">
-          Volunteer / Admin Login
-        </button>
+        <div class="sideCard" style="padding:0; background:transparent; border:0; box-shadow:none;">
+          <button class="loginBtnBig" id="loginBtn">Volunteer/Admin Login</button>
+        </div>
       </aside>
     </div>
   </div>
@@ -77,21 +432,386 @@
   <div class="modal" id="modal">
     <div class="modalCard">
       <div class="modalTop">
-        <b id="modalTitle"></b>
-        <button onclick="closeModal()">Close</button>
+        <b id="modalTitle">News</b>
+        <button class="closeBtn" id="btnClose">Close</button>
       </div>
       <div class="modalBody">
-        <div id="modalMeta"></div>
-        <div id="modalMedia"></div>
-        <h2 id="modalH2"></h2>
-        <div id="modalContent"></div>
-        <div id="shareRow"></div>
+        <div class="metaLine" id="modalMeta"></div>
+        <div id="modalMedia" style="margin-top:10px;"></div>
+        <h2 id="modalH2" style="margin:12px 0 6px;"></h2>
+        <div class="contentText" id="modalContent"></div>
+        <div class="shareRow" id="shareRow"></div>
       </div>
     </div>
   </div>
 
-  <!-- JS -->
-  <script src="firebase.js"></script>
-  <script src="news.js"></script>
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ✅ Paste your Firebase config
+    const firebaseConfig = {
+      apiKey: "PASTE",
+      authDomain: "PASTE",
+      projectId: "PASTE",
+      storageBucket: "PASTE",
+      messagingSenderId: "PASTE",
+      appId: "PASTE"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // DOM
+    const communityFilter = document.getElementById("communityFilter");
+    const categoryFilter  = document.getElementById("categoryFilter");
+    const noticeFilter    = document.getElementById("noticeFilter");
+    const magCommunity    = document.getElementById("magCommunity");
+    const btnRefresh      = document.getElementById("btnRefresh");
+    const searchBox       = document.getElementById("searchBox");
+
+    const featuredWrap = document.getElementById("featuredWrap");
+    const postsGrid    = document.getElementById("postsGrid");
+    const emptyState   = document.getElementById("emptyState");
+    const latestWrap   = document.getElementById("latestWrap");
+
+    const btnPrev   = document.getElementById("btnPrev");
+    const btnNext   = document.getElementById("btnNext");
+    const pageInfo  = document.getElementById("pageInfo");
+
+    const loginBtn  = document.getElementById("loginBtn");
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const btnClose = document.getElementById("btnClose");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMeta  = document.getElementById("modalMeta");
+    const modalMedia = document.getElementById("modalMedia");
+    const modalH2    = document.getElementById("modalH2");
+    const modalContent = document.getElementById("modalContent");
+    const shareRow = document.getElementById("shareRow");
+
+    btnClose.onclick = () => modal.classList.remove("open");
+    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
+
+    // ===== YOU CAN EDIT THESE LINKS =====
+    // Keys MUST match community names EXACTLY as in Firestore.
+    const MAGAZINE_LINKS = {
+      "ALL": "magazine.html",
+      "Mannanam (Kottayam)": "magazine-mannanam.html"
+      // Add more:
+      // "Kanjirapally (Kottayam)": "magazine-kanjirapally.html"
+    };
+
+    // State
+    let allNews = [];
+    const PAGE_SIZE = 10;  // cards per page (featured is 1st)
+    let currentPage = 1;
+
+    function safeText(v){ return (v || "").toString(); }
+
+    function formatDate(ts){
+      try{
+        const d = ts?.toDate ? ts.toDate() : (ts ? new Date(ts) : null);
+        if(!d || isNaN(d.getTime())) return "";
+        return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" });
+      }catch(e){ return ""; }
+    }
+
+    // Drive link -> direct image
+    function normalizeImageUrl(url){
+      const u = safeText(url).trim();
+      if(!u) return "";
+      if(!/^https?:\/\//i.test(u)) return "";
+
+      const driveMatch = u.match(/drive\.google\.com\/file\/d\/([^\/]+)\//i);
+      if (driveMatch && driveMatch[1]) return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+
+      const openId = u.match(/drive\.google\.com\/open\?id=([^&]+)/i);
+      if (openId && openId[1]) return `https://drive.google.com/uc?export=view&id=${openId[1]}`;
+
+      return u;
+    }
+
+    // ✅ Category dropdown built from Firestore
+    function buildCategoryDropdown(items){
+      const set = new Set(items.map(x => safeText(x.category).trim()).filter(Boolean));
+      const cats = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+
+      const current = categoryFilter.value || "ALL";
+      categoryFilter.innerHTML = "";
+      cats.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c === "ALL" ? "All" : c;
+        categoryFilter.appendChild(opt);
+      });
+      categoryFilter.value = cats.includes(current) ? current : "ALL";
+    }
+
+    // ✅ Best improvement: build BOTH community dropdowns from Firestore
+    function buildCommunityDropdown() {
+      const set = new Set(allNews.map(n => (n.community || "").trim()).filter(Boolean));
+      const communities = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+
+      communityFilter.innerHTML = "";
+      magCommunity.innerHTML = "";
+
+      communities.forEach(c => {
+        const label = (c === "ALL") ? "All" : c;
+
+        const o1 = document.createElement("option");
+        o1.value = c; o1.textContent = label;
+        communityFilter.appendChild(o1);
+
+        const o2 = document.createElement("option");
+        o2.value = c; o2.textContent = label;
+        magCommunity.appendChild(o2);
+      });
+
+      communityFilter.value = "ALL";
+      magCommunity.value = "ALL";
+    }
+
+    function getFiltered(){
+      const comm = communityFilter.value || "ALL";
+      const cat  = categoryFilter.value || "ALL";
+      const q    = (searchBox.value || "").trim().toLowerCase();
+
+      return allNews.filter(n => {
+        const nComm = safeText(n.community).trim();
+        const nCat  = safeText(n.category).trim();
+
+        if (comm !== "ALL" && nComm !== comm) return false;
+        if (cat  !== "ALL" && nCat  !== cat)  return false;
+
+        if (!q) return true;
+
+        const hay = (
+          safeText(n.title) + " " +
+          safeText(n.content) + " " +
+          safeText(n.reporterName) + " " +
+          safeText(n.community) + " " +
+          safeText(n.category)
+        ).toLowerCase();
+        return hay.includes(q);
+      });
+    }
+
+    function updatePager(totalFiltered){
+      const totalCards = Math.max(0, totalFiltered - 1);
+      const totalPages = Math.max(1, Math.ceil(totalCards / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+
+      pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+      btnPrev.disabled = currentPage <= 1;
+      btnNext.disabled = currentPage >= totalPages;
+
+      btnPrev.onclick = () => { currentPage = Math.max(1, currentPage - 1); render(); };
+      btnNext.onclick = () => { currentPage = Math.min(totalPages, currentPage + 1); render(); };
+    }
+
+    function renderFeatured(item){
+      const img = normalizeImageUrl(item.mediaUrl);
+      const title = safeText(item.title) || "Untitled";
+      const excerpt = safeText(item.content).slice(0,160);
+
+      featuredWrap.innerHTML = `
+        <div class="featured" id="featuredCard">
+          <div class="media">
+            ${img ? `<img src="${img}" alt="">` : `No image`}
+          </div>
+          <div class="body">
+            <h2>${title}</h2>
+            <div class="metaLine">
+              <span class="badge">${safeText(item.community) || "All"}</span>
+              <span class="badge">${safeText(item.category) || "General"}</span>
+              <span>${formatDate(item.date)}</span>
+              <span>${item.reporterName ? "Reporter: " + safeText(item.reporterName) : ""}</span>
+            </div>
+            <div class="excerpt">${excerpt || ""}</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("featuredCard").onclick = () => openPost(item);
+    }
+
+    function renderCards(items){
+      postsGrid.innerHTML = "";
+      items.forEach(item => {
+        const img = normalizeImageUrl(item.mediaUrl);
+        const title = safeText(item.title) || "Untitled";
+        const small = safeText(item.content).slice(0,100);
+
+        const el = document.createElement("div");
+        el.className = "post";
+        el.innerHTML = `
+          <div class="thumb">${img ? `<img src="${img}" alt="">` : `No image`}</div>
+          <div class="body">
+            <h3>${title}</h3>
+            <div class="small">${small || ""}</div>
+            <div class="metaLine" style="margin-top:10px;">
+              <span class="badge">${safeText(item.community) || "All"}</span>
+              <span class="badge">${safeText(item.category) || "General"}</span>
+              <span>${formatDate(item.date)}</span>
+            </div>
+          </div>
+        `;
+        el.onclick = () => openPost(item);
+        postsGrid.appendChild(el);
+      });
+    }
+
+    function renderLatest(items){
+      const latest = items.slice(0, 6);
+      if (!latest.length){
+        latestWrap.textContent = "No posts yet.";
+        return;
+      }
+
+      latestWrap.innerHTML = "";
+      latest.forEach((item, idx) => {
+        const row = document.createElement("div");
+        row.style.padding = "10px 0";
+        row.style.borderBottom = (idx === latest.length - 1) ? "0" : "1px dashed #d1d5db";
+        row.style.cursor = "pointer";
+        row.innerHTML = `
+          <div style="font-weight:900; color:#0f172a;">${safeText(item.title) || "Untitled"}</div>
+          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.date)}</div>
+        `;
+        row.onclick = () => openPost(item);
+        latestWrap.appendChild(row);
+      });
+    }
+
+    function buildShareButtons(item){
+      const url = location.origin + location.pathname + `?id=${encodeURIComponent(item.id)}`;
+      const text = `${safeText(item.title)} - Janasabha News`;
+
+      shareRow.innerHTML = `
+        <button id="copyLinkBtn">Copy Link</button>
+        <a target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text + " " + url)}">WhatsApp</a>
+        <a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
+      `;
+
+      document.getElementById("copyLinkBtn").onclick = async () => {
+        try{
+          await navigator.clipboard.writeText(url);
+          alert("Link copied!");
+        }catch(e){
+          prompt("Copy this link:", url);
+        }
+      };
+    }
+
+    function openPost(item){
+      modal.classList.add("open");
+      modalTitle.textContent = safeText(item.title) || "News";
+
+      const bits = [];
+      if(item.community) bits.push(item.community);
+      if(item.category) bits.push(item.category);
+      const dt = formatDate(item.date);
+      if(dt) bits.push(dt);
+      if(item.reporterName) bits.push("Reporter: " + item.reporterName);
+      modalMeta.textContent = bits.join(" • ");
+
+      const img = normalizeImageUrl(item.mediaUrl);
+      modalMedia.innerHTML = img ? `<img src="${img}" alt="">` : "";
+
+      modalH2.textContent = safeText(item.title) || "Untitled";
+      modalContent.textContent = safeText(item.content) || "";
+      buildShareButtons(item);
+    }
+
+    function render(){
+      const filtered = getFiltered();
+
+      emptyState.style.display = filtered.length ? "none" : "block";
+      if(!filtered.length){
+        featuredWrap.innerHTML = "";
+        postsGrid.innerHTML = "";
+        renderLatest([]);
+        updatePager(0);
+        return;
+      }
+
+      // Featured = first
+      renderFeatured(filtered[0]);
+
+      // Cards = rest (paged)
+      const rest = filtered.slice(1);
+      updatePager(filtered.length);
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = rest.slice(start, start + PAGE_SIZE);
+      renderCards(pageItems);
+
+      // Latest sidebar from filtered
+      renderLatest(filtered);
+    }
+
+    // ✅ Load from Firestore (your schema uses "date" field)
+    async function loadNews(){
+      emptyState.style.display = "none";
+      emptyState.textContent = "No news found.";
+
+      try{
+        const snap = await db.collection("news")
+          .orderBy("date","desc")
+          .limit(100)
+          .get();
+
+        allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+
+        // ✅ after allNews is loaded:
+        buildCommunityDropdown();     // prevents mismatch ever
+        buildCategoryDropdown(allNews);
+
+        currentPage = 1;
+        render();
+
+        // open by URL ?id=
+        const params = new URLSearchParams(location.search);
+        const id = params.get("id");
+        if(id){
+          const found = allNews.find(x => x.id === id);
+          if(found) openPost(found);
+        }
+      }catch(err){
+        console.error(err);
+        emptyState.style.display = "block";
+        emptyState.textContent = "Failed to load news. Check Firestore rules & 'date' field type.";
+      }
+    }
+
+    // Events
+    communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
+    categoryFilter.addEventListener("change", () => { currentPage = 1; render(); });
+    searchBox.addEventListener("input", () => { currentPage = 1; render(); });
+    btnRefresh.addEventListener("click", () => loadNews());
+
+    // Notice dropdown currently just UI (optional)
+    noticeFilter.addEventListener("change", () => {
+      // For future: you can load a separate "notices" collection here.
+    });
+
+    // Login
+    loginBtn.addEventListener("click", () => {
+      window.location.href = "login.html";
+    });
+
+    // Magazine open on selection
+    magCommunity.addEventListener("change", () => {
+      const c = magCommunity.value || "ALL";
+      const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
+      window.location.href = link;
+    });
+
+    // Start
+    loadNews();
+  </script>
 </body>
 </html>
