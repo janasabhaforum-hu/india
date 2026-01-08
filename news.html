@@ -450,18 +450,25 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
-    // ✅ Paste your Firebase config
-    const firebaseConfig = {
-      apiKey: "PASTE",
-      authDomain: "PASTE",
-      projectId: "PASTE",
-      storageBucket: "PASTE",
-      messagingSenderId: "PASTE",
-      appId: "PASTE"
-    };
+   const firebaseConfig = {
+  apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
+  authDomain: "janasabha-app.firebaseapp.com",
+  projectId: "janasabha-app",
+  storageBucket: "janasabha-app.firebasestorage.app",
+  messagingSenderId: "596563440786",
+  appId: "1:596563440786:web:4b8264e45afecc411aa24b"
+};
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+// ✅ Safe init (prevents double init)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
+
+// (optional) show which project the page is using
+console.log("Firebase projectId:", firebase.app().options.projectId);
+;
 
     // DOM
     const communityFilter = document.getElementById("communityFilter");
@@ -755,37 +762,56 @@
 
     // ✅ Load from Firestore (your schema uses "date" field)
     async function loadNews(){
-      emptyState.style.display = "none";
-      emptyState.textContent = "No news found.";
+  // show loading message
+  emptyState.style.display = "block";
+  emptyState.innerHTML = "Loading news…";
 
-      try{
-        const snap = await db.collection("news")
-          .orderBy("date","desc")
-          .limit(100)
-          .get();
+  try{
+    console.log("Reading from Firestore collection: news");
 
-        allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    const snap = await db.collection("news")
+      .orderBy("date","desc")
+      .limit(100)
+      .get();
 
-        // ✅ after allNews is loaded:
-        buildCommunityDropdown();     // prevents mismatch ever
-        buildCategoryDropdown(allNews);
+    console.log("Docs found:", snap.size);
 
-        currentPage = 1;
-        render();
+    allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    console.log("First doc:", allNews[0]);
 
-        // open by URL ?id=
-        const params = new URLSearchParams(location.search);
-        const id = params.get("id");
-        if(id){
-          const found = allNews.find(x => x.id === id);
-          if(found) openPost(found);
-        }
-      }catch(err){
-        console.error(err);
-        emptyState.style.display = "block";
-        emptyState.textContent = "Failed to load news. Check Firestore rules & 'date' field type.";
-      }
+    // Build dropdowns (prevents mismatch)
+    buildCommunityDropdown();
+    buildCategoryDropdown(allNews);
+
+    // Force filters to ALL so nothing is hidden
+    communityFilter.value = "ALL";
+    categoryFilter.value = "ALL";
+
+    currentPage = 1;
+    render();
+
+    // hide empty state if we have data
+    if (allNews.length) emptyState.style.display = "none";
+
+    // open by URL ?id=
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+    if(id){
+      const found = allNews.find(x => x.id === id);
+      if(found) openPost(found);
     }
+
+  } catch(err){
+    console.error("Firestore load error:", err);
+
+    // ✅ show exact error message on screen
+    emptyState.style.display = "block";
+    emptyState.innerHTML =
+      "❌ Firestore error:<br><b>" + (err.message || err) + "</b><br><br>" +
+      "Open browser Console (F12) for details.";
+  }
+}
+
 
     // Events
     communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
