@@ -1,4 +1,5 @@
 // firebase.js
+
 var firebaseConfig = {
   apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
   authDomain: "janasabha-app.firebaseapp.com",
@@ -8,12 +9,13 @@ var firebaseConfig = {
   appId: "1:596563440786:web:4b8264e45afecc411aa24b"
 };
 
+// Prevent duplicate init
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// ✅ Always create db
+// Firestore (always needed)
 var db = firebase.firestore();
 
-// ✅ Only create auth if auth SDK is loaded
-var auth = (firebase.auth ? firebase.auth() : null);
+// Auth (needed for admin/login pages)
+var auth = firebase.auth();
