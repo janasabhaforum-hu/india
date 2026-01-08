@@ -7,7 +7,7 @@
 
   <style>
     :root{
-      --bg: #dbeafe;         /* light blue background like screenshot */
+      --bg: #dbeafe;         /* light background like your screenshots */
       --card: #ffffff;
       --text: #0f172a;
       --muted:#64748b;
@@ -33,21 +33,9 @@
     .wrap{max-width:1200px; margin:0 auto; padding:18px;}
 
     /* ===== HEADER (centered) ===== */
-    .headerCenter{
-      text-align:center;
-      margin-bottom:14px;
-    }
-    .headerCenter h1{
-      margin:0;
-      font-size:1.55rem;
-      letter-spacing:.2px;
-      font-weight:800;
-    }
-    .headerCenter p{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:.95rem;
-    }
+    .headerCenter{ text-align:center; margin-bottom:14px; }
+    .headerCenter h1{ margin:0; font-size:1.55rem; font-weight:800; }
+    .headerCenter p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
 
     /* ===== TOP TOOLBAR ===== */
     .topBar{
@@ -94,13 +82,8 @@
       cursor:pointer;
     }
 
-    /* Search Bar (full width under dropdown row) */
-    .searchBar{
-      width:100%;
-      margin: 8px 0 14px;
-      display:flex;
-      justify-content:center;
-    }
+    /* Search Bar */
+    .searchBar{ width:100%; margin: 8px 0 14px; display:flex; justify-content:center; }
     .searchInput{
       width: 100%;
       max-width: 720px;
@@ -142,10 +125,7 @@
       font-weight:800;
       cursor:pointer;
     }
-    .pager .pbtn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
+    .pager .pbtn:disabled{ opacity:.55; cursor:not-allowed; }
     .pager .pageChip{
       padding:10px 16px;
       border-radius:999px;
@@ -155,7 +135,7 @@
       color: #334155;
     }
 
-    /* Content empty card */
+    /* Empty card */
     .emptyCard{
       background: var(--card);
       border-radius: var(--radius);
@@ -173,6 +153,7 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(2,6,23,.06);
       margin-bottom: 14px;
+      cursor:pointer;
     }
     .featured .media{
       aspect-ratio: 16/7;
@@ -268,11 +249,7 @@
       outline:none;
     }
 
-    .helperText{
-      margin-top:10px;
-      color: var(--muted);
-      font-size:.92rem;
-    }
+    .helperText{ margin-top:10px; color: var(--muted); font-size:.92rem; }
 
     .loginBtnBig{
       width:100%;
@@ -350,7 +327,6 @@
       .grid{grid-template-columns:1fr;}
       .searchInput{max-width: 100%;}
     }
-
     @media (max-width: 620px){
       .topBar{grid-template-columns: 1fr; }
       .btnPill{justify-self:end;}
@@ -362,7 +338,6 @@
 
 <body>
   <div class="wrap">
-    <!-- Center title -->
     <div class="headerCenter">
       <h1>Janasabha News</h1>
       <p>Latest updates from our district and neighbourhood Janasabhas.</p>
@@ -373,15 +348,15 @@
       <div class="communityPill">
         <label for="communityFilter">Community/ies:</label>
         <select id="communityFilter">
+          <!-- Will be auto-built from Firestore (still has fallback options below) -->
           <option value="ALL">All</option>
           <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
-          <!-- Add more communities -->
         </select>
       </div>
       <button class="btnPill" id="btnRefresh">Refresh</button>
     </div>
 
-    <!-- Search bar -->
+    <!-- Search -->
     <div class="searchBar">
       <input id="searchBox" class="searchInput" placeholder="Search news..." />
     </div>
@@ -438,11 +413,12 @@
           <div class="dropRow">
             <label for="magCommunity">Community:</label>
             <select id="magCommunity">
+              <!-- Will be auto-built from Firestore (still has fallback options below) -->
               <option value="ALL">All</option>
               <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
-              <!-- Add more communities -->
             </select>
           </div>
+          <div class="helperText">Select community to open magazine.</div>
         </div>
 
         <div class="sideCard" style="padding:0; background:transparent; border:0; box-shadow:none;">
@@ -464,7 +440,6 @@
         <div id="modalMedia" style="margin-top:10px;"></div>
         <h2 id="modalH2" style="margin:12px 0 6px;"></h2>
         <div class="contentText" id="modalContent"></div>
-
         <div class="shareRow" id="shareRow"></div>
       </div>
     </div>
@@ -520,6 +495,15 @@
     btnClose.onclick = () => modal.classList.remove("open");
     modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
 
+    // ===== YOU CAN EDIT THESE LINKS =====
+    // Keys MUST match community names EXACTLY as in Firestore.
+    const MAGAZINE_LINKS = {
+      "ALL": "magazine.html",
+      "Mannanam (Kottayam)": "magazine-mannanam.html"
+      // Add more:
+      // "Kanjirapally (Kottayam)": "magazine-kanjirapally.html"
+    };
+
     // State
     let allNews = [];
     const PAGE_SIZE = 10;  // cards per page (featured is 1st)
@@ -550,6 +534,7 @@
       return u;
     }
 
+    // ✅ Category dropdown built from Firestore
     function buildCategoryDropdown(items){
       const set = new Set(items.map(x => safeText(x.category).trim()).filter(Boolean));
       const cats = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
@@ -565,6 +550,30 @@
       categoryFilter.value = cats.includes(current) ? current : "ALL";
     }
 
+    // ✅ Best improvement: build BOTH community dropdowns from Firestore
+    function buildCommunityDropdown() {
+      const set = new Set(allNews.map(n => (n.community || "").trim()).filter(Boolean));
+      const communities = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+
+      communityFilter.innerHTML = "";
+      magCommunity.innerHTML = "";
+
+      communities.forEach(c => {
+        const label = (c === "ALL") ? "All" : c;
+
+        const o1 = document.createElement("option");
+        o1.value = c; o1.textContent = label;
+        communityFilter.appendChild(o1);
+
+        const o2 = document.createElement("option");
+        o2.value = c; o2.textContent = label;
+        magCommunity.appendChild(o2);
+      });
+
+      communityFilter.value = "ALL";
+      magCommunity.value = "ALL";
+    }
+
     function getFiltered(){
       const comm = communityFilter.value || "ALL";
       const cat  = categoryFilter.value || "ALL";
@@ -577,13 +586,10 @@
         if (comm !== "ALL" && nComm !== comm) return false;
         if (cat  !== "ALL" && nCat  !== cat)  return false;
 
-        // Notice filter is optional UI (you can connect to notices later)
-        // Currently it does NOT filter news items.
-
         if (!q) return true;
+
         const hay = (
           safeText(n.title) + " " +
-          safeText(n.summary) + " " +
           safeText(n.content) + " " +
           safeText(n.reporterName) + " " +
           safeText(n.community) + " " +
@@ -609,10 +615,10 @@
     function renderFeatured(item){
       const img = normalizeImageUrl(item.mediaUrl);
       const title = safeText(item.title) || "Untitled";
-      const excerpt = safeText(item.summary) || safeText(item.content).slice(0,160);
+      const excerpt = safeText(item.content).slice(0,160);
 
       featuredWrap.innerHTML = `
-        <div class="featured">
+        <div class="featured" id="featuredCard">
           <div class="media">
             ${img ? `<img src="${img}" alt="">` : `No image`}
           </div>
@@ -621,7 +627,7 @@
             <div class="metaLine">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
-              <span>${formatDate(item.createdAt || item.date)}</span>
+              <span>${formatDate(item.date)}</span>
               <span>${item.reporterName ? "Reporter: " + safeText(item.reporterName) : ""}</span>
             </div>
             <div class="excerpt">${excerpt || ""}</div>
@@ -629,8 +635,7 @@
         </div>
       `;
 
-      // click featured to open
-      featuredWrap.querySelector(".featured").onclick = () => openPost(item);
+      document.getElementById("featuredCard").onclick = () => openPost(item);
     }
 
     function renderCards(items){
@@ -638,7 +643,7 @@
       items.forEach(item => {
         const img = normalizeImageUrl(item.mediaUrl);
         const title = safeText(item.title) || "Untitled";
-        const small = safeText(item.summary) || safeText(item.content).slice(0,100);
+        const small = safeText(item.content).slice(0,100);
 
         const el = document.createElement("div");
         el.className = "post";
@@ -650,7 +655,7 @@
             <div class="metaLine" style="margin-top:10px;">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
-              <span>${formatDate(item.createdAt || item.date)}</span>
+              <span>${formatDate(item.date)}</span>
             </div>
           </div>
         `;
@@ -667,19 +672,18 @@
       }
 
       latestWrap.innerHTML = "";
-      latest.forEach(item => {
+      latest.forEach((item, idx) => {
         const row = document.createElement("div");
         row.style.padding = "10px 0";
-        row.style.borderBottom = "1px dashed #d1d5db";
+        row.style.borderBottom = (idx === latest.length - 1) ? "0" : "1px dashed #d1d5db";
         row.style.cursor = "pointer";
         row.innerHTML = `
           <div style="font-weight:900; color:#0f172a;">${safeText(item.title) || "Untitled"}</div>
-          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.createdAt || item.date)}</div>
+          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.date)}</div>
         `;
         row.onclick = () => openPost(item);
         latestWrap.appendChild(row);
       });
-      latestWrap.lastChild.style.borderBottom = "0";
     }
 
     function buildShareButtons(item){
@@ -709,7 +713,7 @@
       const bits = [];
       if(item.community) bits.push(item.community);
       if(item.category) bits.push(item.category);
-      const dt = formatDate(item.createdAt || item.date);
+      const dt = formatDate(item.date);
       if(dt) bits.push(dt);
       if(item.reporterName) bits.push("Reporter: " + item.reporterName);
       modalMeta.textContent = bits.join(" • ");
@@ -718,8 +722,7 @@
       modalMedia.innerHTML = img ? `<img src="${img}" alt="">` : "";
 
       modalH2.textContent = safeText(item.title) || "Untitled";
-      modalContent.textContent = safeText(item.content) || safeText(item.summary) || "";
-
+      modalContent.textContent = safeText(item.content) || "";
       buildShareButtons(item);
     }
 
@@ -746,29 +749,31 @@
       const pageItems = rest.slice(start, start + PAGE_SIZE);
       renderCards(pageItems);
 
-      // Sidebar latest based on filtered
+      // Latest sidebar from filtered
       renderLatest(filtered);
     }
 
+    // ✅ Load from Firestore (your schema uses "date" field)
     async function loadNews(){
       emptyState.style.display = "none";
       emptyState.textContent = "No news found.";
 
       try{
-        let snap;
-        try{
-          snap = await db.collection("news").orderBy("createdAt","desc").limit(100).get();
-        }catch(e){
-          snap = await db.collection("news").orderBy("date","desc").limit(100).get();
-        }
+        const snap = await db.collection("news")
+          .orderBy("date","desc")
+          .limit(100)
+          .get();
 
         allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
 
+        // ✅ after allNews is loaded:
+        buildCommunityDropdown();     // prevents mismatch ever
         buildCategoryDropdown(allNews);
+
         currentPage = 1;
         render();
 
-        // Open by URL ?id=
+        // open by URL ?id=
         const params = new URLSearchParams(location.search);
         const id = params.get("id");
         if(id){
@@ -778,7 +783,7 @@
       }catch(err){
         console.error(err);
         emptyState.style.display = "block";
-        emptyState.textContent = "Failed to load news. Check Firestore rules & timestamps.";
+        emptyState.textContent = "Failed to load news. Check Firestore rules & 'date' field type.";
       }
     }
 
@@ -786,22 +791,23 @@
     communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
     categoryFilter.addEventListener("change", () => { currentPage = 1; render(); });
     searchBox.addEventListener("input", () => { currentPage = 1; render(); });
-
     btnRefresh.addEventListener("click", () => loadNews());
 
-    // Login button (change to your login page)
+    // Notice dropdown currently just UI (optional)
+    noticeFilter.addEventListener("change", () => {
+      // For future: you can load a separate "notices" collection here.
+    });
+
+    // Login
     loginBtn.addEventListener("click", () => {
       window.location.href = "login.html";
     });
 
-    // Magazine dropdown (optional: map community to magazine page)
-    const MAGAZINE_LINKS = {
-      "ALL": "magazine.html",
-      "Mannanam (Kottayam)": "magazine-mannanam.html"
-    };
+    // Magazine open on selection
     magCommunity.addEventListener("change", () => {
-      // auto-open when community selected (optional)
-      // window.location.href = MAGAZINE_LINKS[magCommunity.value] || MAGAZINE_LINKS["ALL"];
+      const c = magCommunity.value || "ALL";
+      const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
+      window.location.href = link;
     });
 
     // Start
