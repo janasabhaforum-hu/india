@@ -7,7 +7,7 @@
 
   <style>
     :root{
-      --bg: #dbeafe;         /* light background like your screenshots */
+      --bg: #dbeafe;
       --card: #ffffff;
       --text: #0f172a;
       --muted:#64748b;
@@ -17,10 +17,9 @@
       --shadow: 0 10px 22px rgba(2,6,23,.08);
       --radius: 18px;
 
-      --accent:#7aa6b1;      /* search bar color */
-      --accent2:#bfe3f3;     /* login button soft blue */
+      --accent:#6e9098;
+      --accent2:#bfe3f3;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -29,23 +28,66 @@
       color: var(--text);
     }
     a{color:inherit; text-decoration:none}
-
     .wrap{max-width:1200px; margin:0 auto; padding:18px;}
 
-    /* ===== HEADER (centered) ===== */
-    .headerCenter{ text-align:center; margin-bottom:14px; }
-    .headerCenter h1{ margin:0; font-size:1.55rem; font-weight:800; }
+    /* Header */
+    .headerCenter{ text-align:center; margin-bottom:10px; }
+    .headerCenter h1{ margin:0; font-size:1.6rem; font-weight:900; }
     .headerCenter p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
 
-    /* ===== TOP TOOLBAR ===== */
+    /* ===== TOP ACTION STRIP (button cards) ===== */
+    .actionStrip{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr 1fr 1fr;
+      gap:14px;
+      align-items:stretch;
+      margin: 14px 0 14px;
+    }
+    .actionCard{
+      background: var(--card);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height: 52px;
+    }
+    .actionCard .label{
+      font-weight:900;
+      color:#0f172a;
+      white-space:nowrap;
+    }
+    .actionCard select{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      font-weight:800;
+      color:#0f172a;
+      padding:6px 8px;
+      appearance:auto;
+    }
+    .loginBtnTop{
+      width:100%;
+      border:0;
+      border-radius:999px;
+      background: var(--accent2);
+      box-shadow: var(--shadow);
+      font-weight:900;
+      padding:14px 16px;
+      cursor:pointer;
+    }
+
+    /* ===== Community + Refresh row ===== */
     .topBar{
       display:grid;
       grid-template-columns: 1fr auto;
       gap:14px;
       align-items:center;
-      margin: 14px 0 10px;
+      margin: 0 0 10px;
     }
-
     .communityPill{
       display:flex;
       align-items:center;
@@ -58,7 +100,7 @@
     }
     .communityPill label{
       color: var(--muted);
-      font-weight:700;
+      font-weight:800;
       white-space:nowrap;
     }
     .communityPill select{
@@ -66,23 +108,22 @@
       border:none;
       outline:none;
       background:transparent;
-      font-weight:800;
+      font-weight:900;
       font-size:1rem;
       color: var(--text);
       padding:6px 6px;
     }
-
     .btnPill{
       padding:12px 18px;
       border-radius:999px;
       border:0;
       background: var(--card);
       box-shadow: var(--shadow);
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
     }
 
-    /* Search Bar */
+    /* Search */
     .searchBar{ width:100%; margin: 8px 0 14px; display:flex; justify-content:center; }
     .searchInput{
       width: 100%;
@@ -95,11 +136,10 @@
       color:#fff;
       box-shadow: var(--shadow);
       font-size:1.05rem;
-      letter-spacing:.2px;
     }
     .searchInput::placeholder{color: rgba(255,255,255,.85);}
 
-    /* ===== MAIN LAYOUT ===== */
+    /* Layout */
     .layout{
       display:grid;
       grid-template-columns: 1.9fr .95fr;
@@ -107,7 +147,7 @@
       align-items:start;
     }
 
-    /* Pager centered */
+    /* Pager */
     .pager{
       display:flex;
       justify-content:center;
@@ -122,7 +162,7 @@
       border:0;
       background: var(--card);
       box-shadow: var(--shadow);
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
     }
     .pager .pbtn:disabled{ opacity:.55; cursor:not-allowed; }
@@ -135,7 +175,7 @@
       color: #334155;
     }
 
-    /* Empty card */
+    /* Empty */
     .emptyCard{
       background: var(--card);
       border-radius: var(--radius);
@@ -145,7 +185,7 @@
       border: 1px solid rgba(2,6,23,.06);
     }
 
-    /* Featured + posts */
+    /* Featured + cards */
     .featured{
       background: var(--card);
       border-radius: var(--radius);
@@ -181,7 +221,7 @@
       padding:6px 12px;
       border-radius:999px;
       background: var(--pill);
-      font-weight:800;
+      font-weight:900;
       color:#334155;
     }
     .excerpt{margin:10px 0 0; color:var(--muted); line-height:1.5}
@@ -210,7 +250,7 @@
     .post h3{margin:0; font-size:1.02rem; line-height:1.35;}
     .post .small{margin:8px 0 0; color:var(--muted); font-size:.92rem; line-height:1.45;}
 
-    /* ===== SIDEBAR CARDS ===== */
+    /* Sidebar */
     .sideCard{
       background: var(--card);
       border-radius: var(--radius);
@@ -232,38 +272,7 @@
       color: var(--muted);
     }
 
-    .dropRow{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-top:10px;
-    }
-    .dropRow label{color:var(--muted); font-weight:800; min-width:110px;}
-    .dropRow select{
-      flex:1;
-      padding:14px 14px;
-      border-radius:999px;
-      border: 1px solid var(--line);
-      background: #f8fafc;
-      font-weight:800;
-      outline:none;
-    }
-
-    .helperText{ margin-top:10px; color: var(--muted); font-size:.92rem; }
-
-    .loginBtnBig{
-      width:100%;
-      padding:18px 18px;
-      border-radius:999px;
-      border: 1px solid rgba(2,6,23,.10);
-      background: var(--accent2);
-      box-shadow: var(--shadow);
-      font-weight:900;
-      font-size:1.25rem;
-      cursor:pointer;
-    }
-
-    /* ===== MODAL ===== */
+    /* Modal */
     .modal{
       position:fixed; inset:0;
       background: rgba(2,6,23,.45);
@@ -294,7 +303,6 @@
       top:0;
       background: var(--card);
     }
-    .modalTop b{font-size:1rem;}
     .closeBtn{
       padding:10px 14px;
       border-radius:999px;
@@ -321,17 +329,16 @@
       font-weight:900;
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* Responsive */
     @media (max-width: 980px){
       .layout{grid-template-columns:1fr;}
       .grid{grid-template-columns:1fr;}
-      .searchInput{max-width: 100%;}
+      .actionStrip{grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 620px){
+      .actionStrip{grid-template-columns:1fr;}
       .topBar{grid-template-columns: 1fr; }
       .btnPill{justify-self:end;}
-      .communityPill{padding:12px 14px;}
-      .searchInput{padding:16px 18px;}
     }
   </style>
 </head>
@@ -343,14 +350,38 @@
       <p>Latest updates from our district and neighbourhood Janasabhas.</p>
     </div>
 
+    <!-- Top button-cards row -->
+    <div class="actionStrip">
+      <button class="loginBtnTop" id="loginBtnTop">Volunteer/Admin Login</button>
+
+      <div class="actionCard">
+        <span class="label">Latest Posts</span>
+        <select id="latestSelect">
+          <option value="">Select…</option>
+        </select>
+      </div>
+
+      <div class="actionCard">
+        <span class="label">Categories</span>
+        <select id="categoryFilterTop">
+          <option value="ALL">All</option>
+        </select>
+      </div>
+
+      <div class="actionCard">
+        <span class="label">Community Magazine</span>
+        <select id="magCommunity">
+          <option value="ALL">All</option>
+        </select>
+      </div>
+    </div>
+
     <!-- Community dropdown + Refresh -->
     <div class="topBar">
       <div class="communityPill">
         <label for="communityFilter">Community/ies:</label>
         <select id="communityFilter">
-          <!-- Will be auto-built from Firestore (still has fallback options below) -->
           <option value="ALL">All</option>
-          <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
         </select>
       </div>
       <button class="btnPill" id="btnRefresh">Refresh</button>
@@ -373,6 +404,13 @@
         <div id="featuredWrap"></div>
         <div id="postsGrid" class="grid"></div>
 
+        <!-- bottom pager (same buttons) -->
+        <div class="pager">
+          <button class="pbtn" id="btnPrev2" disabled>← Prev</button>
+          <div class="pageChip" id="pageInfo2">Page 1 / 1</div>
+          <button class="pbtn" id="btnNext2" disabled>Next →</button>
+        </div>
+
         <div id="emptyState" class="emptyCard" style="display:none;">No news found.</div>
       </main>
 
@@ -384,45 +422,8 @@
         </div>
 
         <div class="sideCard">
-          <h4>Categories</h4>
-          <div class="dropRow">
-            <label for="categoryFilter"> </label>
-            <select id="categoryFilter">
-              <option value="ALL">All</option>
-            </select>
-          </div>
-          <div class="helperText">Click a category to filter.</div>
-        </div>
-
-        <div class="sideCard">
           <h4>Notice Board</h4>
-          <div class="dropRow">
-            <label for="noticeFilter"> </label>
-            <select id="noticeFilter">
-              <option value="ALL">All</option>
-              <option value="General">General</option>
-              <option value="Meetings">Meetings</option>
-              <option value="Training">Training</option>
-            </select>
-          </div>
-          <div class="helperText">Select a type (optional).</div>
-        </div>
-
-        <div class="sideCard">
-          <h4>Community Magazine</h4>
-          <div class="dropRow">
-            <label for="magCommunity">Community:</label>
-            <select id="magCommunity">
-              <!-- Will be auto-built from Firestore (still has fallback options below) -->
-              <option value="ALL">All</option>
-              <option value="Mannanam (Kottayam)">Mannanam (Kottayam)</option>
-            </select>
-          </div>
-          <div class="helperText">Select community to open magazine.</div>
-        </div>
-
-        <div class="sideCard" style="padding:0; background:transparent; border:0; box-shadow:none;">
-          <button class="loginBtnBig" id="loginBtn">Volunteer/Admin Login</button>
+          <div class="sideInner">Coming soon.</div>
         </div>
       </aside>
     </div>
@@ -450,44 +451,41 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
-   const firebaseConfig = {
-  apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
-  authDomain: "janasabha-app.firebaseapp.com",
-  projectId: "janasabha-app",
-  storageBucket: "janasabha-app.firebasestorage.app",
-  messagingSenderId: "596563440786",
-  appId: "1:596563440786:web:4b8264e45afecc411aa24b"
-};
+    // Firebase config (your project)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqxQKxSaNORdePg8xP6-ePmMr40DisFW0",
+      authDomain: "janasabha-app.firebaseapp.com",
+      projectId: "janasabha-app",
+      storageBucket: "janasabha-app.firebasestorage.app",
+      messagingSenderId: "596563440786",
+      appId: "1:596563440786:web:4b8264e45afecc411aa24b"
+    };
 
-// ✅ Safe init (prevents double init)
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-const db = firebase.firestore();
-
-// (optional) show which project the page is using
-console.log("Firebase projectId:", firebase.app().options.projectId);
-;
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
     // DOM
     const communityFilter = document.getElementById("communityFilter");
-    const categoryFilter  = document.getElementById("categoryFilter");
-    const noticeFilter    = document.getElementById("noticeFilter");
-    const magCommunity    = document.getElementById("magCommunity");
-    const btnRefresh      = document.getElementById("btnRefresh");
-    const searchBox       = document.getElementById("searchBox");
+    const magCommunity = document.getElementById("magCommunity");
+    const btnRefresh = document.getElementById("btnRefresh");
+    const searchBox = document.getElementById("searchBox");
+
+    const categoryFilterTop = document.getElementById("categoryFilterTop");
+    const latestSelect = document.getElementById("latestSelect");
+    const loginBtnTop = document.getElementById("loginBtnTop");
 
     const featuredWrap = document.getElementById("featuredWrap");
-    const postsGrid    = document.getElementById("postsGrid");
-    const emptyState   = document.getElementById("emptyState");
-    const latestWrap   = document.getElementById("latestWrap");
+    const postsGrid = document.getElementById("postsGrid");
+    const emptyState = document.getElementById("emptyState");
+    const latestWrap = document.getElementById("latestWrap");
 
-    const btnPrev   = document.getElementById("btnPrev");
-    const btnNext   = document.getElementById("btnNext");
-    const pageInfo  = document.getElementById("pageInfo");
+    const btnPrev  = document.getElementById("btnPrev");
+    const btnNext  = document.getElementById("btnNext");
+    const pageInfo = document.getElementById("pageInfo");
 
-    const loginBtn  = document.getElementById("loginBtn");
+    const btnPrev2  = document.getElementById("btnPrev2");
+    const btnNext2  = document.getElementById("btnNext2");
+    const pageInfo2 = document.getElementById("pageInfo2");
 
     // Modal
     const modal = document.getElementById("modal");
@@ -502,21 +500,20 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
     btnClose.onclick = () => modal.classList.remove("open");
     modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
 
-    // ===== YOU CAN EDIT THESE LINKS =====
-    // Keys MUST match community names EXACTLY as in Firestore.
+    loginBtnTop.onclick = () => location.href = "login.html";
+
+    // Magazine links (edit)
     const MAGAZINE_LINKS = {
       "ALL": "magazine.html",
       "Mannanam (Kottayam)": "magazine-mannanam.html"
-      // Add more:
-      // "Kanjirapally (Kottayam)": "magazine-kanjirapally.html"
     };
 
     // State
     let allNews = [];
-    const PAGE_SIZE = 10;  // cards per page (featured is 1st)
     let currentPage = 1;
+    const SMALL_PER_PAGE = 7; // ✅ max small cards per page
 
-    function safeText(v){ return (v || "").toString(); }
+    function safeText(v){ return (v ?? "").toString(); }
 
     function formatDate(ts){
       try{
@@ -526,64 +523,55 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
       }catch(e){ return ""; }
     }
 
-    // Drive link -> direct image
     function normalizeImageUrl(url){
       const u = safeText(url).trim();
       if(!u) return "";
       if(!/^https?:\/\//i.test(u)) return "";
-
       const driveMatch = u.match(/drive\.google\.com\/file\/d\/([^\/]+)\//i);
       if (driveMatch && driveMatch[1]) return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
-
       const openId = u.match(/drive\.google\.com\/open\?id=([^&]+)/i);
       if (openId && openId[1]) return `https://drive.google.com/uc?export=view&id=${openId[1]}`;
-
       return u;
     }
 
-    // ✅ Category dropdown built from Firestore
-    function buildCategoryDropdown(items){
-      const set = new Set(items.map(x => safeText(x.category).trim()).filter(Boolean));
-      const cats = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
-
-      const current = categoryFilter.value || "ALL";
-      categoryFilter.innerHTML = "";
-      cats.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c === "ALL" ? "All" : c;
-        categoryFilter.appendChild(opt);
-      });
-      categoryFilter.value = cats.includes(current) ? current : "ALL";
-    }
-
-    // ✅ Best improvement: build BOTH community dropdowns from Firestore
-    function buildCommunityDropdown() {
-      const set = new Set(allNews.map(n => (n.community || "").trim()).filter(Boolean));
+    function buildCommunityDropdown(){
+      const set = new Set(allNews.map(n => safeText(n.community).trim()).filter(Boolean));
       const communities = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
 
       communityFilter.innerHTML = "";
       magCommunity.innerHTML = "";
 
       communities.forEach(c => {
-        const label = (c === "ALL") ? "All" : c;
-
-        const o1 = document.createElement("option");
-        o1.value = c; o1.textContent = label;
-        communityFilter.appendChild(o1);
-
-        const o2 = document.createElement("option");
-        o2.value = c; o2.textContent = label;
-        magCommunity.appendChild(o2);
+        const label = c === "ALL" ? "All" : c;
+        communityFilter.appendChild(new Option(label, c));
+        magCommunity.appendChild(new Option(label, c));
       });
 
-      communityFilter.value = "ALL";
-      magCommunity.value = "ALL";
+      if (!communities.includes(communityFilter.value)) communityFilter.value = "ALL";
+      if (!communities.includes(magCommunity.value)) magCommunity.value = "ALL";
+    }
+
+    function buildCategoryDropdown(){
+      const set = new Set(allNews.map(n => safeText(n.category).trim()).filter(Boolean));
+      const cats = ["ALL", ...Array.from(set).sort((a,b)=>a.localeCompare(b))];
+
+      const prev = categoryFilterTop.value || "ALL";
+      categoryFilterTop.innerHTML = "";
+      cats.forEach(c => categoryFilterTop.appendChild(new Option(c === "ALL" ? "All" : c, c)));
+      categoryFilterTop.value = cats.includes(prev) ? prev : "ALL";
+    }
+
+    function buildLatestSelect(items){
+      latestSelect.innerHTML = `<option value="">Select…</option>`;
+      items.slice(0, 30).forEach(n => {
+        const label = `${safeText(n.title) || "Untitled"} (${formatDate(n.date)})`;
+        latestSelect.appendChild(new Option(label, n.id));
+      });
     }
 
     function getFiltered(){
       const comm = communityFilter.value || "ALL";
-      const cat  = categoryFilter.value || "ALL";
+      const cat  = categoryFilterTop.value || "ALL";
       const q    = (searchBox.value || "").trim().toLowerCase();
 
       return allNews.filter(n => {
@@ -591,57 +579,51 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
         const nCat  = safeText(n.category).trim();
 
         if (comm !== "ALL" && nComm !== comm) return false;
-        if (cat  !== "ALL" && nCat  !== cat)  return false;
+        if (cat  !== "ALL" && nCat !== cat) return false;
 
         if (!q) return true;
-
-        const hay = (
-          safeText(n.title) + " " +
-          safeText(n.content) + " " +
-          safeText(n.reporterName) + " " +
-          safeText(n.community) + " " +
-          safeText(n.category)
-        ).toLowerCase();
+        const hay = (safeText(n.title)+" "+safeText(n.content)+" "+safeText(n.reporterName)).toLowerCase();
         return hay.includes(q);
       });
     }
 
     function updatePager(totalFiltered){
-      const totalCards = Math.max(0, totalFiltered - 1);
-      const totalPages = Math.max(1, Math.ceil(totalCards / PAGE_SIZE));
+      const totalSmall = Math.max(0, totalFiltered - 1); // featured excluded
+      const totalPages = Math.max(1, Math.ceil(totalSmall / SMALL_PER_PAGE));
       currentPage = Math.min(currentPage, totalPages);
 
-      pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
-      btnPrev.disabled = currentPage <= 1;
-      btnNext.disabled = currentPage >= totalPages;
+      const txt = `Page ${currentPage} / ${totalPages}`;
+      pageInfo.textContent = txt;
+      pageInfo2.textContent = txt;
 
-      btnPrev.onclick = () => { currentPage = Math.max(1, currentPage - 1); render(); };
-      btnNext.onclick = () => { currentPage = Math.min(totalPages, currentPage + 1); render(); };
+      const prevDisabled = currentPage <= 1;
+      const nextDisabled = currentPage >= totalPages;
+
+      btnPrev.disabled = prevDisabled;
+      btnPrev2.disabled = prevDisabled;
+      btnNext.disabled = nextDisabled;
+      btnNext2.disabled = nextDisabled;
     }
 
     function renderFeatured(item){
       const img = normalizeImageUrl(item.mediaUrl);
-      const title = safeText(item.title) || "Untitled";
-      const excerpt = safeText(item.content).slice(0,160);
-
       featuredWrap.innerHTML = `
         <div class="featured" id="featuredCard">
           <div class="media">
             ${img ? `<img src="${img}" alt="">` : `No image`}
           </div>
           <div class="body">
-            <h2>${title}</h2>
+            <h2>${safeText(item.title) || "Untitled"}</h2>
             <div class="metaLine">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
               <span>${formatDate(item.date)}</span>
               <span>${item.reporterName ? "Reporter: " + safeText(item.reporterName) : ""}</span>
             </div>
-            <div class="excerpt">${excerpt || ""}</div>
+            <div class="excerpt">${safeText(item.content).slice(0,160)}</div>
           </div>
         </div>
       `;
-
       document.getElementById("featuredCard").onclick = () => openPost(item);
     }
 
@@ -649,16 +631,13 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
       postsGrid.innerHTML = "";
       items.forEach(item => {
         const img = normalizeImageUrl(item.mediaUrl);
-        const title = safeText(item.title) || "Untitled";
-        const small = safeText(item.content).slice(0,100);
-
         const el = document.createElement("div");
         el.className = "post";
         el.innerHTML = `
           <div class="thumb">${img ? `<img src="${img}" alt="">` : `No image`}</div>
           <div class="body">
-            <h3>${title}</h3>
-            <div class="small">${small || ""}</div>
+            <h3>${safeText(item.title) || "Untitled"}</h3>
+            <div class="small">${safeText(item.content).slice(0,100)}</div>
             <div class="metaLine" style="margin-top:10px;">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
@@ -673,10 +652,7 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
 
     function renderLatest(items){
       const latest = items.slice(0, 6);
-      if (!latest.length){
-        latestWrap.textContent = "No posts yet.";
-        return;
-      }
+      if (!latest.length){ latestWrap.textContent = "No posts yet."; return; }
 
       latestWrap.innerHTML = "";
       latest.forEach((item, idx) => {
@@ -696,20 +672,14 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
     function buildShareButtons(item){
       const url = location.origin + location.pathname + `?id=${encodeURIComponent(item.id)}`;
       const text = `${safeText(item.title)} - Janasabha News`;
-
       shareRow.innerHTML = `
         <button id="copyLinkBtn">Copy Link</button>
         <a target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text + " " + url)}">WhatsApp</a>
         <a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">Facebook</a>
       `;
-
       document.getElementById("copyLinkBtn").onclick = async () => {
-        try{
-          await navigator.clipboard.writeText(url);
-          alert("Link copied!");
-        }catch(e){
-          prompt("Copy this link:", url);
-        }
+        try{ await navigator.clipboard.writeText(url); alert("Link copied!"); }
+        catch(e){ prompt("Copy this link:", url); }
       };
     }
 
@@ -727,7 +697,6 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
 
       const img = normalizeImageUrl(item.mediaUrl);
       modalMedia.innerHTML = img ? `<img src="${img}" alt="">` : "";
-
       modalH2.textContent = safeText(item.title) || "Untitled";
       modalContent.textContent = safeText(item.content) || "";
       buildShareButtons(item);
@@ -745,96 +714,86 @@ console.log("Firebase projectId:", firebase.app().options.projectId);
         return;
       }
 
-      // Featured = first
       renderFeatured(filtered[0]);
 
-      // Cards = rest (paged)
       const rest = filtered.slice(1);
-      updatePager(filtered.length);
+      const totalPages = Math.max(1, Math.ceil(rest.length / SMALL_PER_PAGE));
+      currentPage = Math.min(currentPage, totalPages);
 
-      const start = (currentPage - 1) * PAGE_SIZE;
-      const pageItems = rest.slice(start, start + PAGE_SIZE);
+      const start = (currentPage - 1) * SMALL_PER_PAGE;
+      const pageItems = rest.slice(start, start + SMALL_PER_PAGE);
+
       renderCards(pageItems);
-
-      // Latest sidebar from filtered
       renderLatest(filtered);
+      updatePager(filtered.length);
     }
 
-    // ✅ Load from Firestore (your schema uses "date" field)
     async function loadNews(){
-  // show loading message
-  emptyState.style.display = "block";
-  emptyState.innerHTML = "Loading news…";
+      emptyState.style.display = "block";
+      emptyState.innerHTML = "Loading news…";
 
-  try{
-    console.log("Reading from Firestore collection: news");
+      try{
+        const snap = await db.collection("news")
+          .orderBy("date","desc")
+          .limit(200)
+          .get();
 
-    const snap = await db.collection("news")
-      .orderBy("date","desc")
-      .limit(100)
-      .get();
+        allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
 
-    console.log("Docs found:", snap.size);
+        buildCommunityDropdown();
+        buildCategoryDropdown();
+        buildLatestSelect(allNews);
 
-    allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    console.log("First doc:", allNews[0]);
+        // force safe defaults
+        if (!communityFilter.value) communityFilter.value = "ALL";
+        if (!categoryFilterTop.value) categoryFilterTop.value = "ALL";
 
-    // Build dropdowns (prevents mismatch)
-    buildCommunityDropdown();
-    buildCategoryDropdown(allNews);
+        currentPage = 1;
+        render();
 
-    // Force filters to ALL so nothing is hidden
-    communityFilter.value = "ALL";
-    categoryFilter.value = "ALL";
+        if (allNews.length) emptyState.style.display = "none";
 
-    currentPage = 1;
-    render();
-
-    // hide empty state if we have data
-    if (allNews.length) emptyState.style.display = "none";
-
-    // open by URL ?id=
-    const params = new URLSearchParams(location.search);
-    const id = params.get("id");
-    if(id){
-      const found = allNews.find(x => x.id === id);
-      if(found) openPost(found);
+        const params = new URLSearchParams(location.search);
+        const id = params.get("id");
+        if(id){
+          const found = allNews.find(x => x.id === id);
+          if(found) openPost(found);
+        }
+      }catch(err){
+        console.error(err);
+        emptyState.style.display = "block";
+        emptyState.innerHTML = "❌ Failed to load news.<br><b>" + (err.message || err) + "</b>";
+      }
     }
-
-  } catch(err){
-    console.error("Firestore load error:", err);
-
-    // ✅ show exact error message on screen
-    emptyState.style.display = "block";
-    emptyState.innerHTML =
-      "❌ Firestore error:<br><b>" + (err.message || err) + "</b><br><br>" +
-      "Open browser Console (F12) for details.";
-  }
-}
-
 
     // Events
-    communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
-    categoryFilter.addEventListener("change", () => { currentPage = 1; render(); });
-    searchBox.addEventListener("input", () => { currentPage = 1; render(); });
-    btnRefresh.addEventListener("click", () => loadNews());
+    communityFilter.onchange = () => { currentPage = 1; render(); };
+    categoryFilterTop.onchange = () => { currentPage = 1; render(); };
+    searchBox.oninput = () => { currentPage = 1; render(); };
 
-    // Notice dropdown currently just UI (optional)
-    noticeFilter.addEventListener("change", () => {
-      // For future: you can load a separate "notices" collection here.
-    });
+    latestSelect.onchange = () => {
+      const id = latestSelect.value;
+      if(!id) return;
+      const found = allNews.find(x => x.id === id);
+      if(found) openPost(found);
+      latestSelect.value = "";
+    };
 
-    // Login
-    loginBtn.addEventListener("click", () => {
-      window.location.href = "login.html";
-    });
+    btnRefresh.onclick = loadNews;
 
-    // Magazine open on selection
-    magCommunity.addEventListener("change", () => {
+    function goPrev(){ currentPage = Math.max(1, currentPage - 1); render(); }
+    function goNext(){ currentPage = currentPage + 1; render(); }
+
+    btnPrev.onclick = goPrev;
+    btnPrev2.onclick = goPrev;
+    btnNext.onclick = goNext;
+    btnNext2.onclick = goNext;
+
+    magCommunity.onchange = () => {
       const c = magCommunity.value || "ALL";
       const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
       window.location.href = link;
-    });
+    };
 
     // Start
     loadNews();
