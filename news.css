@@ -1,0 +1,26 @@
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#dbeafe;
+}
+
+.wrap{max-width:1200px;margin:auto;padding:16px;}
+
+.headerCenter{text-align:center}
+
+.communityPill, .btnPill, .searchInput, .sideCard,
+.featured, .post, .loginBtnBig{
+  background:#fff;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.layout{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+.post img,.featured img{width:100%;border-radius:12px}
+
+.modal{display:none;position:fixed;inset:0;background:#0007}
+.modal.open{display:flex;align-items:center;justify-content:center}
+.modalCard{background:#fff;padding:16px;border-radius:18px;max-width:700px}
