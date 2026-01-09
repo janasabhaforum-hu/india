@@ -4,582 +4,316 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mannanam Voice - eMagazine</title>
+  <title>Mannanam Voice - eMagazine Flipbook</title>
 
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <style>
-    /* ===== BASIC RESET ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    /* ===== RESET ===== */
+    *{ margin:0; padding:0; box-sizing:border-box; }
     :root{
-      --max-width: 1200px;
-      --side-padding: 16px;
-      --nav-h: 70px;
-
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --line: #e5e7eb;
-      --text: #0f172a;
-      --muted: #64748b;
-      --shadow: 0 10px 22px rgba(2,6,23,.06);
-
-      --green: #2b7a2c;
-      --dark: #1b1b1b;
-      --yellow: #f1c40f;
-      --radius: 16px;
+      --max:1200px;
+      --pad:16px;
+      --navh:70px;
+      --dark:#1b1b1b;
+      --yellow:#f1c40f;
+      --green:#2b7a2c;
+      --bg:#f5f7fb;
+      --card:#fff;
+      --line:#e5e7eb;
+      --muted:#64748b;
+      --text:#0f172a;
+      --shadow: 0 10px 22px rgba(2,6,23,.08);
+      --radius:16px;
     }
+    body{ font-family:Poppins, sans-serif; background:var(--bg); color:var(--text); }
 
-    body{
-      font-family: "Poppins", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+    .page-container{ max-width:var(--max); margin:0 auto; padding:0 var(--pad); }
 
-    /* ===== GLOBAL CONTAINER (same width for NAV, BODY, FOOTER) ===== */
-    .page-container{
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding-left: var(--side-padding);
-      padding-right: var(--side-padding);
-    }
-
-    /* ===== NAVBAR ===== */
+    /* ===== NAV (same style) ===== */
     nav{
-      background: var(--dark);
-      height: var(--nav-h);
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
+      background:var(--dark); height:var(--navh); width:100%;
+      position:fixed; top:0; left:0; z-index:1000;
     }
-
     .nav-inner{
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 var(--side-padding);
-      height: var(--nav-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+      max-width:var(--max); margin:0 auto; padding:0 var(--pad);
+      height:var(--navh); display:flex; align-items:center; justify-content:space-between; gap:14px;
     }
+    .logo{ color:#fff; font-size:30px; font-weight:700; letter-spacing:1px; white-space:nowrap; }
+    nav ul{ display:flex; list-style:none; gap:18px; align-items:center; }
+    nav ul li a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; }
+    nav ul li a:hover, nav ul li a.active{ color:yellow; }
+    .nav-right{ display:flex; align-items:center; gap:10px; }
+    .menu-toggle{ display:none; font-size:24px; color:#fff; background:none; border:none; cursor:pointer; }
+    @media (max-width:900px){ nav ul{ display:none; } .menu-toggle{ display:inline-flex; } .logo{ font-size:26px; } }
 
-    nav .logo{
-      color: white;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      white-space: nowrap;
-    }
-
-    nav ul{
-      display: flex;
-      list-style: none;
-      gap: 18px;
-      flex-wrap: nowrap;
-      align-items: center;
-    }
-
-    nav ul li a{
-      color: white;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      transition: 0.25s;
-      white-space: nowrap;
-    }
-
-    nav ul li a:hover,
-    nav ul li a.active{
-      color: yellow;
-    }
-
-    /* ===== RIGHT AREA (language + hamburger) ===== */
-    .nav-right{
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    /* ===== MOBILE MENU BUTTON ===== */
-    .menu-toggle{
-      display: none;
-      font-size: 24px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    @media (max-width: 900px){
-      nav ul{ display: none; }
-      .menu-toggle{ display: inline-flex; }
-      nav .logo{ font-size: 24px; }
-    }
-
-    /* ===== LANGUAGE DROPDOWN (CLICK TO OPEN) ===== */
-    .language-dropdown{ position: relative; display: inline-block; }
-    .lang-btn{
-      background: var(--dark);
-      color: #fff;
-      border: 1px solid var(--yellow);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-    .lang-btn:hover{ background: var(--yellow); color: var(--dark); }
-
-    .lang-menu{
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 46px;
-      background: #fff;
-      min-width: 190px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      z-index: 1500;
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-
-    .language-dropdown.active .lang-menu{ display: block; }
-
-    .lang-menu a{
-      color: #333;
-      padding: 10px 15px;
-      text-decoration: none;
-      display: block;
-      transition: background 0.2s;
-      font-size: 14px;
-    }
-
-    .lang-menu a:hover{
-      background: var(--yellow);
-      color: var(--dark);
-    }
-
-    @media (max-width: 900px){
-      .lang-btn{ padding: 6px 10px; font-size: 13px; }
-    }
-
-    /* ===== MOBILE OVERLAY MENU ===== */
-    .menu-overlay{
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: stretch;
-      justify-content: flex-start;
-      z-index: 1200;
-    }
-
-    .menu-overlay.show{ display: flex; }
-
-    .menu-overlay::before{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(2px);
-    }
-
+    /* ===== Mobile overlay menu (optional) ===== */
+    .menu-overlay{ position:fixed; inset:0; display:none; z-index:1200; }
+    .menu-overlay.show{ display:block; }
+    .menu-overlay::before{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.45); backdrop-filter: blur(2px); }
     .side-menu{
-      position: relative;
-      width: 220px;
-      height: 100%;
-      background: rgb(101, 96, 96);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      padding: 30px 22px;
-      z-index: 1;
+      position:relative; width:220px; height:100%;
+      background:rgb(101,96,96); padding:30px 22px;
+      transform:translateX(-100%); transition:.3s; z-index:1;
     }
+    .menu-overlay.show .side-menu{ transform:translateX(0); }
+    .close-btn{ background:none; border:none; font-size:30px; color:#fff; cursor:pointer; position:absolute; top:10px; right:14px; }
+    .side-menu ul{ list-style:none; margin-top:20px; }
+    .side-menu li{ margin:14px 0; }
+    .side-menu a{ color:#fff; text-decoration:none; font-size:18px; }
 
-    .menu-overlay.show .side-menu{ transform: translateX(0); }
+    .spacer{ height: calc(var(--navh) + 18px); }
 
-    .side-menu ul{ list-style: none; }
-    .side-menu ul li{ margin: 14px 0; }
-    .side-menu ul li a{
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
+    /* ===== Header ===== */
+    .page-head{ text-align:center; padding:10px 0 14px; }
+    .page-head h1{ color:var(--green); font-size:2rem; font-weight:700; }
+    .page-head h2{ color:#ea4606; font-size:1.1rem; font-weight:700; margin-top:4px; }
+    .page-head p{ margin-top:8px; color:var(--muted); }
 
-    .close-btn{
-      background: none;
-      border: none;
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-      position: absolute;
-      top: 10px;
-      right: 14px;
-    }
-
-    /* ===== TOP SPACER BELOW FIXED NAV ===== */
-    .spacer{ height: calc(var(--nav-h) + 24px); }
-
-    /* ===== PAGE HEADER ===== */
-    .page-head{
-      text-align: center;
-      padding: 0 0 10px;
-    }
-    .page-head h1{
-      margin-bottom: 5px;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--green);
-    }
-    .page-head h2{
-      margin-bottom: 5px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #ea4606;
-    }
-    .page-head p{
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 0.98rem;
-    }
-
-    /* ===== CARDS ===== */
-    .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    /* ===== BLOG-LIKE LAYOUT ===== */
+    /* ===== Layout: posts + viewer ===== */
     .layout{
-      display: grid;
+      display:grid;
       grid-template-columns: 360px 1fr;
-      gap: 18px;
-      align-items: start;
-      margin: 14px 0 40px;
+      gap:18px;
+      align-items:start;
+      margin: 10px 0 40px;
     }
+    @media (max-width:980px){ .layout{ grid-template-columns:1fr; } }
 
-    @media (max-width: 980px){
-      .layout{ grid-template-columns: 1fr; }
-    }
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
 
-    /* ===== EDITIONS LIST ===== */
-    .editions{ padding: 16px; }
+    /* ===== Posts (latest editions) ===== */
+    .posts{ padding:16px; }
+    .posts-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .posts-head h3{ font-size:1.05rem; }
+    .posts small{ color:var(--muted); font-weight:500; }
 
-    .editions h3{
-      font-size: 1.05rem;
-      margin-bottom: 10px;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+    .post-list{ display:flex; flex-direction:column; gap:10px; max-height: 66vh; overflow:auto; padding-right:6px; }
+    .post{
+      display:grid;
+      grid-template-columns: 78px 1fr;
+      gap:12px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      cursor:pointer;
+      transition:.2s;
+      background:#fff;
+      align-items:center;
     }
-
-    .editions small{ color: var(--muted); font-weight: 500; }
-
-    .searchbar{
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .searchbar input{
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      outline: none;
-      font-size: 14px;
-    }
-    .searchbar button{
-      padding: 10px 12px;
-      border: none;
-      border-radius: 12px;
-      background: var(--dark);
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .edition-list{
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 62vh;
-      overflow: auto;
-      padding-right: 6px;
-    }
-
-    .edition-item{
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      gap: 12px;
-      align-items: center;
-      background: #fff;
-    }
-
-    .edition-item:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(2,6,23,.08);
-    }
-
-    .edition-item.active{
-      border-color: var(--green);
-      box-shadow: 0 8px 18px rgba(2,6,23,.10);
-    }
+    .post:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(2,6,23,.08); }
+    .post.active{ border-color: var(--green); }
 
     .cover{
-      width: 72px;
-      height: 92px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      overflow: hidden;
-      background: #f1f5f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      padding: 6px;
+      width:78px; height:98px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      overflow:hidden;
+      background:#f1f5f9;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--muted); font-size:11px; text-align:center; padding:6px;
     }
-    .cover img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .meta h4{ font-size:1rem; margin-bottom:4px; }
+    .meta p{ color:var(--muted); font-size:0.9rem; line-height:1.35; }
+    .pill{
+      display:inline-block; margin-top:6px;
+      padding:4px 10px; border-radius:999px;
+      background:#eef2ff; color:#1e293b;
+      font-size:12px; font-weight:600;
     }
 
-    .edition-meta h4{
-      font-size: 0.98rem;
-      color: var(--text);
-      margin-bottom: 4px;
-      line-height: 1.2;
-    }
-
-    .edition-meta p{
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.3;
-    }
-
-    .badge{
-      display: inline-block;
-      margin-top: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #eef2ff;
-      color: #1e293b;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    /* ===== VIEWER ===== */
-    .viewer{ padding: 16px; }
-
+    /* ===== Viewer ===== */
+    .viewer{ padding:16px; }
     .viewer-head{
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: flex-start;
+      display:flex;
+      justify-content:center;
+      text-align:center;
       padding: 2px 2px 12px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 14px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:12px;
+    }
+    .viewer-head h3{ font-size:1.25rem; margin-bottom:4px; }
+    .viewer-head p{ color:var(--muted); font-size:0.95rem; }
+
+    /* ===== Controls ===== */
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      margin: 10px 0 12px;
+    }
+    .btn{
+      border:none; cursor:pointer;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:14px;
+      background:var(--green);
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn.dark{ background:var(--dark); }
+    .btn.light{ background:#eef2ff; color:#0f172a; border:1px solid var(--line); font-weight:700; }
+    .btn:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .range-wrap{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+    }
+    .range-wrap input{ width:180px; }
+    .range-wrap span{ color:var(--muted); font-weight:700; font-size:13px; }
+
+    @media (max-width:560px){
+      .range-wrap input{ width:140px; }
     }
 
-    .viewer-head .titleblock h3{
-      color: var(--text);
-      font-size: 1.25rem;
-      margin-bottom: 4px;
-      line-height: 1.2;
+    /* ===== Flipbook Stage ===== */
+    .stage{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 10px 0 6px;
     }
 
-    .viewer-head .titleblock p{
-      color: var(--muted);
-      font-size: 0.95rem;
+    .book{
+      position:relative;
+      width: min(920px, 94vw);
+      height: min(640px, 62vh);
+      background:#0b1220;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 12px 30px rgba(2,6,23,.22);
+      border:1px solid rgba(255,255,255,.08);
+      user-select:none;
+      touch-action: pan-y;
     }
 
-    /* ===== PAGE VIEWER ===== */
-    .page-viewer-container{
-      max-width: 100%;
-      margin: 0 auto;
-      text-align: center;
-      font-family: Arial, sans-serif;
+    /* pages container */
+    .pages{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:10px;
     }
 
-    .main-page-wrapper{
-      display: flex;
-      justify-content: center;
-      margin-bottom: 14px;
+    .page{
+      background:#fff;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    .main-page{
-      width: 100%;
-      max-width: 760px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.12);
-      background: #fff;
+    /* Two-page on desktop */
+    .page.left, .page.right{
+      width: 48%;
+      height: 100%;
     }
 
-    /* ===== THUMBNAILS ===== */
-    .thumb-slider-container{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      gap: 10px;
+    /* Single-page on mobile */
+    @media (max-width: 760px){
+      .pages{ gap:0; }
+      .page.left{ display:none; }
+      .page.right{ width: 100%; }
+      .book{ height: min(640px, 68vh); }
     }
 
-    .thumb-nav-btn{
-      background: var(--green);
-      color: #fff;
-      border: none;
-      padding: 10px 14px;
-      font-size: 22px;
-      cursor: pointer;
-      border-radius: 10px;
-      min-width: 44px;
-    }
-    .thumb-nav-btn:disabled{
-      opacity: 0.35;
-      cursor: not-allowed;
+    canvas{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#fff;
     }
 
-    .thumb-slider-window{
-      width: 100%;
-      overflow: hidden;
-      border-radius: 12px;
+    /* "Flip" animation overlay */
+    .flip-overlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      transition: opacity .18s ease;
+    }
+    .flip-overlay.show{ opacity:1; }
+    .flip-sheet{
+      position:absolute;
+      top:10px; bottom:10px;
+      width:48%;
+      right:10px;
+      background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,.70));
+      transform-origin: right center;
+      transform: perspective(1200px) rotateY(0deg);
+      border-radius:12px;
+      box-shadow: 0 16px 36px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .flip-sheet.flip-next{
+      animation: flipNext .28s ease;
+    }
+    .flip-sheet.flip-prev{
+      transform-origin: left center;
+      left:10px;
+      right:auto;
+      background: linear-gradient(90deg, rgba(255,255,255,.70), rgba(255,255,255,.95));
+      animation: flipPrev .28s ease;
     }
 
-    .thumbnail-strip{
-      display: flex;
-      gap: 10px;
-      transition: transform 0.35s ease;
-      justify-content: flex-start;
-      padding: 6px 2px;
+    @keyframes flipNext{
+      0%{ transform: perspective(1200px) rotateY(0deg); }
+      100%{ transform: perspective(1200px) rotateY(-75deg); }
+    }
+    @keyframes flipPrev{
+      0%{ transform: perspective(1200px) rotateY(0deg); }
+      100%{ transform: perspective(1200px) rotateY(75deg); }
     }
 
-    .thumb-wrapper{
-      position: relative;
-      flex: 0 0 auto;
-    }
-
-    .thumbnail{
-      width: 110px;
-      height: 78px;
-      object-fit: cover;
-      border: 2px solid transparent;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: 0.2s;
-      background: #f1f5f9;
-    }
-    .thumbnail:hover{ border-color: var(--green); }
-    .thumbnail.active{ border-color: var(--green); }
-
-    .thumb-number{
-      position: absolute;
-      left: 6px;
-      top: 6px;
-      background: rgba(0,0,0,.65);
-      color: #fff;
-      font-size: 12px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      pointer-events: none;
-    }
-
-    @media (max-width: 560px){
-      .thumbnail{ width: 92px; height: 68px; }
-      .thumb-nav-btn{ padding: 8px 12px; font-size: 20px; }
-    }
-
-    /* ===== FOOTER ===== */
+    /* ===== Footer (same width) ===== */
     .footer{
-      background: #2c3e50;
-      color: white;
-      padding: 60px 0 20px;
-      font-family: 'Roboto', sans-serif;
+      background:#2c3e50; color:#fff;
+      padding:60px 0 20px; font-family:'Roboto', sans-serif;
     }
-
     .footer-grid{
-      display: grid;
+      display:grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 40px;
-      text-align: center;
+      text-align:center;
     }
-
-    .footer-section h3{
-      color: var(--yellow);
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-    }
-
-    .footer-section ul{
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-section ul li{ margin-bottom: 8px; }
-
-    .footer-section ul li a{
-      color: white;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .footer-section ul li a:hover{ color: var(--yellow); }
-
+    .footer-section h3{ color:var(--yellow); margin-bottom:15px; font-size:1.2rem; }
+    .footer-section ul{ list-style:none; padding:0; }
+    .footer-section ul li{ margin-bottom:8px; }
+    .footer-section ul li a{ color:#fff; text-decoration:none; }
+    .footer-section ul li a:hover{ color:var(--yellow); }
     .social-icons a{
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      margin: 5px;
-      background: var(--yellow);
-      color: #2c3e50;
-      border-radius: 50%;
-      text-align: center;
-      font-size: 1.1rem;
-      transition: 0.3s;
+      display:inline-block; width:40px; height:40px; line-height:40px;
+      margin:5px; background:var(--yellow); color:#2c3e50;
+      border-radius:50%; text-align:center; font-size:1.1rem;
     }
-    .social-icons a:hover{
-      background: #d4ac0d;
-      color: #fff;
-    }
-
-    .motto p{
-      font-style: italic;
-      font-size: 1rem;
-      color: #f8f8f8;
-    }
-
+    .social-icons a:hover{ background:#d4ac0d; color:#fff; }
     .footer-bottom{
-      margin-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      text-align: center;
-      padding-top: 15px;
-      font-size: 0.9rem;
-      color: #ddd;
+      margin-top:40px; border-top:1px solid rgba(255,255,255,.2);
+      text-align:center; padding-top:15px; font-size:.9rem; color:#ddd;
     }
   </style>
 </head>
 
 <body>
-
-  <!-- ===== NAVBAR ===== -->
+  <!-- ===== NAV ===== -->
   <nav>
     <div class="nav-inner">
       <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
@@ -587,7 +321,7 @@
       <ul>
         <li><a href="index.html#home-section">Home</a></li>
         <li><a href="index.html#aboutus-section">About Us</a></li>
-        <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
+        <li><a class="active" href="index.html#modelunit-section">Model Unit</a></li>
         <li><a href="index.html#gallery-section">Gallery</a></li>
         <li><a href="index.html#testimony-section">Testimonies</a></li>
         <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
@@ -595,23 +329,6 @@
       </ul>
 
       <div class="nav-right">
-        <!-- Language Dropdown -->
-        <div class="language-dropdown" id="langDropdown">
-          <button class="lang-btn" id="langBtn" aria-label="Language">
-            🌐 <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="lang-menu">
-            <a href="#" data-lang="en">English</a>
-            <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
-            <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
-            <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
-            <a href="#" data-lang="te">తెలుగు (Telugu)</a>
-            <a href="#" data-lang="bn">বাংলা (Bengali)</a>
-            <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
-            <a href="#" data-lang="mr">मराठी (Marathi)</a>
-          </div>
-        </div>
-
         <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
           <i class="fa fa-bars"></i>
         </button>
@@ -619,14 +336,14 @@
     </div>
   </nav>
 
-  <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
+  <!-- ===== Mobile overlay menu ===== -->
   <div class="menu-overlay" id="menuOverlay">
     <div class="side-menu">
       <button class="close-btn" id="closeMenuBtn">&times;</button>
-      <ul class="menu-list">
+      <ul>
         <li><a href="index.html#home-section">Home</a></li>
         <li><a href="index.html#aboutus-section">About Us</a></li>
-        <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
+        <li><a class="active" href="index.html#modelunit-section">Model Unit</a></li>
         <li><a href="index.html#gallery-section">Gallery</a></li>
         <li><a href="index.html#testimony-section">Testimonies</a></li>
         <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
@@ -637,71 +354,81 @@
 
   <div class="spacer"></div>
 
-  <!-- ======= PAGE HEADER ======= -->
   <div class="page-container">
     <div class="page-head">
       <h1>Mannanam Voice</h1>
       <h2>Mannanam Community e-Magazine</h2>
-      <p id="topSubtitle">Select an edition to read.</p>
+      <p id="hintText">Choose an edition (latest posts) to open the flipbook.</p>
     </div>
 
-    <!-- ======= BLOG-LIKE LAYOUT ======= -->
     <div class="layout">
 
-      <!-- LEFT: EDITIONS -->
-      <aside class="card editions">
-        <h3>
-          Editions
-          <small id="editionCount">0</small>
-        </h3>
-
-        <div class="searchbar">
-          <input id="searchInput" type="text" placeholder="Search (month, year, title)..." />
-          <button id="clearSearch" title="Clear"><i class="fa fa-xmark"></i></button>
+      <!-- ===== Latest posts / editions ===== -->
+      <aside class="card posts">
+        <div class="posts-head">
+          <h3>Latest Editions</h3>
+          <small id="countText">0</small>
         </div>
-
-        <div class="edition-list" id="editionList"></div>
+        <div class="post-list" id="postList"></div>
       </aside>
 
-      <!-- RIGHT: VIEWER -->
+      <!-- ===== Flipbook viewer ===== -->
       <main class="card viewer">
         <div class="viewer-head">
-          <div class="titleblock">
-            <h3 id="editionTitle">No edition selected</h3>
-            <p id="editionMeta">Choose an edition from the list.</p>
+          <div>
+            <h3 id="viewerTitle">No edition selected</h3>
+            <p id="viewerMeta">Select an edition to load PDF flipbook.</p>
           </div>
         </div>
 
-        <div class="page-viewer-container">
-          <div class="main-page-wrapper">
-            <img id="mainPage" src="" class="main-page" alt="Magazine Page" />
+        <div class="controls">
+          <button class="btn light" id="firstBtn" disabled><i class="fa fa-angles-left"></i> First</button>
+          <button class="btn" id="prevBtn" disabled><i class="fa fa-chevron-left"></i> Prev</button>
+
+          <div class="range-wrap">
+            <span id="pageLabel">0 / 0</span>
+            <input type="range" id="pageRange" min="1" max="1" value="1" />
           </div>
 
-          <div class="thumb-slider-container">
-            <button id="thumbPrev" class="thumb-nav-btn" disabled>‹</button>
+          <button class="btn" id="nextBtn" disabled>Next <i class="fa fa-chevron-right"></i></button>
+          <button class="btn light" id="lastBtn" disabled>Last <i class="fa fa-angles-right"></i></button>
 
-            <div class="thumb-slider-window">
-              <div class="thumbnail-strip" id="thumbnailStrip"></div>
+          <button class="btn light" id="zoomOutBtn" disabled><i class="fa fa-minus"></i></button>
+          <button class="btn light" id="zoomInBtn" disabled><i class="fa fa-plus"></i></button>
+
+          <button class="btn dark" id="fullscreenBtn" disabled><i class="fa fa-expand"></i> Fullscreen</button>
+          <button class="btn dark" id="downloadBtn" disabled><i class="fa fa-download"></i> Download</button>
+          <button class="btn dark" id="printBtn" disabled><i class="fa fa-print"></i> Print</button>
+        </div>
+
+        <div class="stage">
+          <div class="book" id="book">
+            <div class="pages">
+              <div class="page left"><canvas id="leftCanvas"></canvas></div>
+              <div class="page right"><canvas id="rightCanvas"></canvas></div>
             </div>
 
-            <button id="thumbNext" class="thumb-nav-btn" disabled>›</button>
+            <!-- small flip animation -->
+            <div class="flip-overlay" id="flipOverlay">
+              <div class="flip-sheet" id="flipSheet"></div>
+            </div>
           </div>
         </div>
+
       </main>
 
     </div>
   </div>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== Footer ===== -->
   <footer class="footer">
     <div class="page-container footer-grid">
-
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul>
-          <li><a href="index.html#home-section" class="active">Home</a></li>
+          <li><a href="index.html#home-section">Home</a></li>
           <li><a href="index.html#aboutus-section">About Us</a></li>
-          <li><a href="page-mannjan.html">Model Unit</a></li>
+          <li><a href="index.html#modelunit-section">Model Unit</a></li>
           <li><a href="index.html#gallery-section">Gallery</a></li>
           <li><a href="index.html#testimony-section">Testimonies</a></li>
           <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
@@ -718,11 +445,10 @@
         </div>
       </div>
 
-      <div class="footer-section motto">
+      <div class="footer-section">
         <h3>Our Motto</h3>
-        <p>“Love, Unity, and Development”</p>
+        <p style="font-style:italic;">“Love, Unity, and Development”</p>
       </div>
-
     </div>
 
     <div class="footer-bottom">
@@ -732,308 +458,468 @@
 
   <script>
     /* =========================================================
-       1) ADD YOUR EDITIONS HERE
-       Put images inside each folder like:
-       editions/2025-08/emagazine1.jpg ... emagazine34.jpg
-       ========================================================= */
+      EDITIONS CONFIG
+      - Use "type: 'pdf'" for PDF flipbook (recommended)
+      - If you want an image edition instead, set type:'images'
+        and provide pages + folder + pattern
+    ========================================================= */
     const EDITIONS = [
       {
         id: "2025-08",
-        title: "Mannanam Voice",
-        subtitle: "Mannanam Community e-Magazine",
         dateLabel: "August 2025",
-        folder: "editions/2025-08",
-        pages: 34,
-        cover: "emagazine1.jpg",
-        note: "First digital edition."
+        note: "First digital edition.",
+        cover: "editions/2025-08/cover.jpg",          // optional (if no cover.jpg, it will try pdf first page)
+        type: "pdf",
+        pdf: "editions/2025-08/magazine.pdf"          // upload this file
       },
-      // Add more editions below:
+
+      // Example (images edition)
       // {
       //   id: "2025-09",
-      //   title: "Mannanam Voice",
-      //   subtitle: "Mannanam Community e-Magazine",
       //   dateLabel: "September 2025",
+      //   note: "Special issue.",
+      //   cover: "editions/2025-09/emagazine1.jpg",
+      //   type: "images",
       //   folder: "editions/2025-09",
-      //   pages: 28,
-      //   cover: "emagazine1.jpg",
-      //   note: "Special issue."
+      //   pages: 20,
+      //   pattern: "emagazine{n}.jpg"
       // },
     ];
 
-    /* =========================================================
-       2) MOBILE MENU
-       ========================================================= */
-    document.addEventListener("DOMContentLoaded", () => {
+    /* ===== Mobile menu ===== */
+    (function(){
       const openMenuBtn = document.getElementById("openMenuBtn");
       const closeMenuBtn = document.getElementById("closeMenuBtn");
       const menuOverlay = document.getElementById("menuOverlay");
-
-      openMenuBtn.addEventListener("click", () => menuOverlay.classList.add("show"));
-      closeMenuBtn.addEventListener("click", () => menuOverlay.classList.remove("show"));
-      menuOverlay.addEventListener("click", (e) => {
-        if (e.target === menuOverlay) menuOverlay.classList.remove("show");
-      });
-    });
-
-    /* =========================================================
-       3) LANGUAGE DROPDOWN (CLICK)
-       ========================================================= */
-    (function(){
-      const langDropdown = document.getElementById("langDropdown");
-      const langBtn = document.getElementById("langBtn");
-
-      langBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        langDropdown.classList.toggle("active");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (!langDropdown.contains(e.target)) langDropdown.classList.remove("active");
-      });
-
-      document.querySelectorAll(".lang-menu a").forEach(item => {
-        item.addEventListener("click", function (e) {
-          e.preventDefault();
-          const lang = this.dataset.lang;
-          const currentURL = encodeURIComponent(window.location.href);
-          const newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
-          window.open(newURL, "_blank");
-          langDropdown.classList.remove("active");
-        });
-      });
+      openMenuBtn.addEventListener("click", ()=> menuOverlay.classList.add("show"));
+      closeMenuBtn.addEventListener("click", ()=> menuOverlay.classList.remove("show"));
+      menuOverlay.addEventListener("click", (e)=> { if(e.target === menuOverlay) menuOverlay.classList.remove("show"); });
     })();
 
-    /* =========================================================
-       4) EDITIONS LIST + VIEWER LOADER
-       ========================================================= */
-    const editionListEl = document.getElementById("editionList");
-    const editionCountEl = document.getElementById("editionCount");
-    const searchInput = document.getElementById("searchInput");
-    const clearSearchBtn = document.getElementById("clearSearch");
+    /* ===== DOM refs ===== */
+    const postList = document.getElementById("postList");
+    const countText = document.getElementById("countText");
 
-    const topSubtitle = document.getElementById("topSubtitle");
-    const editionTitle = document.getElementById("editionTitle");
-    const editionMeta = document.getElementById("editionMeta");
-    const mainPage = document.getElementById("mainPage");
-    const thumbnailStrip = document.getElementById("thumbnailStrip");
+    const viewerTitle = document.getElementById("viewerTitle");
+    const viewerMeta  = document.getElementById("viewerMeta");
 
-    const thumbPrevBtn = document.getElementById("thumbPrev");
-    const thumbNextBtn = document.getElementById("thumbNext");
+    const leftCanvas  = document.getElementById("leftCanvas");
+    const rightCanvas = document.getElementById("rightCanvas");
 
-    let currentEdition = null;
-    let position = 0;
+    const firstBtn = document.getElementById("firstBtn");
+    const prevBtn  = document.getElementById("prevBtn");
+    const nextBtn  = document.getElementById("nextBtn");
+    const lastBtn  = document.getElementById("lastBtn");
 
-    function joinPath(folder, file){
-      return `${folder.replace(/\/$/,"")}/${file.replace(/^\//,"")}`;
+    const zoomOutBtn = document.getElementById("zoomOutBtn");
+    const zoomInBtn  = document.getElementById("zoomInBtn");
+
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const downloadBtn   = document.getElementById("downloadBtn");
+    const printBtn      = document.getElementById("printBtn");
+
+    const pageRange = document.getElementById("pageRange");
+    const pageLabel = document.getElementById("pageLabel");
+
+    const book = document.getElementById("book");
+    const flipOverlay = document.getElementById("flipOverlay");
+    const flipSheet = document.getElementById("flipSheet");
+
+    /* ===== State ===== */
+    let current = null;
+    let pdfDoc = null;
+    let totalPages = 0;
+    let page = 1;          // logical "spread" start page (right page on mobile)
+    let zoom = 1.0;
+
+    // PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    /* ===== Utilities ===== */
+    function isMobileView(){
+      return window.matchMedia("(max-width: 760px)").matches;
     }
 
-    function renderEditions(filterText=""){
-      const q = filterText.trim().toLowerCase();
-
-      // newest first if ids are YYYY-MM
-      const sorted = [...EDITIONS].sort((a,b) => (b.id || "").localeCompare(a.id || ""));
-
-      const filtered = sorted.filter(ed => {
-        const hay = `${ed.title} ${ed.subtitle} ${ed.dateLabel} ${ed.note || ""} ${ed.id}`.toLowerCase();
-        return hay.includes(q);
+    function setControlsEnabled(enabled){
+      [firstBtn, prevBtn, nextBtn, lastBtn, zoomOutBtn, zoomInBtn, fullscreenBtn, downloadBtn, printBtn].forEach(b=>{
+        b.disabled = !enabled;
       });
-
-      editionCountEl.textContent = filtered.length;
-      editionListEl.innerHTML = "";
-
-      filtered.forEach(ed => {
-        const item = document.createElement("div");
-        item.className = "edition-item";
-        item.dataset.id = ed.id;
-
-        const coverDiv = document.createElement("div");
-        coverDiv.className = "cover";
-
-        const coverSrc = joinPath(ed.folder, ed.cover || "emagazine1.jpg");
-        const img = document.createElement("img");
-        img.src = coverSrc;
-        img.alt = ed.dateLabel;
-
-        img.onerror = () => {
-          coverDiv.innerHTML = `No cover<br>${ed.dateLabel}`;
-        };
-
-        coverDiv.appendChild(img);
-
-        const meta = document.createElement("div");
-        meta.className = "edition-meta";
-        meta.innerHTML = `
-          <h4>${ed.dateLabel}</h4>
-          <p>${ed.note ? ed.note : "Edition available."}</p>
-          <span class="badge">${ed.pages} pages</span>
-        `;
-
-        item.appendChild(coverDiv);
-        item.appendChild(meta);
-
-        item.addEventListener("click", () => loadEdition(ed.id, true));
-        editionListEl.appendChild(item);
-      });
-
-      highlightActive();
+      pageRange.disabled = !enabled;
     }
 
-    function highlightActive(){
-      document.querySelectorAll(".edition-item").forEach(el => el.classList.remove("active"));
-      if (currentEdition){
-        const active = document.querySelector(`.edition-item[data-id="${currentEdition.id}"]`);
-        if (active) active.classList.add("active");
-      }
-    }
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
-    function buildThumbnails(ed){
-      thumbnailStrip.innerHTML = "";
-      position = 0;
-      thumbnailStrip.style.transform = `translateX(0px)`;
-
-      for (let i = 1; i <= ed.pages; i++){
-        const wrap = document.createElement("div");
-        wrap.className = "thumb-wrapper";
-
-        const img = document.createElement("img");
-        img.className = "thumbnail";
-        img.dataset.page = i;
-        img.src = joinPath(ed.folder, `emagazine${i}.jpg`);
-        img.alt = `Page ${i}`;
-
-        if (i === 1) img.classList.add("active");
-
-        const num = document.createElement("div");
-        num.className = "thumb-number";
-        num.textContent = i;
-
-        wrap.appendChild(img);
-        wrap.appendChild(num);
-        thumbnailStrip.appendChild(wrap);
-
-        img.addEventListener("click", () => {
-          setActivePage(i);
-          slideToIndex(i - 1);
-        });
+    function showFlip(anim){
+      flipOverlay.classList.add("show");
+      flipSheet.classList.remove("flip-next","flip-prev");
+      // position for mobile: use full width
+      if (isMobileView()){
+        flipSheet.style.width = "calc(100% - 20px)";
+        flipSheet.style.left = "10px";
+        flipSheet.style.right = "auto";
+      } else {
+        flipSheet.style.width = "48%";
+        flipSheet.style.left = "";
+        flipSheet.style.right = "10px";
       }
 
-      thumbPrevBtn.disabled = false;
-      thumbNextBtn.disabled = false;
-      updateNavButtons();
+      flipSheet.classList.add(anim);
+      setTimeout(()=>{
+        flipOverlay.classList.remove("show");
+        flipSheet.classList.remove("flip-next","flip-prev");
+      }, 280);
     }
 
-    function setActivePage(pageNum){
-      document.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
-      const activeThumb = document.querySelector(`.thumbnail[data-page="${pageNum}"]`);
-      if (activeThumb) activeThumb.classList.add("active");
+    async function renderPdfPageToCanvas(pageNumber, canvas){
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
 
-      mainPage.src = joinPath(currentEdition.folder, `emagazine${pageNum}.jpg`);
+      if (!pdfDoc || pageNumber < 1 || pageNumber > totalPages){
+        // blank
+        canvas.width = 10; canvas.height = 10;
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0,0,10,10);
+        return;
+      }
+
+      const p = await pdfDoc.getPage(pageNumber);
+
+      // scale based on container size
+      const viewport0 = p.getViewport({ scale: 1 });
+      const targetW = canvas.parentElement.clientWidth;
+      const scale = (targetW / viewport0.width) * zoom;
+
+      const viewport = p.getViewport({ scale });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      await p.render({ canvasContext: ctx, viewport }).promise;
     }
 
-    function slideToIndex(index){
-      const firstThumb = document.querySelector(".thumb-wrapper");
-      if (!firstThumb) return;
+    async function renderSpread(){
+      if (!current) return;
 
-      const thumbW = firstThumb.getBoundingClientRect().width + 10; // gap
-      const windowEl = document.querySelector(".thumb-slider-window");
-      const windowW = windowEl.getBoundingClientRect().width;
+      // calculate which pages to show
+      const mobile = isMobileView();
 
-      const visibleCount = Math.max(1, Math.floor(windowW / thumbW));
-      const maxMove = Math.max(0, (currentEdition.pages - visibleCount) * thumbW);
+      let leftPageNum = mobile ? null : page;         // left page in spread
+      let rightPageNum = mobile ? page : page + 1;    // right page in spread
 
-      const target = Math.min(maxMove, index * thumbW);
-      position = -target;
+      // mobile uses only right canvas
+      if (mobile){
+        await renderPdfPageToCanvas(rightPageNum, rightCanvas);
+      } else {
+        await renderPdfPageToCanvas(leftPageNum, leftCanvas);
+        await renderPdfPageToCanvas(rightPageNum, rightCanvas);
+      }
 
-      thumbnailStrip.style.transform = `translateX(${position}px)`;
+      // update UI labels/range
+      totalPages = totalPages || 0;
+      pageRange.min = 1;
+
+      if (mobile){
+        pageRange.max = Math.max(1, totalPages);
+        pageRange.value = clamp(page, 1, totalPages);
+        pageLabel.textContent = `${clamp(page,1,totalPages)} / ${totalPages}`;
+      } else {
+        // spreads: page is left page
+        const maxLeft = (totalPages % 2 === 0) ? totalPages - 1 : totalPages;
+        pageRange.max = Math.max(1, maxLeft);
+        pageRange.value = clamp(page, 1, maxLeft);
+
+        const shownLeft = clamp(page, 1, totalPages);
+        const shownRight = clamp(page + 1, 1, totalPages);
+        pageLabel.textContent = `${shownLeft}-${shownRight} / ${totalPages}`;
+      }
+
       updateNavButtons();
     }
 
     function updateNavButtons(){
-      const firstThumb = document.querySelector(".thumb-wrapper");
-      if (!firstThumb || !currentEdition) return;
+      const mobile = isMobileView();
 
-      const thumbW = firstThumb.getBoundingClientRect().width + 10;
-      const windowEl = document.querySelector(".thumb-slider-window");
-      const windowW = windowEl.getBoundingClientRect().width;
-      const visibleCount = Math.max(1, Math.floor(windowW / thumbW));
-      const maxMove = Math.max(0, (currentEdition.pages - visibleCount) * thumbW);
-
-      thumbPrevBtn.disabled = (position >= 0);
-      thumbNextBtn.disabled = (Math.abs(position) >= maxMove - 1);
-    }
-
-    thumbNextBtn.addEventListener("click", () => {
-      const firstThumb = document.querySelector(".thumb-wrapper");
-      if (!firstThumb || !currentEdition) return;
-
-      const thumbW = firstThumb.getBoundingClientRect().width + 10;
-      position -= thumbW;
-
-      const windowEl = document.querySelector(".thumb-slider-window");
-      const windowW = windowEl.getBoundingClientRect().width;
-      const visibleCount = Math.max(1, Math.floor(windowW / thumbW));
-      const maxMove = Math.max(0, (currentEdition.pages - visibleCount) * thumbW);
-
-      position = Math.max(-maxMove, position);
-      thumbnailStrip.style.transform = `translateX(${position}px)`;
-      updateNavButtons();
-    });
-
-    thumbPrevBtn.addEventListener("click", () => {
-      const firstThumb = document.querySelector(".thumb-wrapper");
-      if (!firstThumb || !currentEdition) return;
-
-      const thumbW = firstThumb.getBoundingClientRect().width + 10;
-      position += thumbW;
-      position = Math.min(0, position);
-
-      thumbnailStrip.style.transform = `translateX(${position}px)`;
-      updateNavButtons();
-    });
-
-    function loadEdition(id, updateHash){
-      const ed = EDITIONS.find(e => e.id === id);
-      if (!ed) return;
-
-      currentEdition = ed;
-
-      topSubtitle.textContent = `Now reading: ${ed.dateLabel}`;
-      editionTitle.textContent = `${ed.title} — ${ed.dateLabel}`;
-      editionMeta.textContent = `${ed.subtitle} • ${ed.pages} pages`;
-
-      mainPage.src = joinPath(ed.folder, `emagazine1.jpg`);
-      mainPage.alt = `Magazine page - ${ed.dateLabel}`;
-
-      buildThumbnails(ed);
-      highlightActive();
-
-      if (updateHash) location.hash = `#${ed.id}`;
-    }
-
-    // search
-    searchInput.addEventListener("input", () => renderEditions(searchInput.value));
-    clearSearchBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      renderEditions("");
-      searchInput.focus();
-    });
-
-    // load by hash on start
-    window.addEventListener("DOMContentLoaded", () => {
-      renderEditions("");
-
-      const hashId = (location.hash || "").replace("#","").trim();
-      if (hashId && EDITIONS.some(e => e.id === hashId)){
-        loadEdition(hashId, false);
-      } else if (EDITIONS.length){
-        const latest = [...EDITIONS].sort((a,b) => (b.id || "").localeCompare(a.id || ""))[0];
-        loadEdition(latest.id, false);
+      if (!current){
+        setControlsEnabled(false);
+        return;
       }
+
+      if (mobile){
+        firstBtn.disabled = (page <= 1);
+        prevBtn.disabled  = (page <= 1);
+        nextBtn.disabled  = (page >= totalPages);
+        lastBtn.disabled  = (page >= totalPages);
+      } else {
+        const maxLeft = (totalPages % 2 === 0) ? totalPages - 1 : totalPages;
+        firstBtn.disabled = (page <= 1);
+        prevBtn.disabled  = (page <= 1);
+        nextBtn.disabled  = (page >= maxLeft);
+        lastBtn.disabled  = (page >= maxLeft);
+      }
+    }
+
+    /* ===== Images mode (fallback) ===== */
+    async function renderImagesSpread(){
+      const mobile = isMobileView();
+      const leftCtx = leftCanvas.getContext("2d");
+      const rightCtx = rightCanvas.getContext("2d");
+
+      async function drawImgToCanvas(src, canvas){
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        await new Promise((res, rej)=>{
+          img.onload = res;
+          img.onerror = rej;
+          img.src = src;
+        });
+
+        const targetW = canvas.parentElement.clientWidth;
+        const ratio = img.height / img.width;
+        const w = targetW * zoom;
+        const h = w * ratio;
+
+        canvas.width = Math.floor(w);
+        canvas.height = Math.floor(h);
+
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+
+      function imgSrc(n){
+        const pat = current.pattern || "emagazine{n}.jpg";
+        return `${current.folder.replace(/\/$/,"")}/${pat.replace("{n}", n)}`;
+      }
+
+      if (mobile){
+        await drawImgToCanvas(imgSrc(page), rightCanvas);
+      } else {
+        await drawImgToCanvas(imgSrc(page), leftCanvas);
+        const r = page + 1;
+        if (r <= totalPages) await drawImgToCanvas(imgSrc(r), rightCanvas);
+        else {
+          // blank right
+          rightCanvas.width = 10; rightCanvas.height = 10;
+          rightCtx.fillStyle = "#fff"; rightCtx.fillRect(0,0,10,10);
+        }
+      }
+
+      // update labels/range
+      pageRange.min = 1;
+      pageRange.max = mobile ? totalPages : ((totalPages % 2 === 0) ? totalPages - 1 : totalPages);
+      pageRange.value = page;
+
+      if (mobile) pageLabel.textContent = `${page} / ${totalPages}`;
+      else pageLabel.textContent = `${page}-${Math.min(page+1,totalPages)} / ${totalPages}`;
+
+      updateNavButtons();
+    }
+
+    async function renderCurrent(){
+      if (!current) return;
+      if (current.type === "pdf") return renderSpread();
+      return renderImagesSpread();
+    }
+
+    /* ===== Load edition ===== */
+    async function loadEdition(ed){
+      current = ed;
+      zoom = 1.0;
+
+      // UI highlight
+      document.querySelectorAll(".post").forEach(p => p.classList.remove("active"));
+      const active = document.querySelector(`.post[data-id="${ed.id}"]`);
+      if (active) active.classList.add("active");
+
+      viewerTitle.textContent = `Mannanam Voice — ${ed.dateLabel}`;
+      viewerMeta.textContent  = ed.note ? ed.note : "Edition loaded.";
+
+      setControlsEnabled(true);
+
+      // setup download/print
+      downloadBtn.onclick = () => {
+        if (ed.type === "pdf" && ed.pdf) window.open(ed.pdf, "_blank");
+      };
+
+      printBtn.onclick = () => {
+        if (ed.type === "pdf" && ed.pdf) {
+          const w = window.open(ed.pdf, "_blank");
+          if (!w) return;
+          // user can print from pdf viewer
+        }
+      };
+
+      // load content
+      if (ed.type === "pdf"){
+        pdfDoc = await pdfjsLib.getDocument(ed.pdf).promise;
+        totalPages = pdfDoc.numPages;
+
+        // start page:
+        page = isMobileView() ? 1 : 1;   // left page 1, right page 2
+      } else {
+        pdfDoc = null;
+        totalPages = ed.pages || 1;
+        page = 1;
+      }
+
+      // range setup
+      pageRange.value = 1;
+      await renderCurrent();
+    }
+
+    /* ===== Controls actions ===== */
+    function goFirst(){
+      if (!current) return;
+      showFlip("flip-prev");
+      page = 1;
+      renderCurrent();
+    }
+    function goLast(){
+      if (!current) return;
+      showFlip("flip-next");
+      if (isMobileView()){
+        page = totalPages;
+      } else {
+        page = (totalPages % 2 === 0) ? totalPages - 1 : totalPages;
+      }
+      renderCurrent();
+    }
+    function goPrev(){
+      if (!current) return;
+      showFlip("flip-prev");
+      if (isMobileView()){
+        page = clamp(page - 1, 1, totalPages);
+      } else {
+        page = clamp(page - 2, 1, (totalPages % 2 === 0) ? totalPages - 1 : totalPages);
+      }
+      renderCurrent();
+    }
+    function goNext(){
+      if (!current) return;
+      showFlip("flip-next");
+      if (isMobileView()){
+        page = clamp(page + 1, 1, totalPages);
+      } else {
+        page = clamp(page + 2, 1, (totalPages % 2 === 0) ? totalPages - 1 : totalPages);
+      }
+      renderCurrent();
+    }
+
+    firstBtn.addEventListener("click", goFirst);
+    lastBtn.addEventListener("click", goLast);
+    prevBtn.addEventListener("click", goPrev);
+    nextBtn.addEventListener("click", goNext);
+
+    zoomOutBtn.addEventListener("click", () => {
+      if (!current) return;
+      zoom = clamp(zoom - 0.1, 0.6, 2.2);
+      renderCurrent();
+    });
+    zoomInBtn.addEventListener("click", () => {
+      if (!current) return;
+      zoom = clamp(zoom + 0.1, 0.6, 2.2);
+      renderCurrent();
     });
 
-    window.addEventListener("resize", () => {
-      if (currentEdition) updateNavButtons();
+    fullscreenBtn.addEventListener("click", async () => {
+      if (!book) return;
+      if (!document.fullscreenElement) await book.requestFullscreen();
+      else await document.exitFullscreen();
     });
+
+    pageRange.addEventListener("input", () => {
+      if (!current) return;
+      const val = parseInt(pageRange.value, 10) || 1;
+
+      if (isMobileView()){
+        page = clamp(val, 1, totalPages);
+      } else {
+        // ensure odd/left page for spread
+        let p = clamp(val, 1, (totalPages % 2 === 0) ? totalPages - 1 : totalPages);
+        if (p % 2 === 0) p = p - 1;
+        page = p;
+      }
+      renderCurrent();
+    });
+
+    /* Swipe on mobile */
+    let startX = 0, startY = 0;
+    book.addEventListener("touchstart", (e)=>{
+      const t = e.touches[0];
+      startX = t.clientX; startY = t.clientY;
+    }, {passive:true});
+
+    book.addEventListener("touchend", (e)=>{
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (Math.abs(dy) > 80) return; // ignore vertical
+      if (dx < -50) goNext();
+      if (dx > 50) goPrev();
+    }, {passive:true});
+
+    /* Keyboard */
+    document.addEventListener("keydown", (e)=>{
+      if (!current) return;
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    });
+
+    /* Re-render when screen size changes (mobile<->desktop) */
+    window.addEventListener("resize", ()=>{
+      if (!current) return;
+      // keep within max bounds
+      if (!isMobileView() && page % 2 === 0) page = Math.max(1, page - 1);
+      renderCurrent();
+    });
+
+    /* ===== Render posts list ===== */
+    function renderPosts(){
+      const sorted = [...EDITIONS].sort((a,b)=>(b.id||"").localeCompare(a.id||""));
+      countText.textContent = `${sorted.length}`;
+
+      postList.innerHTML = "";
+      sorted.forEach(ed=>{
+        const el = document.createElement("div");
+        el.className = "post";
+        el.dataset.id = ed.id;
+
+        const cover = document.createElement("div");
+        cover.className = "cover";
+
+        const img = document.createElement("img");
+        // try user cover first, else keep blank box
+        if (ed.cover){
+          img.src = ed.cover;
+          img.onerror = ()=> { cover.innerHTML = `No cover<br>${ed.dateLabel}`; };
+          cover.appendChild(img);
+        } else {
+          cover.innerHTML = `Cover<br>${ed.dateLabel}`;
+        }
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML = `
+          <h4>${ed.dateLabel}</h4>
+          <p>${ed.note ? ed.note : "Edition available."}</p>
+          <span class="pill">${ed.type.toUpperCase()}</span>
+        `;
+
+        el.appendChild(cover);
+        el.appendChild(meta);
+
+        el.addEventListener("click", ()=> loadEdition(ed));
+        postList.appendChild(el);
+      });
+
+      // auto-load latest
+      if (sorted.length) loadEdition(sorted[0]);
+    }
+
+    // start
+    setControlsEnabled(false);
+    renderPosts();
   </script>
 </body>
 </html>
