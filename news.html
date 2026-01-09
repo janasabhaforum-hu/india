@@ -163,7 +163,6 @@
 
     /* ===== PAGE WRAP ===== */
     .wrap{max-width:1200px; margin:0 auto; padding:18px;}
-    /* ✅ Important: push content below fixed navbar */
     .pageContent{ padding-top: calc(var(--navH) + 22px); }
 
     /* Header */
@@ -171,52 +170,48 @@
     .headerCenter h1{ margin:0; font-size:1.6rem; font-weight:900; }
     .headerCenter p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
 
-    /* ===== TOP ACTION STRIP ===== */
-       /* ===== TOP ACTION STRIP ===== */
     /* ===== TOP BAR (Unified with Action Cards) ===== */
-.topBar{
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:14px;
-  align-items:stretch;
-  margin: 14px 0;
-}
+    .topBar{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:14px;
+      align-items:stretch;
+      margin: 14px 0;
+    }
 
-.actionCard{
-  background: var(--card);
-  border-radius: 999px;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(2,6,23,.06);
-  padding: 10px 14px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-height: 52px;
-}
+    .actionCard{
+      background: var(--card);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      padding: 10px 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height: 52px;
+    }
 
-.actionCard .label{
-  font-weight:900;
-  color:#0f172a;
-  white-space:nowrap;
-}
+    .actionCard .label{
+      font-weight:900;
+      color:#0f172a;
+      white-space:nowrap;
+    }
 
-.actionCard select{
-  width:100%;
-  border:0;
-  outline:none;
-  background:transparent;
-  font-weight:800;
-  font-size:0.95rem;
-  color:#0f172a;
-  padding:6px 4px;
-  appearance:auto;
-}
+    .actionCard select{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      font-weight:800;
+      font-size:0.95rem;
+      color:#0f172a;
+      padding:6px 4px;
+      appearance:auto;
+    }
 
-@media (max-width: 768px){
-  .topBar{
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+    @media (max-width: 768px){
+      .topBar{ grid-template-columns: repeat(2, 1fr); }
+    }
 
     /* Search */
     .searchBar{ width:100%; margin: 8px 0 14px; display:flex; justify-content:center; }
@@ -428,12 +423,9 @@
     @media (max-width: 980px){
       .layout{grid-template-columns:1fr;}
       .grid{grid-template-columns:1fr;}
-      .actionStrip{grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 620px){
-      .actionStrip{grid-template-columns:1fr;}
       .topBar{grid-template-columns: 1fr; }
-      .btnPill{justify-self:end;}
     }
 
     /* ===== FOOTER ===== */
@@ -544,37 +536,35 @@
     </div>
 
     <!-- Top button-cards row -->
-    <!-- Top button-cards row -->
-    
     <div class="topBar">
-  <div class="actionCard communityCard">
-    <span class="label">Community/ies</span>
-    <select id="communityFilter">
-      <option value="ALL">All</option>
-    </select>
-  </div>
+      <div class="actionCard communityCard">
+        <span class="label">Community/ies</span>
+        <select id="communityFilter">
+          <option value="ALL">All</option>
+        </select>
+      </div>
 
-  <div class="actionCard">
-    <span class="label">Latest Posts</span>
-    <select id="latestSelect">
-      <option value="">Select…</option>
-    </select>
-  </div>
+      <div class="actionCard">
+        <span class="label">Latest Posts</span>
+        <select id="latestSelect">
+          <option value="">Select…</option>
+        </select>
+      </div>
 
-  <div class="actionCard">
-    <span class="label">Categories</span>
-    <select id="categoryFilterTop">
-      <option value="ALL">All</option>
-    </select>
-  </div>
+      <div class="actionCard">
+        <span class="label">Categories</span>
+        <select id="categoryFilterTop">
+          <option value="ALL">All</option>
+        </select>
+      </div>
 
-  <div class="actionCard">
-    <span class="label">Community Magazine</span>
-    <select id="magCommunity">
-      <option value="ALL">All</option>
-    </select>
-  </div>
-</div>
+      <div class="actionCard">
+        <span class="label">Community Magazine</span>
+        <select id="magCommunity">
+          <option value="ALL">All</option>
+        </select>
+      </div>
+    </div>
 
     <!-- Search -->
     <div class="searchBar">
@@ -590,7 +580,6 @@
           <button class="pbtn" id="btnNext" disabled>Next →</button>
         </div>
 
-        
         <div id="emptyState" class="emptyCard" style="display:none;">No news found.</div>
         <div id="featuredWrap"></div>
         <div id="postsGrid" class="grid"></div>
@@ -601,8 +590,6 @@
           <div class="pageChip" id="pageInfo2">Page 1 / 1</div>
           <button class="pbtn" id="btnNext2" disabled>Next →</button>
         </div>
-
-        
       </main>
 
       <!-- RIGHT SIDEBAR -->
@@ -611,8 +598,6 @@
           <h4>Latest Posts</h4>
           <div id="latestWrap" class="sideInner">No posts yet.</div>
         </div>
-
-        
       </aside>
     </div>
   </div>
@@ -679,35 +664,43 @@
       const closeMenuBtn = document.getElementById("closeMenuBtn");
       const menuOverlay = document.getElementById("menuOverlay");
 
-      openMenuBtn.addEventListener("click", function () {
-        menuOverlay.classList.add("show");
-      });
+      if (openMenuBtn && menuOverlay) {
+        openMenuBtn.addEventListener("click", function () {
+          menuOverlay.classList.add("show");
+        });
+      }
 
-      closeMenuBtn.addEventListener("click", function () {
-        menuOverlay.classList.remove("show");
-      });
-
-      menuOverlay.addEventListener("click", function (e) {
-        if (e.target === menuOverlay) {
+      if (closeMenuBtn && menuOverlay) {
+        closeMenuBtn.addEventListener("click", function () {
           menuOverlay.classList.remove("show");
-        }
-      });
+        });
+      }
+
+      if (menuOverlay) {
+        menuOverlay.addEventListener("click", function (e) {
+          if (e.target === menuOverlay) {
+            menuOverlay.classList.remove("show");
+          }
+        });
+      }
     });
 
     // Language dropdown toggle (click)
     const langBtn = document.getElementById("langBtn");
     const langMenu = document.getElementById("langMenu");
 
-    langBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      langMenu.classList.toggle("show");
-    });
+    if (langBtn && langMenu) {
+      langBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langMenu.classList.toggle("show");
+      });
 
-    document.addEventListener("click", (e) => {
-      if (!e.target.closest(".language-dropdown")) {
-        langMenu.classList.remove("show");
-      }
-    });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".language-dropdown")) {
+          langMenu.classList.remove("show");
+        }
+      });
+    }
   </script>
 
   <!-- Google Translate (optional) -->
@@ -743,12 +736,9 @@
     // DOM
     const communityFilter = document.getElementById("communityFilter");
     const magCommunity = document.getElementById("magCommunity");
-    const btnRefresh = document.getElementById("btnRefresh");
     const searchBox = document.getElementById("searchBox");
-
     const categoryFilterTop = document.getElementById("categoryFilterTop");
     const latestSelect = document.getElementById("latestSelect");
-    const loginBtnTop = document.getElementById("loginBtnTop");
 
     const featuredWrap = document.getElementById("featuredWrap");
     const postsGrid = document.getElementById("postsGrid");
@@ -773,10 +763,10 @@
     const modalContent = document.getElementById("modalContent");
     const shareRow = document.getElementById("shareRow");
 
-    btnClose.onclick = () => modal.classList.remove("open");
-    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
-
-    loginBtnTop.onclick = () => location.href = "login.html";
+    if (btnClose && modal) {
+      btnClose.onclick = () => modal.classList.remove("open");
+      modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("open"); });
+    }
 
     // Magazine links (edit)
     const MAGAZINE_LINKS = {
@@ -787,7 +777,7 @@
     // State
     let allNews = [];
     let currentPage = 1;
-    const SMALL_PER_PAGE = 7; // ✅ max small cards per page
+    const SMALL_PER_PAGE = 7; // max small cards per page
 
     function safeText(v){ return (v ?? "").toString(); }
 
@@ -840,7 +830,7 @@
     function buildLatestSelect(items){
       latestSelect.innerHTML = `<option value="">Select…</option>`;
       items.slice(0, 30).forEach(n => {
-        const label = `${safeText(n.title) || "Untitled"} (${formatDate(n.date)})`;
+        const label = `${safeText(n.title) || "Untitled"} (${formatDate(n.date || n.createdAt)})`;
         latestSelect.appendChild(new Option(label, n.id));
       });
     }
@@ -883,6 +873,8 @@
 
     function renderFeatured(item){
       const img = normalizeImageUrl(item.mediaUrl);
+      const dt = formatDate(item.date || item.createdAt);
+
       featuredWrap.innerHTML = `
         <div class="featured" id="featuredCard">
           <div class="media">
@@ -893,7 +885,7 @@
             <div class="metaLine">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
-              <span>${formatDate(item.date)}</span>
+              <span>${dt}</span>
               <span>${item.reporterName ? "Reporter: " + safeText(item.reporterName) : ""}</span>
             </div>
             <div class="excerpt">${safeText(item.content).slice(0,160)}</div>
@@ -907,6 +899,8 @@
       postsGrid.innerHTML = "";
       items.forEach(item => {
         const img = normalizeImageUrl(item.mediaUrl);
+        const dt = formatDate(item.date || item.createdAt);
+
         const el = document.createElement("div");
         el.className = "post";
         el.innerHTML = `
@@ -917,7 +911,7 @@
             <div class="metaLine" style="margin-top:10px;">
               <span class="badge">${safeText(item.community) || "All"}</span>
               <span class="badge">${safeText(item.category) || "General"}</span>
-              <span>${formatDate(item.date)}</span>
+              <span>${dt}</span>
             </div>
           </div>
         `;
@@ -938,7 +932,7 @@
         row.style.cursor = "pointer";
         row.innerHTML = `
           <div style="font-weight:900; color:#0f172a;">${safeText(item.title) || "Untitled"}</div>
-          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.date)}</div>
+          <div style="color:var(--muted); font-size:.88rem;">${formatDate(item.date || item.createdAt)}</div>
         `;
         row.onclick = () => openPost(item);
         latestWrap.appendChild(row);
@@ -966,7 +960,7 @@
       const bits = [];
       if(item.community) bits.push(item.community);
       if(item.category) bits.push(item.category);
-      const dt = formatDate(item.date);
+      const dt = formatDate(item.date || item.createdAt);
       if(dt) bits.push(dt);
       if(item.reporterName) bits.push("Reporter: " + item.reporterName);
       modalMeta.textContent = bits.join(" • ");
@@ -1009,19 +1003,25 @@
       emptyState.innerHTML = "Loading news…";
 
       try{
-        const snap = await db.collection("news")
-          .orderBy("date","desc")
-          .limit(200)
-          .get();
+        // Try date -> createdAt -> no order (fallback)
+        let snap;
+        try{
+          snap = await db.collection("news").orderBy("date","desc").limit(200).get();
+        }catch(e1){
+          console.warn("orderBy(date) failed, trying createdAt:", e1?.message || e1);
+          try{
+            snap = await db.collection("news").orderBy("createdAt","desc").limit(200).get();
+          }catch(e2){
+            console.warn("orderBy(createdAt) failed, trying plain get:", e2?.message || e2);
+            snap = await db.collection("news").limit(200).get();
+          }
+        }
 
         allNews = snap.docs.map(d => ({ id:d.id, ...d.data() }));
 
         buildCommunityDropdown();
         buildCategoryDropdown();
         buildLatestSelect(allNews);
-
-        if (!communityFilter.value) communityFilter.value = "ALL";
-        if (!categoryFilterTop.value) categoryFilterTop.value = "ALL";
 
         currentPage = 1;
         render();
@@ -1041,34 +1041,36 @@
       }
     }
 
-    // Events
-    communityFilter.onchange = () => { currentPage = 1; render(); };
-    categoryFilterTop.onchange = () => { currentPage = 1; render(); };
-    searchBox.oninput = () => { currentPage = 1; render(); };
+    // Events (safe)
+    if (communityFilter) communityFilter.addEventListener("change", () => { currentPage = 1; render(); });
+    if (categoryFilterTop) categoryFilterTop.addEventListener("change", () => { currentPage = 1; render(); });
+    if (searchBox) searchBox.addEventListener("input", () => { currentPage = 1; render(); });
 
-    latestSelect.onchange = () => {
-      const id = latestSelect.value;
-      if(!id) return;
-      const found = allNews.find(x => x.id === id);
-      if(found) openPost(found);
-      latestSelect.value = "";
-    };
-
-    btnRefresh.onclick = loadNews;
+    if (latestSelect) {
+      latestSelect.addEventListener("change", () => {
+        const id = latestSelect.value;
+        if(!id) return;
+        const found = allNews.find(x => x.id === id);
+        if(found) openPost(found);
+        latestSelect.value = "";
+      });
+    }
 
     function goPrev(){ currentPage = Math.max(1, currentPage - 1); render(); }
     function goNext(){ currentPage = currentPage + 1; render(); }
 
-    btnPrev.onclick = goPrev;
-    btnPrev2.onclick = goPrev;
-    btnNext.onclick = goNext;
-    btnNext2.onclick = goNext;
+    if (btnPrev)  btnPrev.onclick  = goPrev;
+    if (btnPrev2) btnPrev2.onclick = goPrev;
+    if (btnNext)  btnNext.onclick  = goNext;
+    if (btnNext2) btnNext2.onclick = goNext;
 
-    magCommunity.onchange = () => {
-      const c = magCommunity.value || "ALL";
-      const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
-      window.location.href = link;
-    };
+    if (magCommunity) {
+      magCommunity.addEventListener("change", () => {
+        const c = magCommunity.value || "ALL";
+        const link = MAGAZINE_LINKS[c] || MAGAZINE_LINKS["ALL"];
+        window.location.href = link;
+      });
+    }
 
     // Start
     loadNews();
