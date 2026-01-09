@@ -172,92 +172,51 @@
     .headerCenter p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
 
     /* ===== TOP ACTION STRIP ===== */
-    .actionStrip{
-      display:grid;
-      grid-template-columns: 1.1fr 1fr 1fr 1fr;
-      gap:14px;
-      align-items:stretch;
-      margin: 14px 0 14px;
-    }
-    .actionCard{
-      background: var(--card);
-      border-radius: 999px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(2,6,23,.06);
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-height: 52px;
-    }
-    .actionCard .label{
-      font-weight:900;
-      color:#0f172a;
-      white-space:nowrap;
-    }
-    .actionCard select{
-      width:100%;
-      border:0;
-      outline:none;
-      background:transparent;
-      font-weight:800;
-      color:#0f172a;
-      padding:6px 8px;
-      appearance:auto;
-    }
-    .loginBtnTop{
-      width:100%;
-      border:0;
-      border-radius:999px;
-      background: var(--accent2);
-      box-shadow: var(--shadow);
-      font-weight:900;
-      padding:14px 16px;
-      cursor:pointer;
-    }
+       /* ===== TOP ACTION STRIP ===== */
+    /* ===== TOP BAR (Unified with Action Cards) ===== */
+.topBar{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:14px;
+  align-items:stretch;
+  margin: 14px 0;
+}
 
-    /* ===== Community + Refresh row ===== */
-    .topBar{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:14px;
-      align-items:center;
-      margin: 0 0 10px;
-    }
-    .communityPill{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:14px 16px;
-      background: var(--card);
-      border-radius: 999px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.5);
-    }
-    .communityPill label{
-      color: var(--muted);
-      font-weight:800;
-      white-space:nowrap;
-    }
-    .communityPill select{
-      width: 100%;
-      border:none;
-      outline:none;
-      background:transparent;
-      font-weight:900;
-      font-size:1rem;
-      color: var(--text);
-      padding:6px 6px;
-    }
-    .btnPill{
-      padding:12px 18px;
-      border-radius:999px;
-      border:0;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      font-weight:900;
-      cursor:pointer;
-    }
+.actionCard{
+  background: var(--card);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(2,6,23,.06);
+  padding: 10px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height: 52px;
+}
+
+.actionCard .label{
+  font-weight:900;
+  color:#0f172a;
+  white-space:nowrap;
+}
+
+.actionCard select{
+  width:100%;
+  border:0;
+  outline:none;
+  background:transparent;
+  font-weight:800;
+  font-size:0.95rem;
+  color:#0f172a;
+  padding:6px 4px;
+  appearance:auto;
+}
+
+@media (max-width: 768px){
+  .topBar{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
     /* Search */
     .searchBar{ width:100%; margin: 8px 0 14px; display:flex; justify-content:center; }
@@ -585,41 +544,37 @@
     </div>
 
     <!-- Top button-cards row -->
-    <div class="actionStrip">
-      <button class="loginBtnTop" id="loginBtnTop">Volunteer/Admin Login</button>
-
-      <div class="actionCard">
-        <span class="label">Latest Posts</span>
-        <select id="latestSelect">
-          <option value="">Select…</option>
-        </select>
-      </div>
-
-      <div class="actionCard">
-        <span class="label">Categories</span>
-        <select id="categoryFilterTop">
-          <option value="ALL">All</option>
-        </select>
-      </div>
-
-      <div class="actionCard">
-        <span class="label">Community Magazine</span>
-        <select id="magCommunity">
-          <option value="ALL">All</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Community dropdown + Refresh -->
+    <!-- Top button-cards row -->
+    
     <div class="topBar">
-      <div class="communityPill">
-        <label for="communityFilter">Community/ies:</label>
-        <select id="communityFilter">
-          <option value="ALL">All</option>
-        </select>
-      </div>
-      <button class="btnPill" id="btnRefresh">Refresh</button>
-    </div>
+  <div class="actionCard communityCard">
+    <span class="label">Community/ies</span>
+    <select id="communityFilter">
+      <option value="ALL">All</option>
+    </select>
+  </div>
+
+  <div class="actionCard">
+    <span class="label">Latest Posts</span>
+    <select id="latestSelect">
+      <option value="">Select…</option>
+    </select>
+  </div>
+
+  <div class="actionCard">
+    <span class="label">Categories</span>
+    <select id="categoryFilterTop">
+      <option value="ALL">All</option>
+    </select>
+  </div>
+
+  <div class="actionCard">
+    <span class="label">Community Magazine</span>
+    <select id="magCommunity">
+      <option value="ALL">All</option>
+    </select>
+  </div>
+</div>
 
     <!-- Search -->
     <div class="searchBar">
