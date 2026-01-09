@@ -471,16 +471,16 @@
 
   <!-- Thumbnails -->
   <div class="thumbnail-strip">
-    <img src="page1.jpg" class="thumbnail active" data-page="1">
-    <img src="page2.jpg" class="thumbnail" data-page="2">
-    <img src="page3.jpg" class="thumbnail" data-page="3">
-    <img src="page4.jpg" class="thumbnail" data-page="4">
-    <img src="page5.jpg" class="thumbnail" data-page="5">
-    <img src="page6.jpg" class="thumbnail" data-page="6">
-    <img src="page7.jpg" class="thumbnail" data-page="7">
-    <img src="page8.jpg" class="thumbnail" data-page="8">
-    <img src="page9.jpg" class="thumbnail" data-page="9">
-    <img src="page10.jpg" class="thumbnail" data-page="10">
+    <img src="JanasabhaManual1.jpg" class="thumbnail active" data-page="1">
+    <img src="JanasabhaManual2.jpg" class="thumbnail" data-page="2">
+    <img src="JanasabhaManual3.jpg" class="thumbnail" data-page="3">
+    <img src="JanasabhaManual4.jpg" class="thumbnail" data-page="4">
+    <img src="JanasabhaManual5.jpg" class="thumbnail" data-page="5">
+    <img src="JanasabhaManual6.jpg" class="thumbnail" data-page="6">
+    <img src="JanasabhaManual7.jpg" class="thumbnail" data-page="7">
+    <img src="JanasabhaManual8.jpg" class="thumbnail" data-page="8">
+    <img src="JanasabhaManual9.jpg" class="thumbnail" data-page="9">
+    <img src="JanasabhaManual10.jpg" class="thumbnail" data-page="10">
   </div>
 
 </div>
@@ -664,6 +664,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
