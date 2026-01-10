@@ -1075,5 +1075,18 @@
     // Start
     loadNews();
   </script>
+<script>
+ /* ===== Google Translate open in new tab ===== */
+    document.querySelectorAll(".lang-menu a").forEach(item => {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        const lang = this.dataset.lang;
+        const currentURL = encodeURIComponent(window.location.href);
+        const newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
+        window.open(newURL, "_blank");
+      });
+    });
+  </script>
+  
 </body>
 </html>
