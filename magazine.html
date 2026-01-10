@@ -416,57 +416,63 @@
 <body>
 
   <!-- ===== NAVBAR ===== -->
-  <nav>
-    <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
+   <!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
 
-    <ul>
-      <li><a href="index.html#home-section">Home</a></li>
-      <li><a href="index.html#aboutus-section">About Us</a></li>
-      <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
-      <li><a href="index.html#gallery-section">Gallery</a></li>
-      <li><a href="index.html#testimony-section">Testimonies</a></li>
-      <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
-      <li><a href="index.html#contact-section">Contact Us</a></li>
-    </ul>
+  <ul>
+  <li><a href="index.html#home-section" class="active">Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="#modelunit-section">Model Unit</a></li> 
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+    <li><a href="news.html">News</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
+</ul>
 
-    <!-- Language Dropdown -->
-    <div class="language-dropdown">
-      <button class="lang-btn">
-        🌐 <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="lang-menu">
-        <a href="#" data-lang="en">English</a>
-        <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
-        <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
-        <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
-        <a href="#" data-lang="te">తెలుగు (Telugu)</a>
-        <a href="#" data-lang="bn">বাংলা (Bengali)</a>
-        <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
-        <a href="#" data-lang="mr">मराठी (Marathi)</a>
-      </div>
-    </div>
-
-    <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
-      <i class="fa fa-bars"></i>
+  <!-- Language Dropdown -->
+  <div class="language-dropdown">
+    <button class="lang-btn">
+      🌐 <i class="fa fa-caret-down"></i>
     </button>
-  </nav>
+    <div class="lang-menu">
+  <a href="#" data-lang="en">English</a>
+  <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
+  <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
+  <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
+  <a href="#" data-lang="te">తెలుగు (Telugu)</a>
+  <a href="#" data-lang="bn">বাংলা (Bengali)</a>
+  <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
+  <a href="#" data-lang="mr">मराठी (Marathi)</a>
+</div>
+
+  </div>
+
+  <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
+    <i class="fa fa-bars"></i>
+  </button>
+</nav>
+
 
   <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
   <div class="menu-overlay" id="menuOverlay">
     <div class="side-menu">
       <button class="close-btn" id="closeMenuBtn">&times;</button>
+      <h2></h2>
       <ul class="menu-list">
-        <li><a href="index.html#home-section">Home</a></li>
-        <li><a href="index.html#aboutus-section">About Us</a></li>
-        <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
-        <li><a href="index.html#gallery-section">Gallery</a></li>
-        <li><a href="index.html#testimony-section">Testimonies</a></li>
-        <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
-        <li><a href="index.html#contact-section">Contact Us</a></li>
+        <li><a href="index.html#home-section" class="active">Home</a></li>
+  <li><a href="index.html#aboutus-section">About Us</a></li>
+  <li><a href="#modelunit-section">Model Unit</a></li>
+  <li><a href="index.html#gallery-section">Gallery</a></li>
+  <li><a href="index.html#testimony-section">Testimonies</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li> 
+         <li><a href="news.html">News</a></li>
+  <li><a href="index.html#contact-section">Contact Us</a></li>
       </ul>
     </div>
   </div>
-
+  
   <div class="spacer"></div>
 
   <!-- ===== BODY: ONLY EDITION CARDS ===== -->
@@ -532,6 +538,20 @@
       <p>© 2025 Mannanam Janasabha. All Rights Reserved.</p>
     </div>
   </footer>
+
+
+  <script>
+document.querySelectorAll(".lang-menu a").forEach(item => {
+  item.addEventListener("click", function (e) {
+    e.preventDefault();
+    let lang = this.dataset.lang;
+    let currentURL = encodeURIComponent(window.location.href);
+
+    let newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
+    window.open(newURL, "_blank");
+  });
+});
+</script>
 
   <script>
     /* ===============================
@@ -654,6 +674,7 @@
 
 </body>
 </html>
+
 
 
 
