@@ -393,30 +393,32 @@
   <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
 
   <ul>
-  <li><a href="index.html#home-section" >Home</a></li>
+  <li><a href="index.html#home-section" class="active">Home</a></li>
   <li><a href="index.html#aboutus-section">About Us</a></li>
-  <li><a href="index.html#modelunit-section" class="active" >Model Unit</a></li>
+  <li><a href="#modelunit-section">Model Unit</a></li> 
   <li><a href="index.html#gallery-section">Gallery</a></li>
   <li><a href="index.html#testimony-section">Testimonies</a></li>
   <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+    <li><a href="news.html">News</a></li>
   <li><a href="index.html#contact-section">Contact Us</a></li>
 </ul>
 
-   <!-- Language Dropdown -->
+  <!-- Language Dropdown -->
   <div class="language-dropdown">
     <button class="lang-btn">
       🌐 <i class="fa fa-caret-down"></i>
     </button>
     <div class="lang-menu">
-  <a href="#" onclick="translateTo('en')">English</a>
-  <a href="#" onclick="translateTo('hi')">हिन्दी (Hindi)</a>
-  <a href="#" onclick="translateTo('ml')">മലയാളം (Malayalam)</a>
-  <a href="#" onclick="translateTo('ta')">தமிழ் (Tamil)</a>
-  <a href="#" onclick="translateTo('te')">తెలుగు (Telugu)</a>
-  <a href="#" onclick="translateTo('bn')">বাংলা (Bengali)</a>
-  <a href="#" onclick="translateTo('kn')">ಕನ್ನಡ (Kannada)</a>
-  <a href="#" onclick="translateTo('mr')">मराठी (Marathi)</a>
+  <a href="#" data-lang="en">English</a>
+  <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
+  <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
+  <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
+  <a href="#" data-lang="te">తెలుగు (Telugu)</a>
+  <a href="#" data-lang="bn">বাংলা (Bengali)</a>
+  <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
+  <a href="#" data-lang="mr">मराठी (Marathi)</a>
 </div>
+
   </div>
 
   <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
@@ -424,19 +426,19 @@
   </button>
 </nav>
 
-
   <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
   <div class="menu-overlay" id="menuOverlay">
     <div class="side-menu">
       <button class="close-btn" id="closeMenuBtn">&times;</button>
       <h2></h2>
       <ul class="menu-list">
-        <li><a href="index.html#home-section" >Home</a></li>
+        <li><a href="index.html#home-section" class="active">Home</a></li>
   <li><a href="index.html#aboutus-section">About Us</a></li>
-  <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
+  <li><a href="#modelunit-section">Model Unit</a></li>
   <li><a href="index.html#gallery-section">Gallery</a></li>
   <li><a href="index.html#testimony-section">Testimonies</a></li>
-  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
+  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li> 
+         <li><a href="news.html">News</a></li>
   <li><a href="index.html#contact-section">Contact Us</a></li>
       </ul>
     </div>
@@ -471,7 +473,7 @@
 
   <!-- Thumbnails -->
   <div class="thumbnail-strip">
-    <img src="JanasabhaManual1.JPG" class="thumbnail active" data-page="1">
+    <img src="JanasabhaManual1.jpg" class="thumbnail active" data-page="1">
     <img src="JanasabhaManual2.jpg" class="thumbnail" data-page="2">
     <img src="JanasabhaManual3.jpg" class="thumbnail" data-page="3">
     <img src="JanasabhaManual4.jpg" class="thumbnail" data-page="4">
@@ -540,6 +542,8 @@
 
 <script>
   
+  // side menu
+  
   // Wait for the DOM to load
   document.addEventListener("DOMContentLoaded", function () {
     const openMenuBtn = document.getElementById("openMenuBtn");
@@ -565,7 +569,21 @@
   });
 </script>
 
+<script>
+  const langBtn = document.querySelector('.lang-btn');
+  const langDropdown = document.querySelector('.language-dropdown');
 
+  langBtn.addEventListener('click', () => {
+    langDropdown.classList.toggle('active');
+  });
+
+  // Close if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('active');
+    }
+  });
+</script>
 
 <script>
 document.querySelectorAll(".lang-menu a").forEach(item => {
@@ -664,6 +682,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
