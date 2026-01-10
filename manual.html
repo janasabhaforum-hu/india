@@ -464,34 +464,32 @@
 </h1>
 
 <!-- ===================== A4 PAGE VIEWER SECTION ===================== -->
+<!-- ===================== A4 PAGE VIEWER SECTION ===================== -->
 <div class="page-viewer-container">
 
-  
-<!-- Main Page Display -->
-  <div class="main-page-wrapper"> <img id="mainPage" src="manual/JanasabhaManual1.jpg" class="main-page" alt="Manual Page"> </div>
-</div>
+  <!-- Main Page Display -->
+  <div class="main-page-wrapper">
+    <img id="mainPage"
+         src="manual/JanasabhaManual1.jpg"
+         class="main-page"
+         alt="Manual Page">
+  </div>
 
   <!-- Thumbnails -->
-<div class="thumbnail-strip">
-  <img src="manual/JanasabhaManual1.jpg" class="thumbnail active" data-page="1">
-  <img src="manual/JanasabhaManual2.jpg" class="thumbnail" data-page="2">
-  <img src="manual/JanasabhaManual3.jpg" class="thumbnail" data-page="3">
-  <img src="manual/JanasabhaManual4.jpg" class="thumbnail" data-page="4">
-  <img src="manual/JanasabhaManual5.jpg" class="thumbnail" data-page="5">
-  <img src="manual/JanasabhaManual6.jpg" class="thumbnail" data-page="6">
-  <img src="manual/JanasabhaManual7.jpg" class="thumbnail" data-page="7">
-  <img src="manual/JanasabhaManual8.jpg" class="thumbnail" data-page="8">
-  <img src="manual/JanasabhaManual9.jpg" class="thumbnail" data-page="9">
-  <img src="manual/JanasabhaManual10.jpg" class="thumbnail" data-page="10">
+  <div class="thumbnail-strip">
+    <img src="manual/JanasabhaManual1.jpg" class="thumbnail active">
+    <img src="manual/JanasabhaManual2.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual3.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual4.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual5.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual6.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual7.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual8.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual9.jpg" class="thumbnail">
+    <img src="manual/JanasabhaManual10.jpg" class="thumbnail">
+  </div>
+
 </div>
-
-
-</div>
-
-
-
-
-
 
 
 
@@ -604,7 +602,6 @@ document.querySelectorAll(".lang-menu a").forEach(item => {
 
 
 
- <script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const mainPage = document.getElementById("mainPage");
@@ -615,7 +612,7 @@ document.addEventListener("DOMContentLoaded", function () {
       thumbnails.forEach(t => t.classList.remove("active"));
       this.classList.add("active");
 
-      // ✅ show the same image as the thumbnail (works even with folders)
+      // show clicked thumbnail image
       mainPage.src = this.src;
     });
   });
@@ -663,6 +660,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
