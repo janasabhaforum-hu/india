@@ -606,46 +606,24 @@ document.querySelectorAll(".lang-menu a").forEach(item => {
 
 
  <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-
   const mainPage = document.getElementById("mainPage");
   const thumbnails = document.querySelectorAll(".thumbnail");
 
-  // ---------- CHANGE PAGE ON THUMBNAIL CLICK ----------
   thumbnails.forEach(thumb => {
     thumb.addEventListener("click", function () {
-
-      // remove "active" class from all thumbnails
       thumbnails.forEach(t => t.classList.remove("active"));
-
-      // add "active" to clicked thumbnail
       this.classList.add("active");
 
-      // get page number from data-page="X"
-      let pageNumber = this.getAttribute("data-page");
-
-      // update main image
-      mainPage.src = `page${pageNumber}.jpg`;
+      // ✅ show the same image as the thumbnail (works even with folders)
+      mainPage.src = this.src;
     });
   });
-
-  // ---------- ZOOM BUTTONS ----------
-  let zoomLevel = 1.0;
-  const zoomInBtn = document.getElementById("zoomInBtn");
-  const zoomOutBtn = document.getElementById("zoomOutBtn");
-
-  zoomInBtn.addEventListener("click", () => {
-    zoomLevel += 0.1;
-    mainPage.style.transform = `scale(${zoomLevel})`;
-  });
-
-  zoomOutBtn.addEventListener("click", () => {
-    if (zoomLevel > 0.3) zoomLevel -= 0.1;
-    mainPage.style.transform = `scale(${zoomLevel})`;
-  });
-
 });
 </script>
+
+
 
 
 
@@ -686,6 +664,7 @@ document.querySelectorAll('.mannjana-buttons .btn').forEach(button => {
 </body>
 
 </html>
+
 
 
 
