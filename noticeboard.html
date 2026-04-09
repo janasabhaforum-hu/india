@@ -1,91 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mannanam Janasabha - Notice Board</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Janasabha</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ===== BASIC RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
+    body {
+      font-family: "Poppins", sans-serif;
+    }
 
-/* ===== RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    /* ===== NAVBAR ===== */
+    nav {
+      background: #1b1b1b;
+      height: 70px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
 
-body {
-  font-family: "Poppins", sans-serif;
-}
+    nav .logo {
+      color: white;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
 
-/* ===== NAVBAR ===== */
-nav {
-  background: #1b1b1b;
-  height: 70px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-}
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
 
-.logo {
-  color: white;
-  font-size: 28px;
-  font-weight: 700;
-}
+    nav ul li {
+      margin: 0 15px;
+    }
 
-nav ul {
-  display: flex;
-  list-style: none;
-}
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
 
-nav ul li {
-  margin: 0 12px;
-}
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: yellow;
+    }
 
-nav ul li a {
-  color: white;
-  text-decoration: none;
-}
+    /* ===== MOBILE MENU ===== */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
 
-nav ul li a:hover,
-nav ul li a.active {
-  color: yellow;
-}
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
 
-/* MOBILE MENU */
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) {
-  nav ul { display: none; }
-  .menu-toggle { display: block; }
-}
-
-/* ===== LANGUAGE ===== */
+    /* ===== LANGUAGE DROPDOWN MENU ===== */
 .language-dropdown {
   position: relative;
+  display: inline-block;
 }
 
 .lang-btn {
   background: #1b1b1b;
-  color: white;
+  color: #fff;
   border: 1px solid #f1c40f;
-  padding: 6px 12px;
+  padding: 8px 15px;
   border-radius: 20px;
+  font-size: 14px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-btn:hover {
+  background: #f1c40f;
+  color: #1b1b1b;
 }
 
 .lang-menu {
@@ -93,79 +111,141 @@ nav ul li a.active {
   position: absolute;
   right: 0;
   top: 40px;
-  background: white;
-  border-radius: 8px;
+  background: #fff;
   min-width: 160px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  z-index: 1500;
 }
 
 .lang-menu a {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
   color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.3s;
+  font-size: 14px;
 }
+
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.language-dropdown:hover .lang-menu {
+  display: block;
+}
+
 
 .lang-menu a:hover {
   background: #f1c40f;
+  color: #1b1b1b;
+  border-radius: 10px;
 }
 
-.language-dropdown.active .lang-menu {
+/* Show menu on hover */
+.language-dropdown:hover .lang-menu {
   display: block;
 }
 
-/* ===== MOBILE SIDE MENU ===== */
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 1200;
+@media (max-width: 900px) {
+  .language-dropdown {
+    display: inline-block;
+    position: absolute;
+    right: 60px;  /* moves it to the left of the menu button */
+    top: 10px;
+    z-index: 1200;
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
 }
 
-.menu-overlay.show {
-  display: flex;
-}
 
-.menu-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-}
 
-.side-menu {
-  width: 200px;
-  background: #333;
-  color: white;
-  padding: 20px;
-  transform: translateX(-100%);
-  transition: 0.3s;
-}
+    /* ===== MOBILE OVERLAY ===== */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: stretch;
+      justify-content: flex-start;
+      z-index: 1200;
+      transition: opacity .25s ease;
+    }
 
-.menu-overlay.show .side-menu {
-  transform: translateX(0);
-}
+    .menu-overlay.show {
+      display: flex;
+    }
 
-.side-menu ul {
-  list-style: none;
-}
+    .menu-overlay::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: transperant;
+    }
 
-.side-menu ul li {
-  margin: 15px 0;
-}
 
-.side-menu a {
-  color: white;
-  text-decoration: none;
-}
+    .side-menu {
+      position: relative;
+      width:180px;
+      height: 100%;
+      background: rgb(101, 96, 96);
+      color: rgb(6, 5, 5);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      padding: 30px 25px;
+    }
 
-.close-btn {
-  font-size: 25px;
-  background: none;
-  border: none;
-  color: white;
-  float: right;
-  cursor: pointer;
-}
+    .menu-overlay.show .side-menu {
+      transform: translateX(0);
+    }
+    .side-menu h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .side-menu ul {
+      list-style: none;
+    }
+
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+
+    .side-menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    
 
 /* ===== NOTICEBOARD ===== */
 /* ===== NOTICEBOARD (FIXED) ===== */
