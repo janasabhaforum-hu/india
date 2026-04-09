@@ -600,21 +600,37 @@ colleges, schools, social work departments, voluntary organizations, other socia
 </footer>
 
 
-<!-- SCRIPT -->
 <script>
+  
+  // side menu
+  
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", function () {
+    const openMenuBtn = document.getElementById("openMenuBtn");
+    const closeMenuBtn = document.getElementById("closeMenuBtn");
+    const menuOverlay = document.getElementById("menuOverlay");
 
-// MOBILE MENU
-const openBtn = document.getElementById("openMenuBtn");
-const closeBtn = document.getElementById("closeMenuBtn");
-const overlay = document.getElementById("menuOverlay");
+    // Open side menu
+    openMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.add("show");
+    });
 
-openBtn.onclick = () => overlay.classList.add("show");
-closeBtn.onclick = () => overlay.classList.remove("show");
-overlay.onclick = (e) => {
-  if (e.target === overlay) overlay.classList.remove("show");
-};
+    // Close side menu
+    closeMenuBtn.addEventListener("click", function () {
+      menuOverlay.classList.remove("show");
+    });
 
+    // Close menu if user clicks outside the side menu
+    menuOverlay.addEventListener("click", function (e) {
+      if (e.target === menuOverlay) {
+        menuOverlay.classList.remove("show");
+      }
+    });
+  });
+</script>
+  
 // LANGUAGE
+  <script>
 const langBtn = document.querySelector('.lang-btn');
 const dropdown = document.querySelector('.language-dropdown');
 
