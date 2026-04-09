@@ -251,6 +251,103 @@
 
 /* noticeboard titles and para =============== */
 
+/* ===== ABOUT US SECTION STYLING ===== */
+.noticeboard {
+  background-color: #d7f5d7; /* light green background */
+  padding: 60px 20px;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.noticeboard h2 {
+  font-size: 2.4rem;
+  color: #07070a;
+  margin-bottom: 25px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.noticeboard .intro {
+   color: #555;
+  font-size: 1.1rem;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 50px;
+  text-align: justify;
+}
+/* Grid for each card */
+.noticeboard-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 25px; /* adds even and attractive spacing between cards */
+  margin-bottom: 25px; /* space between rows of cards */
+}
+
+/* Card Styling */
+.noticeboard-card {
+  background: #ffffff; /* white card */
+  padding: 45px 35px;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  width: 78%;          /* consistent width for all cards */
+  max-width: 900px;    /* prevents overexpansion on large screens */
+  min-width: 320px;    /* ensures a neat layout on mobile */
+  transition: all 0.3s ease;
+  text-align: center;
+  margin: 0 auto; /* centers the card */
+}
+
+.noticeboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Titles */
+.center-title {
+  text-align: center;
+  font-size: 1.9rem;
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+/* Paragraphs inside cards */
+.noticeboard-card p {
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+
+
+
+
+
+/* Responsive adjustments */
+
+
+@media (max-width: 768px) {
+  .noticeboard {
+    padding: 30px 15px; /* reduced from 60px */
+  }
+  .noticeboard .intro {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 25px; /* reduced from 50px */
+  }
+  .noticeboard-grid {
+    margin-bottom: 10px; /* reduced from 25px */
+  }
+  .voice-card {
+    margin-bottom: 15px; /* small spacing for stacked items */
+  }
+}
 
     
 
