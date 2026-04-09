@@ -1,109 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> Mannanam Janasabha</title>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mannanam Janasabha - Notice Board</title>
 
-  <style>
-    /* ===== BASIC RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    body {
-      font-family: "Poppins", sans-serif;
-    }
+<style>
 
-    /* ===== NAVBAR ===== */
-    nav {
-      background: #1b1b1b;
-      height: 70px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    nav .logo {
-      color: white;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
+body {
+  font-family: "Poppins", sans-serif;
+}
 
-    nav ul {
-      display: flex;
-      list-style: none;
-    }
+/* ===== NAVBAR ===== */
+nav {
+  background: #1b1b1b;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
 
-    nav ul li {
-      margin: 0 15px;
-    }
+.logo {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+}
 
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 500;
-      transition: 0.3s;
-    }
+nav ul {
+  display: flex;
+  list-style: none;
+}
 
-    nav ul li a:hover,
-    nav ul li a.active {
-      color: yellow;
-    }
+nav ul li {
+  margin: 0 12px;
+}
 
-    /* ===== MOBILE MENU ===== */
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
 
-    @media (max-width: 900px) {
-      nav ul {
-        display: none;
-      }
-      .menu-toggle {
-        display: block;
-      }
-    }
+nav ul li a:hover,
+nav ul li a.active {
+  color: yellow;
+}
 
-    /* ===== LANGUAGE DROPDOWN MENU ===== */
+/* MOBILE MENU */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  nav ul { display: none; }
+  .menu-toggle { display: block; }
+}
+
+/* ===== LANGUAGE ===== */
 .language-dropdown {
   position: relative;
-  display: inline-block;
 }
 
 .lang-btn {
   background: #1b1b1b;
-  color: #fff;
+  color: white;
   border: 1px solid #f1c40f;
-  padding: 8px 15px;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-size: 14px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.lang-btn:hover {
-  background: #f1c40f;
-  color: #1b1b1b;
 }
 
 .lang-menu {
@@ -111,590 +93,256 @@
   position: absolute;
   right: 0;
   top: 40px;
-  background: #fff;
+  background: white;
+  border-radius: 8px;
   min-width: 160px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  z-index: 1500;
 }
 
 .lang-menu a {
-  color: #333;
-  padding: 10px 15px;
+  display: block;
+  padding: 10px;
   text-decoration: none;
-  display: block;
-  transition: background 0.3s;
-  font-size: 14px;
+  color: #333;
 }
-
-.language-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.lang-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  Right: 0;
-  background: white;
-  min-width: 180px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  border-radius: 8px;
-  z-index: 999;
-}
-
-.language-dropdown:hover .lang-menu {
-  display: block;
-}
-
 
 .lang-menu a:hover {
   background: #f1c40f;
-  color: #1b1b1b;
-  border-radius: 10px;
 }
 
-/* Show menu on hover */
-.language-dropdown:hover .lang-menu {
+.language-dropdown.active .lang-menu {
   display: block;
 }
 
-@media (max-width: 900px) {
-  .language-dropdown {
-    display: inline-block;
-    position: absolute;
-    right:60px;  /* moves it to the left of the menu button */
-    top: 10px;
-    z-index: 1200;
-  }
-
-  .lang-btn {
-    padding: 6px 10px;
-    font-size: 13px;
-  }
+/* ===== MOBILE SIDE MENU ===== */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1200;
 }
 
+.menu-overlay.show {
+  display: flex;
+}
 
+.menu-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
 
+.side-menu {
+  width: 200px;
+  background: #333;
+  color: white;
+  padding: 20px;
+  transform: translateX(-100%);
+  transition: 0.3s;
+}
 
+.menu-overlay.show .side-menu {
+  transform: translateX(0);
+}
 
-    /* ===== MOBILE OVERLAY ===== */
-    .menu-overlay {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: stretch;
-      justify-content: flex-start;
-      z-index: 1200;
-      transition: opacity .25s ease;
-    }
+.side-menu ul {
+  list-style: none;
+}
 
-    .menu-overlay.show {
-      display: flex;
-    }
+.side-menu ul li {
+  margin: 15px 0;
+}
 
-    .menu-overlay::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: transperant;
-    }
+.side-menu a {
+  color: white;
+  text-decoration: none;
+}
 
+.close-btn {
+  font-size: 25px;
+  background: none;
+  border: none;
+  color: white;
+  float: right;
+  cursor: pointer;
+}
 
-    .side-menu {
-      position: relative;
-      width:180px;
-      height: 100%;
-      background: rgb(101, 96, 96);
-      color: rgb(6, 5, 5);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      padding: 30px 25px;
-    }
-
-    .menu-overlay.show .side-menu {
-      transform: translateX(0);
-    }
-    .side-menu h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-
-    .side-menu ul {
-      list-style: none;
-    }
-
-    .side-menu ul li {
-      margin: 15px 0;
-    }
-
-    .side-menu ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-      position: absolute;
-      top: 15px;
-      right: 20px;
-    }
-
-
-
-/* noticeboard titles and para =============== */
-
-/* ===== ABOUT US SECTION STYLING ===== */
+/* ===== NOTICEBOARD ===== */
 .noticeboard {
-  background-color: #d7f5d7; /* light green background */
-  padding: 60px 20px;
+  margin-top: 80px;
+  background: #d7f5d7;
+  padding: 40px 20px;
   text-align: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .noticeboard h2 {
-  font-size: 2.4rem;
-  color: #07070a;
-  margin-bottom: 25px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-.noticeboard .intro {
-   color: #555;
-  font-size: 1.1rem;
-  margin-left: 40px;
-  margin-right: 40px;
-  margin-bottom: 50px;
-  text-align: justify;
+.intro {
+  margin-bottom: 30px;
+  color: #555;
 }
-/* Grid for each card */
+
 .noticeboard-grid {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 25px; /* adds even and attractive spacing between cards */
-  margin-bottom: 25px; /* space between rows of cards */
+  justify-content: center;
+  gap: 20px;
 }
 
-/* Card Styling */
 .noticeboard-card {
-  background: #ffffff; /* white card */
-  padding: 45px 35px;
-  border-radius: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  width: 78%;          /* consistent width for all cards */
-  max-width: 900px;    /* prevents overexpansion on large screens */
-  min-width: 320px;    /* ensures a neat layout on mobile */
-  transition: all 0.3s ease;
-  text-align: center;
-  margin: 0 auto; /* centers the card */
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.noticeboard-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+.noticeboard-card h3 {
+  margin-bottom: 15px;
 }
 
-/* Titles */
-.center-title {
-  text-align: center;
-  font-size: 1.9rem;
-  color: #2c3e50;
-  font-weight: 700;
-  margin-bottom: 25px;
-}
-
-/* Paragraphs inside cards */
 .noticeboard-card p {
-  font-size: 1.2rem;
-  color: #444;
-  line-height: 1.7;
-  text-align: center;
-  margin: 0 auto;
-  max-width: 800px;
+  line-height: 1.6;
 }
 
-
-
-
-
-
-/* Responsive adjustments */
-
-
-@media (max-width: 768px) {
-  .noticeboard {
-    padding: 30px 15px; /* reduced from 60px */
-  }
-  .noticeboard .intro {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 25px; /* reduced from 50px */
-  }
-  .noticeboard-grid {
-    margin-bottom: 10px; /* reduced from 25px */
-  }
-  .voice-card {
-    margin-bottom: 15px; /* small spacing for stacked items */
-  }
-}
-
-    
-
+/* ===== FOOTER ===== */
 .footer {
   background: #2c3e50;
   color: white;
-  padding: 60px 0 20px 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
+  padding: 30px;
   text-align: center;
 }
 
-.footer-section h3 {
-  color: #f1c40f;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-}
-
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-section ul li {
-  margin-bottom: 8px;
-}
-
-.footer-section ul li a {
-  color: white;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.footer-section ul li a:hover {
-  color: #f1c40f;
-}
-
-/* Social Icons */
-.social-icons a {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  margin: 5px;
-  background: #f1c40f;
-  color: #2c3e50;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-.social-icons a:hover {
-  background: #d4ac0d;
-  color: #fff;
-}
-
-/* Motto */
-.motto p {
-  font-style: italic;
-  font-size: 1rem;
-  color: #f8f8f8;
-}
-
-/* Footer Bottom */
-.footer-bottom {
-  margin-top: 40px;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-  padding-top: 15px;
-  font-size: 0.9rem;
-  color: #ddd;
-}
-  </style>
+</style>
 </head>
 
 <body>
 
-  
-  
-  <!-- ===== NAVBAR ===== -->
+<!-- NAVBAR -->
 <nav>
-  <div class="logo">Janasabha<span style="color: yellow;">जन सभा</span></div>
+  <div class="logo">Janasabha</div>
 
   <ul>
-  <li><a href="index.html#home-section" >Home</a></li>
-  <li><a href="index.html#aboutus-section">About Us</a></li>
-  <li><a href="index.html#modelunit-section" class="active" >Model Unit</a></li>
-  <li><a href="index.html#gallery-section">Gallery</a></li>
-  <li><a href="index.html#testimony-section">Testimonies</a></li>
-  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
-  <li><a href="index.html#contact-section">Contact Us</a></li>
-</ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#" class="active">Notice</a></li>
+  </ul>
 
-   <!-- Language Dropdown -->
   <div class="language-dropdown">
-    <button class="lang-btn">
-      🌐 <i class="fa fa-caret-down"></i>
-    </button>
+    <button class="lang-btn">🌐</button>
     <div class="lang-menu">
-  <a href="#" data-lang="en">English</a>
-  <a href="#" data-lang="hi">हिन्दी (Hindi)</a>
-  <a href="#" data-lang="ml">മലയാളം (Malayalam)</a>
-  <a href="#" data-lang="ta">தமிழ் (Tamil)</a>
-  <a href="#" data-lang="te">తెలుగు (Telugu)</a>
-  <a href="#" data-lang="bn">বাংলা (Bengali)</a>
-  <a href="#" data-lang="kn">ಕನ್ನಡ (Kannada)</a>
-  <a href="#" data-lang="mr">मराठी (Marathi)</a>
-</div>
-
+      <a href="#" data-lang="en">English</a>
+      <a href="#" data-lang="ml">Malayalam</a>
+    </div>
   </div>
 
-  <button class="menu-toggle" id="openMenuBtn" aria-label="Open menu">
+  <button class="menu-toggle" id="openMenuBtn">
     <i class="fa fa-bars"></i>
   </button>
 </nav>
 
-
-  <!-- ===== FLOATING MENU OVERLAY (MOBILE) ===== -->
-  <div class="menu-overlay" id="menuOverlay">
-    <div class="side-menu">
-      <button class="close-btn" id="closeMenuBtn">&times;</button>
-      <h2></h2>
-      <ul class="menu-list">
-        <li><a href="index.html#home-section" >Home</a></li>
-  <li><a href="index.html#aboutus-section">About Us</a></li>
-  <li><a href="index.html#modelunit-section" class="active">Model Unit</a></li>
-  <li><a href="index.html#gallery-section">Gallery</a></li>
-  <li><a href="index.html#testimony-section">Testimonies</a></li>
-  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
-  <li><a href="index.html#contact-section">Contact Us</a></li>
-      </ul>
-    </div>
+<!-- MOBILE MENU -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="side-menu">
+    <button class="close-btn" id="closeMenuBtn">&times;</button>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Notice</a></li>
+    </ul>
   </div>
-
-
-  
-<!-- ===== Mannjana SECTION ===== -->
-
-
-  <section class="noticeboard-section" id="noticeboard-section">
-
-  <h3></h3>
-  <h1>Notice Board</h1>
-      <h3>Welcone to Janasabha Volunteers Forum  </h3>
- 
-
-  <p class="subtitle">
-    “India is my country, and all Indians are my brothers and sisters.”
-Janasabha is a social platform that strives to make this pledge a reality in everyday life.
-
-Based on the principles of Social Work and Community Development, Janasabha provides a platform that includes all individuals, families, and organizations in a locality, helping to identify their strengths and potential, and to ensure development and well-being.
-
-Yes, Janasabha recognizes that the soul of India resides in its local communities.
-
-The aim of Janasabha is to heal the wounds of divisions and to actively promote the values upheld by the Indian Constitution—such as fraternity, equality, unity, welfare, and development—within social life.
-
-Activities:
-
-Gatherings and leadership training programs for Janasabha volunteers at various levels
-‘Snehasparsham’ (Compassionate Outreach) charitable activities
-Identifying and encouraging talents in different fields
-Arts and literary activities
-Sports activities
-Organizing neighborhood/local Janasabhas including all residents and ward members
-Joint celebration programs
-Supporting and strengthening Gram Sabhas/Ward Sabhas
-Personality and leadership development programs
-
-Janasabha Motto: Love, Unity, and Development
-
-Are you interested in becoming a Janasabha volunteer or a community development worker by bringing together all the residents of your locality?
-
-👉 Become a Janasabha organizer...
-👉 Start Janasabha in your area...
-👉 Be a part of the constructive development of your homeland...
-
-For more information and to join the district-level team, visit:
-https://www.janasabha.org.in
-
-👉 As part of launching the Janasabha e-magazine to bring local artistic and literary talents to the global stage, you are invited to suggest names for the magazine.
-An attractive prize will be awarded to the person who suggests the selected name. If multiple people suggest the same selected name, the winner will be chosen by a draw.
-Submit your suggestions here: https://forms.gle/PWVrkTUU7NPjfHCj6   Last date of submission 30th May 2026 
-
-👉 Share this message widely and become part of this initiative. Especially reach out to:
-colleges, schools, social work departments, voluntary organizations, other social service institutions, teachers, local leaders, cultural leaders, trainers, community work interns, and social media professionals.
-
-🇮🇳 Live Long India 🇮🇳
-Team Janasabha 
-
-  </p>
-
-
-
 </div>
 
+<!-- NOTICEBOARD -->
+<section class="noticeboard">
 
-    
+  <h2>Notice Board</h2>
+  <p class="intro"><strong>Welcome to Janasabha Volunteers Forum</strong></p>
 
-    
+  <div class="noticeboard-grid">
+
+    <div class="noticeboard-card">
+      <h3>About Janasabha</h3>
+      <p>
+        “India is my country, and all Indians are my brothers and sisters.”
+        Janasabha is a platform to bring unity and development in communities.
+      </p>
+    </div>
+
+    <div class="noticeboard-card">
+      <h3>Activities</h3>
+      <p>
+        Volunteer meetings, leadership training, arts, sports, charity work,
+        and strengthening local communities.
+      </p>
+    </div>
+
+    <div class="noticeboard-card">
+      <h3>Join Us</h3>
+      <p>
+        Become a volunteer and contribute to your locality.
+        <br><br>
+        <a href="https://www.janasabha.org.in" target="_blank">Visit Website</a>
+      </p>
+    </div>
+
+    <div class="noticeboard-card">
+      <h3>Magazine Contest</h3>
+      <p>
+        Suggest a name and win a prize.
+        <br>
+        <a href="https://forms.gle/PWVrkTUU7NPjfHCj6" target="_blank">Submit Now</a>
+      </p>
+    </div>
+
   </div>
+
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ===== SECTION 12: FOOTER ===== -->
+<!-- FOOTER -->
 <footer class="footer">
-  <div class="container footer-grid">
-
-    <!-- QUICK LINKS -->
-    <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="index.html#home-section" class="active">Home</a></li>
-  <li><a href="index.html#aboutus-section">About Us</a></li>
-  <li><a href="page-mannjan.html">Model Unit</a></li> 
-  <li><a href="index.html#gallery-section">Gallery</a></li>
-  <li><a href="index.html#testimony-section">Testimonies</a></li>
-  <li><a href="index.html#Jointhemovement-section">Join the Movement</a></li>
-  <li><a href="index.html#contact-section">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <!-- SOCIAL MEDIA -->
-    <div class="footer-section">
-      <h3>Connect With Us</h3>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-
-    <!-- MOTTO -->
-    <div class="footer-section motto">
-      <h3>Our Motto</h3>
-      <p>“Love, Unity, and Development”</p>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2026 Mannanam Janasabha. All Rights Reserved.</p>
-  </div>
+  <p>© 2026 Mannanam Janasabha</p>
 </footer>
 
-
-
-
-
-
+<!-- SCRIPT -->
 <script>
-  
-  // Wait for the DOM to load
-  document.addEventListener("DOMContentLoaded", function () {
-    const openMenuBtn = document.getElementById("openMenuBtn");
-    const closeMenuBtn = document.getElementById("closeMenuBtn");
-    const menuOverlay = document.getElementById("menuOverlay");
 
-    // Open side menu
-    openMenuBtn.addEventListener("click", function () {
-      menuOverlay.classList.add("show");
-    });
+// MOBILE MENU
+const openBtn = document.getElementById("openMenuBtn");
+const closeBtn = document.getElementById("closeMenuBtn");
+const overlay = document.getElementById("menuOverlay");
 
-    // Close side menu
-    closeMenuBtn.addEventListener("click", function () {
-      menuOverlay.classList.remove("show");
-    });
+openBtn.onclick = () => overlay.classList.add("show");
+closeBtn.onclick = () => overlay.classList.remove("show");
+overlay.onclick = (e) => {
+  if (e.target === overlay) overlay.classList.remove("show");
+};
 
-    // Close menu if user clicks outside the side menu
-    menuOverlay.addEventListener("click", function (e) {
-      if (e.target === menuOverlay) {
-        menuOverlay.classList.remove("show");
-      }
-    });
-  });
-</script>
+// LANGUAGE
+const langBtn = document.querySelector('.lang-btn');
+const dropdown = document.querySelector('.language-dropdown');
 
-<script>
-  const langBtn = document.querySelector('.lang-btn');
-  const langDropdown = document.querySelector('.language-dropdown');
+langBtn.onclick = () => dropdown.classList.toggle('active');
 
-  langBtn.addEventListener('click', () => {
-    langDropdown.classList.toggle('active');
-  });
+document.addEventListener('click', (e) => {
+  if (!dropdown.contains(e.target)) {
+    dropdown.classList.remove('active');
+  }
+});
 
-  // Close if clicking outside
-  document.addEventListener('click', (e) => {
-    if (!langDropdown.contains(e.target)) {
-      langDropdown.classList.remove('active');
-    }
-  });
-</script>
-
-<script>
+// GOOGLE TRANSLATE
 document.querySelectorAll(".lang-menu a").forEach(item => {
-  item.addEventListener("click", function (e) {
+  item.onclick = function(e) {
     e.preventDefault();
     let lang = this.dataset.lang;
-    let currentURL = encodeURIComponent(window.location.href);
-
-    let newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
-    window.open(newURL, "_blank");
-  });
+    let url = encodeURIComponent(window.location.href);
+    window.open(`https://translate.google.com/translate?sl=auto&tl=${lang}&u=${url}`);
+  };
 });
+
 </script>
 
-
-
-
-
-
-
-<style>
-  .lang-menu.show {
-    display: block;
-  }
-</style>
-
-
-
-
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
