@@ -168,10 +168,11 @@ nav ul li a.active {
 }
 
 /* ===== NOTICEBOARD ===== */
+/* ===== NOTICEBOARD (FIXED) ===== */
 .noticeboard {
-  margin-top: 80px;
+  margin-top: 90px;   /* 👈 prevents navbar overlap */
   background: #d7f5d7;
-  padding: 40px 20px;
+  padding: 50px 20px;
   text-align: center;
 }
 
@@ -185,28 +186,34 @@ nav ul li a.active {
   color: #555;
 }
 
+/* STACK CARDS VERTICALLY */
 .noticeboard-grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
 }
 
+/* CARD */
 .noticeboard-card {
   background: white;
-  padding: 25px;
+  padding: 30px;
   border-radius: 15px;
-  max-width: 700px;
-  width: 100%;
+  width: 90%;
+  max-width: 800px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: left;
 }
 
 .noticeboard-card h3 {
-  margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+/* PARAGRAPH ALIGNMENT */
 .noticeboard-card p {
-  line-height: 1.6;
+  text-align: justify;
+  line-height: 1.7;
 }
 
 /* ===== FOOTER ===== */
@@ -256,6 +263,7 @@ nav ul li a.active {
 </div>
 
 <!-- NOTICEBOARD -->
+<!-- NOTICEBOARD -->
 <section class="noticeboard">
 
   <h2>Notice Board</h2>
@@ -263,41 +271,49 @@ nav ul li a.active {
 
   <div class="noticeboard-grid">
 
+    <!-- CARD 1 -->
     <div class="noticeboard-card">
-      <h3>About Janasabha</h3>
+      <h3>Volunteer Registration</h3>
       <p>
-        “India is my country, and all Indians are my brothers and sisters.”
-        Janasabha is a platform to bring unity and development in communities.
-      </p>
-    </div>
-
-    <div class="noticeboard-card">
-      <h3>Activities</h3>
-      <p>
-        Volunteer meetings, leadership training, arts, sports, charity work,
-        and strengthening local communities.
-      </p>
-    </div>
-
-    <div class="noticeboard-card">
-      <h3>Join Us</h3>
-      <p>
-        Become a volunteer and contribute to your locality.
+        Are you interested in becoming a Janasabha volunteer or a community
+        development worker? Janasabha invites individuals who are willing to
+        contribute their time, skills, and ideas for the development of local
+        communities.
         <br><br>
-        <a href="https://www.janasabha.org.in" target="_blank">Visit Website</a>
+
+        👉 Become a Janasabha organizer<br>
+        👉 Start Janasabha in your area<br>
+        👉 Be part of your locality’s development
+        <br><br>
+
+        Visit:
+        <a href="https://www.janasabha.org.in" target="_blank">
+          www.janasabha.org.in
+        </a>
       </p>
     </div>
 
+    <!-- CARD 2 -->
     <div class="noticeboard-card">
-      <h3>Magazine Contest</h3>
+      <h3>E-Magazine Naming Contest</h3>
       <p>
-        Suggest a name and win a prize.
-        <br>
-        <a href="https://forms.gle/PWVrkTUU7NPjfHCj6" target="_blank">Submit Now</a>
+        Suggest a name for the Janasabha e-magazine and win an attractive prize.
+        <br><br>
+
+        If multiple people suggest the same name, the winner will be chosen by a draw.
+        <br><br>
+
+        Submit here:
+        <a href="https://forms.gle/PWVrkTUU7NPjfHCj6" target="_blank">
+          Click to Submit
+        </a>
+        <br><br>
+
+        <strong>Last Date: 30th May 2026</strong>
       </p>
     </div>
 
-  </div>
+  </div> <!-- ✅ FIXED: CLOSED DIV -->
 
 </section>
 
