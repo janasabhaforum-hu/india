@@ -630,28 +630,33 @@ colleges, schools, social work departments, voluntary organizations, other socia
 </script>
   
 // LANGUAGE
-  <script>
-const langBtn = document.querySelector('.lang-btn');
-const dropdown = document.querySelector('.language-dropdown');
+ <script>
+  const langBtn = document.querySelector('.lang-btn');
+  const langDropdown = document.querySelector('.language-dropdown');
 
-langBtn.onclick = () => dropdown.classList.toggle('active');
+  langBtn.addEventListener('click', () => {
+    langDropdown.classList.toggle('active');
+  });
 
-document.addEventListener('click', (e) => {
-  if (!dropdown.contains(e.target)) {
-    dropdown.classList.remove('active');
-  }
-});
+  // Close if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('active');
+    }
+  });
+</script>
 
-// GOOGLE TRANSLATE
+<script>
 document.querySelectorAll(".lang-menu a").forEach(item => {
-  item.onclick = function(e) {
+  item.addEventListener("click", function (e) {
     e.preventDefault();
     let lang = this.dataset.lang;
-    let url = encodeURIComponent(window.location.href);
-    window.open(`https://translate.google.com/translate?sl=auto&tl=${lang}&u=${url}`);
-  };
-});
+    let currentURL = encodeURIComponent(window.location.href);
 
+    let newURL = `https://translate.google.com/translate?hl=${lang}&sl=auto&u=${currentURL}`;
+    window.open(newURL, "_blank");
+  });
+});
 </script>
 
 </body>
